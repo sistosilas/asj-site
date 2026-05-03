@@ -1,29 +1,35 @@
-const player = document.getElementById("videoPlayer");
-const soundBtn = document.getElementById("soundBtn");
-const soundIcon = document.getElementById("soundIcon");
-const soundText = document.getElementById("soundText");
+document.addEventListener("DOMContentLoaded", () => {
 
-if (player) {
-  player.muted = true;
-  player.loop = true;
-  player.playsInline = true;
+  const player = document.getElementById("videoPlayer");
+  const soundBtn = document.getElementById("soundBtn");
+  const soundIcon = document.getElementById("soundIcon");
+  const soundText = document.getElementById("soundText");
 
-  player.play().catch(() => {
-    console.log("Autoplay bloqueado pelo navegador.");
-  });
-}
+  if (player) {
+    player.muted = true;
+    player.loop = true;
+    player.playsInline = true;
 
-if (soundBtn && player) {
-  soundBtn.addEventListener("click", () => {
-    player.muted = !player.muted;
+    player.play().catch(() => {
+      console.log("Autoplay bloqueado");
+    });
+  }
 
-    if (player.muted) {
-      soundIcon.textContent = "🔇";
-      soundText.textContent = "Ativar som";
-    } else {
-      soundIcon.textContent = "🔊";
-      soundText.textContent = "Som ativo";
-      player.play();
-    }
-  });
-}
+  if (soundBtn && player) {
+    soundBtn.addEventListener("click", () => {
+
+      player.muted = !player.muted;
+
+      if (player.muted) {
+        soundIcon.textContent = "🔇";
+        soundText.textContent = "Ativar som";
+      } else {
+        soundIcon.textContent = "🔊";
+        soundText.textContent = "Som ativo";
+        player.play();
+      }
+
+    });
+  }
+
+});
