@@ -300,8 +300,15 @@ body {
   color: white;
 }
 
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 55px;
+  align-items: center;
+}
+
 .contact-box {
-  max-width: 760px;
+  max-width: 620px;
 }
 
 .contact a {
@@ -311,10 +318,27 @@ body {
 .contact .btn {
   background: white;
   color: #0c4cae;
+  margin-top: 28px;
 }
 
 .contact .btn:hover {
   background: #e6e6e6;
+}
+
+.map-box {
+  width: 100%;
+  height: 380px;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 25px 60px rgba(0,0,0,0.35);
+  border: 1px solid rgba(255,255,255,0.25);
+}
+
+.map-box iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
 }
 
 /* FOOTER */
@@ -343,6 +367,7 @@ body {
     max-width: 100%;
     height: 320px;
   }
+}
 
 @media (max-width: 768px) {
   .contact-grid {
