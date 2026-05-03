@@ -66,14 +66,20 @@ if (leadForm) {
   leadForm.addEventListener("submit", async (e) => {
     e.preventDefault();
 
+    const btn = leadForm.querySelector("button");
+
     formMessage.textContent = "Enviando...";
     formMessage.style.color = "#0c4cae";
+
+    btn.disabled = true;
+    btn.textContent = "Enviando...";
 
     const formData = new FormData(leadForm);
 
     try {
       await fetch("https://script.google.com/macros/s/AKfycbxJXo4QatEW91MNtwx43ece-54Yo24gI7F2XBomd4RpEEw-TiFxe8kMnDVy9cjLJsrZ/exec", {
         method: "POST",
+        mode: "no-cors",
         body: formData
       });
 
@@ -84,6 +90,9 @@ if (leadForm) {
     } catch (error) {
       formMessage.textContent = "Erro ao enviar. Tente novamente.";
       formMessage.style.color = "red";
+    } finally {
+      btn.disabled = false;
+      btn.textContent = "Enviar contato";
     }
   });
 }
