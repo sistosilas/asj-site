@@ -446,12 +446,12 @@ html {
 .contact-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 45px;
+  gap: 55px;
   align-items: center;
 }
 
 .contact-box {
-  max-width: 760px;
+  max-width: 620px;
 }
 
 .contact a {
@@ -461,6 +461,7 @@ html {
 .contact .btn {
   background: white;
   color: #0c4cae;
+  margin-top: 28px;
 }
 
 .contact .btn:hover {
@@ -469,7 +470,7 @@ html {
 
 .map-box {
   width: 100%;
-  height: 360px;
+  height: 380px;
   border-radius: 18px;
   overflow: hidden;
   box-shadow: 0 25px 60px rgba(0,0,0,0.35);
@@ -480,4 +481,5 @@ html {
   width: 100%;
   height: 100%;
   border: 0;
+  display: block;
 }
