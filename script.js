@@ -1,17 +1,29 @@
 const player = document.getElementById("videoPlayer");
+const soundBtn = document.getElementById("soundBtn");
+const soundIcon = document.getElementById("soundIcon");
+const soundText = document.getElementById("soundText");
 
 if (player) {
   player.muted = true;
   player.loop = true;
   player.playsInline = true;
 
-  // força autoplay (necessário em alguns navegadores)
   player.play().catch(() => {
-    console.log("Autoplay bloqueado, aguardando interação...");
+    console.log("Autoplay bloqueado pelo navegador.");
   });
+}
 
-  // fallback: ao clicar, inicia
-  document.addEventListener("click", () => {
-    player.play();
+if (soundBtn && player) {
+  soundBtn.addEventListener("click", () => {
+    player.muted = !player.muted;
+
+    if (player.muted) {
+      soundIcon.textContent = "🔇";
+      soundText.textContent = "Ativar som";
+    } else {
+      soundIcon.textContent = "🔊";
+      soundText.textContent = "Som ativo";
+      player.play();
+    }
   });
 }
