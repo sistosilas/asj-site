@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ASJ Tecnologia Agrícola</title>
-  <link rel="stylesheet" href="style.css?v=13">
+  <link rel="stylesheet" href="style.css?v=14">
 </head>
 <body>
 
@@ -26,7 +26,6 @@
 
     <div class="hero-video">
       <div class="video-box">
-
         <video id="videoPlayer" autoplay muted loop playsinline preload="metadata">
           <source src="assets/video1.mp4" type="video/mp4">
         </video>
@@ -38,10 +37,7 @@
           <span id="soundText">Ativar som</span>
         </button>
 
-        <div class="video-badge">
-          ASJ em movimento
-        </div>
-
+        <div class="video-badge">ASJ em movimento</div>
       </div>
     </div>
 
@@ -81,22 +77,27 @@
       </p>
     </div>
 
-<form
-  id="leadForm"
-  method="POST"
-  action="https://script.google.com/macros/s/AKfycbxJXo4QatEW91MNtwx43ece-54Yo24gI7F2XBomd4RpEEw-TiFxe8kMnDVy9cjLJsrZ/exec"
-  target="hidden_iframe"
->
-  <input type="text" name="nome" placeholder="Seu nome" required>
-  <input type="tel" name="celular" placeholder="Celular / WhatsApp" required>
-  <input type="text" name="empresa" placeholder="Empresa" required>
-  <input type="email" name="email" placeholder="E-mail" required>
+    <div class="lead-form-box">
+      <h3>Fale com a ASJ</h3>
+      <p>Preencha os dados abaixo e nossa equipe entrará em contato.</p>
 
-  <button type="submit">Enviar contato</button>
-  <span id="formMessage"></span>
-</form>
+      <form
+        id="leadForm"
+        method="POST"
+        action="https://script.google.com/macros/s/AKfycbxJXo4QatEW91MNtwx43ece-54Yo24gI7F2XBomd4RpEEw-TiFxe8kMnDVy9cjLJsrZ/exec"
+        target="hidden_iframe"
+      >
+        <input type="text" name="nome" placeholder="Seu nome" required>
+        <input type="tel" name="celular" placeholder="Celular / WhatsApp" required>
+        <input type="text" name="empresa" placeholder="Empresa" required>
+        <input type="email" name="email" placeholder="E-mail" required>
 
-<iframe name="hidden_iframe" style="display:none;"></iframe>
+        <button type="submit">Enviar contato</button>
+        <span id="formMessage"></span>
+      </form>
+
+      <iframe name="hidden_iframe" style="display:none;"></iframe>
+    </div>
 
   </div>
 </section>
@@ -160,6 +161,6 @@
 
 <button id="btnTop">↑</button>
 
-<script src="script.js?v=13"></script>
+<script src="script.js?v=14"></script>
 </body>
 </html>
