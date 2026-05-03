@@ -59,4 +59,33 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+const leadForm = document.getElementById("leadForm");
+const formMessage = document.getElementById("formMessage");
+
+if (leadForm) {
+  leadForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    formMessage.textContent = "Enviando...";
+    formMessage.style.color = "#0c4cae";
+
+    const formData = new FormData(leadForm);
+
+    try {
+      await fetch("https://script.google.com/macros/s/AKfycbxJXo4QatEW91MNtwx43ece-54Yo24gI7F2XBomd4RpEEw-TiFxe8kMnDVy9cjLJsrZ/exec", {
+        method: "POST",
+        body: formData
+      });
+
+      formMessage.textContent = "Contato enviado com sucesso!";
+      formMessage.style.color = "green";
+      leadForm.reset();
+
+    } catch (error) {
+      formMessage.textContent = "Erro ao enviar. Tente novamente.";
+      formMessage.style.color = "red";
+    }
+  });
+}
+
 });
