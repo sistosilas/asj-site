@@ -397,3 +397,33 @@ body {
     flex-direction: column;
   }
 }
+
+html {
+  scroll-behavior: smooth;
+}
+
+#btnTop {
+  position: fixed;
+  right: 25px;
+  bottom: 25px;
+  width: 46px;
+  height: 46px;
+  background: #0c4cae;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  font-size: 20px;
+  cursor: pointer;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: 0.3s;
+  z-index: 999;
+}
+
+#btnTop.show {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}

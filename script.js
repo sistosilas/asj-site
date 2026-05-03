@@ -4,18 +4,45 @@ document.addEventListener("DOMContentLoaded", () => {
   const soundBtn = document.getElementById("soundBtn");
   const soundIcon = document.getElementById("soundIcon");
   const soundText = document.getElementById("soundText");
+  const btnTop = document.getElementById("btnTop");
 
+  /* =========================
+     BOTÃO VOLTAR AO TOPO
+  ========================= */
+  if (btnTop) {
+    window.addEventListener("scroll", () => {
+      if (window.scrollY > 300) {
+        btnTop.classList.add("show");
+      } else {
+        btnTop.classList.remove("show");
+      }
+    });
+
+    btnTop.addEventListener("click", () => {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+    });
+  }
+
+  /* =========================
+     PLAYER DE VÍDEO
+  ========================= */
   if (player) {
     player.muted = true;
     player.loop = true;
     player.playsInline = true;
 
     player.play().catch(() => {
-      console.log("Autoplay bloqueado");
+      console.log("Autoplay bloqueado pelo navegador.");
     });
   }
 
-  if (soundBtn && player) {
+  /* =========================
+     BOTÃO DE SOM
+  ========================= */
+  if (soundBtn && player && soundIcon && soundText) {
     soundBtn.addEventListener("click", () => {
 
       player.muted = !player.muted;
