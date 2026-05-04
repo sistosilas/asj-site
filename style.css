@@ -594,3 +594,29 @@ html {
   width: 100%;
   max-width: 600px;
 }
+
+/* =========================
+   BOTÃO DE SOM - VÍDEO PRODUTOS
+========================= */
+const aboutPlayer = document.querySelector(".aboutPlayer");
+const aboutSoundBtn = document.querySelector(".aboutSoundBtn");
+
+if (aboutPlayer && aboutSoundBtn) {
+
+  const icon = aboutSoundBtn.children[0];
+  const text = aboutSoundBtn.children[1];
+
+  aboutSoundBtn.addEventListener("click", () => {
+    aboutPlayer.muted = !aboutPlayer.muted;
+
+    if (aboutPlayer.muted) {
+      icon.textContent = "🔇";
+      text.textContent = "Ativar som";
+    } else {
+      icon.textContent = "🔊";
+      text.textContent = "Som ativo";
+      aboutPlayer.play();
+    }
+  });
+
+}
