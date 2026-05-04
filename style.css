@@ -620,3 +620,32 @@ if (aboutPlayer && aboutSoundBtn) {
   });
 
 }
+
+.about-grid {
+  align-items: start;
+}
+
+.about-text {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.about-video {
+  width: 100%;
+}
+
+.about-video-box {
+  max-width: 100%;
+  height: 300px;
+}
+
+@media (max-width: 900px) {
+  .about-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .about-video-box {
+    height: 260px;
+  }
+}

@@ -26,6 +26,33 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+/* =========================
+   BOTÃO DE SOM - VÍDEO PRODUTOS
+========================= */
+const aboutPlayer = document.getElementById("aboutPlayer");
+const aboutSoundBtn = document.getElementById("aboutSoundBtn");
+const aboutSoundIcon = document.getElementById("aboutSoundIcon");
+const aboutSoundText = document.getElementById("aboutSoundText");
+
+if (aboutPlayer && aboutSoundBtn && aboutSoundIcon && aboutSoundText) {
+  aboutPlayer.muted = true;
+  aboutPlayer.loop = true;
+  aboutPlayer.playsInline = true;
+
+  aboutSoundBtn.addEventListener("click", () => {
+    aboutPlayer.muted = !aboutPlayer.muted;
+
+    if (aboutPlayer.muted) {
+      aboutSoundIcon.textContent = "🔇";
+      aboutSoundText.textContent = "Ativar som";
+    } else {
+      aboutSoundIcon.textContent = "🔊";
+      aboutSoundText.textContent = "Som ativo";
+      aboutPlayer.play();
+    }
+  });
+}
+
   /* =========================
      PLAYER DE VÍDEO
   ========================= */
