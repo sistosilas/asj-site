@@ -60,34 +60,46 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* =========================
-     FORMULÁRIO (SEM BLOQUEIO)
+     FORMULÁRIO VIA IFRAME
   ========================= */
   const leadForm = document.getElementById("leadForm");
   const formMessage = document.getElementById("formMessage");
+  const hiddenIframe = document.querySelector('iframe[name="hidden_iframe"]');
 
-  if (leadForm && formMessage) {
+  if (leadForm && formMessage && hiddenIframe) {
+    let formEnviado = false;
 
     leadForm.addEventListener("submit", () => {
       const btn = leadForm.querySelector("button");
 
+      formEnviado = true;
+
       formMessage.textContent = "Enviando...";
       formMessage.style.color = "#0c4cae";
 
-      btn.disabled = true;
-      btn.textContent = "Enviando...";
-
-      // Simula retorno visual (já que envio é via iframe)
-      setTimeout(() => {
-        formMessage.textContent = "Contato enviado com sucesso!";
-        formMessage.style.color = "green";
-
-        leadForm.reset();
-
-        btn.disabled = false;
-        btn.textContent = "Enviar contato";
-      }, 1500);
+      if (btn) {
+        btn.disabled = true;
+        btn.textContent = "Enviando...";
+      }
     });
 
+    hiddenIframe.addEventListener("load", () => {
+      if (!formEnviado) return;
+
+      const btn = leadForm.querySelector("button");
+
+      formMessage.textContent = "Contato enviado com sucesso!";
+      formMessage.style.color = "green";
+
+      leadForm.reset();
+
+      if (btn) {
+        btn.disabled = false;
+        btn.textContent = "Enviar contato";
+      }
+
+      formEnviado = false;
+    });
   }
 
 });
