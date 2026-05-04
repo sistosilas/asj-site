@@ -583,3 +583,14 @@ html {
     grid-template-columns: 1fr;
   }
 }
+
+.about-text {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.about-video {
+  width: 100%;
+  max-width: 600px;
+}
