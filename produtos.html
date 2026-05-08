@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Produtos – ASJ Tecnologia Agrícola</title>
+  <link rel="stylesheet" href="style.css?v=14">
+  <style>
+    /* =============================================
+       PÁGINA DE PRODUTOS – ESTILOS EXCLUSIVOS
+    ============================================= */
+
+    /* PAGE HERO */
+    .page-hero {
+      background: linear-gradient(135deg, #061a3a, #0c4cae);
+      color: white;
+      padding: 48px 0 40px;
+    }
+
+    .page-hero h1 {
+      margin: 0 0 6px;
+      font-size: 34px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+    }
+
+    .page-hero p {
+      margin: 0;
+      opacity: 0.82;
+      font-size: 16px;
+    }
+
+    .breadcrumb {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      opacity: 0.7;
+      margin-bottom: 14px;
+    }
+
+    .breadcrumb a {
+      color: white;
+      text-decoration: none;
+    }
+
+    .breadcrumb span {
+      opacity: 0.5;
+    }
+
+    /* LAYOUT PRINCIPAL */
+    .products-layout {
+      display: grid;
+      grid-template-columns: 270px 1fr;
+      gap: 36px;
+      padding: 44px 0 70px;
+      align-items: start;
+    }
+
+    /* SIDEBAR */
+    .sidebar {
+      position: sticky;
+      top: 24px;
+    }
+
+    .sidebar-block {
+      background: #fff;
+      border: 1px solid #e4e8ee;
+      border-radius: 14px;
+      padding: 24px;
+      margin-bottom: 20px;
+    }
+
+    .sidebar-block h3 {
+      margin: 0 0 16px;
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #0c4cae;
+      font-weight: 800;
+    }
+
+    /* Busca por código */
+    .search-row {
+      display: flex;
+      gap: 0;
+      border: 1.5px solid #ccd4e0;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .search-row input {
+      flex: 1;
+      padding: 10px 12px;
+      border: none;
+      outline: none;
+      font-size: 14px;
+      color: #333;
+      background: #fff;
+    }
+
+    .search-row button {
+      padding: 10px 16px;
+      background: #0c4cae;
+      color: white;
+      border: none;
+      font-weight: 700;
+      font-size: 13px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .search-row button:hover {
+      background: #083a8a;
+    }
+
+    /* Categorias */
+    .category-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .category-list li {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+      color: #333;
+      transition: background 0.15s, color 0.15s;
+      user-select: none;
+    }
+
+    .category-list li:hover {
+      background: #eef3fc;
+      color: #0c4cae;
+    }
+
+    .category-list li.active {
+      background: #0c4cae;
+      color: white;
+      font-weight: 700;
+    }
+
+    .category-list li .cat-count {
+      margin-left: auto;
+      background: rgba(0,0,0,0.08);
+      border-radius: 99px;
+      font-size: 12px;
+      padding: 1px 8px;
+    }
+
+    .category-list li.active .cat-count {
+      background: rgba(255,255,255,0.22);
+    }
+
+    .cat-icon {
+      font-size: 16px;
+    }
+
+    /* Tags aplicação */
+    .tag-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .tag-chip {
+      padding: 5px 12px;
+      border-radius: 99px;
+      border: 1.5px solid #ccd4e0;
+      font-size: 13px;
+      color: #555;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .tag-chip:hover,
+    .tag-chip.active {
+      border-color: #0c4cae;
+      background: #eef3fc;
+      color: #0c4cae;
+      font-weight: 700;
+    }
+
+    /* ÁREA DE CONTEÚDO */
+    .products-area {}
+
+    .products-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 28px;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+
+    .products-toolbar h2 {
+      margin: 0;
+      font-size: 20px;
+      color: #111;
+    }
+
+    .products-toolbar p {
+      margin: 4px 0 0;
+      font-size: 13px;
+      color: #777;
+    }
+
+    .sort-select {
+      padding: 9px 14px;
+      border: 1.5px solid #ccd4e0;
+      border-radius: 8px;
+      font-size: 14px;
+      color: #333;
+      background: #fff;
+      cursor: pointer;
+      outline: none;
+    }
+
+    /* GRID DE PRODUTOS */
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    /* CARD PRODUTO */
+    .product-card {
+      background: white;
+      border: 1px solid #e4e8ee;
+      border-radius: 14px;
+      overflow: hidden;
+      transition: transform 0.2s, box-shadow 0.2s;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .product-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 36px rgba(12,76,174,0.13);
+    }
+
+    .product-card.featured {
+      border-color: #0c4cae;
+      position: relative;
+    }
+
+    .product-card.featured::before {
+      content: "DESTAQUE";
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      background: #0c4cae;
+      color: white;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      padding: 4px 10px;
+      border-radius: 99px;
+      z-index: 2;
+    }
+
+    .product-img {
+      width: 100%;
+      aspect-ratio: 4/3;
+      background: #f0f4fb;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .product-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* Placeholder quando não há imagem */
+    .product-img-placeholder {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      color: #9ab0d4;
+      width: 100%;
+      height: 100%;
+    }
+
+    .product-img-placeholder svg {
+      width: 52px;
+      opacity: 0.45;
+    }
+
+    .product-img-placeholder span {
+      font-size: 12px;
+      text-align: center;
+      padding: 0 20px;
+    }
+
+    .product-info {
+      padding: 18px 18px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      flex: 1;
+    }
+
+    .product-category-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #0c4cae;
+      font-weight: 700;
+    }
+
+    .product-name {
+      font-size: 15px;
+      font-weight: 700;
+      color: #111;
+      line-height: 1.35;
+      margin: 0;
+    }
+
+    .product-code {
+      font-size: 12px;
+      color: #999;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      margin-top: 2px;
+    }
+
+    .product-desc {
+      font-size: 13px;
+      color: #666;
+      line-height: 1.5;
+      margin-top: 6px;
+    }
+
+    .product-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 8px;
+    }
+
+    .product-tag {
+      font-size: 11px;
+      padding: 3px 9px;
+      border-radius: 99px;
+      background: #eef3fc;
+      color: #0c4cae;
+      font-weight: 600;
+    }
+
+    .product-card-footer {
+      padding: 14px 18px;
+      border-top: 1px solid #f0f0f0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .btn-saiba-mais {
+      display: inline-block;
+      padding: 9px 18px;
+      background: #0c4cae;
+      color: white;
+      border-radius: 7px;
+      font-size: 13px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: background 0.2s;
+      border: none;
+      cursor: pointer;
+    }
+
+    .btn-saiba-mais:hover {
+      background: #083a8a;
+    }
+
+    .btn-whats {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 9px 14px;
+      background: #25d366;
+      color: white;
+      border-radius: 7px;
+      font-size: 13px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+
+    .btn-whats:hover {
+      background: #1aad54;
+    }
+
+    /* MODAL PRODUTO */
+    .product-modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(6,26,58,0.68);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .product-modal-overlay.open {
+      display: flex;
+    }
+
+    .product-modal {
+      background: white;
+      border-radius: 20px;
+      max-width: 820px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      position: relative;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      background: #f0f4fb;
+      border: none;
+      border-radius: 50%;
+      width: 36px;
+      height: 36px;
+      font-size: 18px;
+      cursor: pointer;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #333;
+    }
+
+    .modal-img {
+      background: #eef3fc;
+      border-radius: 20px 0 0 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 320px;
+      overflow: hidden;
+    }
+
+    .modal-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .modal-img-placeholder {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      color: #9ab0d4;
+      gap: 12px;
+      padding: 40px;
+      text-align: center;
+    }
+
+    .modal-img-placeholder svg {
+      width: 70px;
+      opacity: 0.4;
+    }
+
+    .modal-content {
+      padding: 36px 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .modal-category {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #0c4cae;
+      font-weight: 800;
+    }
+
+    .modal-title {
+      font-size: 22px;
+      font-weight: 800;
+      color: #111;
+      margin: 0;
+      line-height: 1.25;
+    }
+
+    .modal-code {
+      font-size: 13px;
+      color: #999;
+    }
+
+    .modal-desc {
+      font-size: 14px;
+      color: #555;
+      line-height: 1.65;
+    }
+
+    .modal-specs {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .modal-specs li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 13px;
+      color: #444;
+    }
+
+    .modal-specs li::before {
+      content: "✓";
+      color: #0c4cae;
+      font-weight: 800;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 6px;
+    }
+
+    /* RESPONSIVO */
+    @media (max-width: 1000px) {
+      .products-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 820px) {
+      .product-modal {
+        grid-template-columns: 1fr;
+        max-height: 85vh;
+      }
+
+      .modal-img {
+        border-radius: 20px 20px 0 0;
+        min-height: 200px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .products-layout {
+        grid-template-columns: 1fr;
+        padding: 28px 0 55px;
+      }
+
+      .sidebar {
+        position: static;
+      }
+
+      .products-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+      }
+    }
+
+    @media (max-width: 520px) {
+      .products-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .page-hero h1 {
+        font-size: 26px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- HEADER (idêntico ao index) -->
+<header class="header">
+  <div class="container header-content">
+    <img src="assets/logo-asj.png" alt="ASJ Tecnologia Agrícola" class="logo">
+    <nav class="menu">
+      <a href="index.html">Home</a>
+      <a href="index.html#sobre">Sobre</a>
+      <a href="produtos.html">Produtos</a>
+      <a href="index.html#contato">Contato</a>
+    </nav>
+  </div>
+</header>
+
+<!-- PAGE HERO -->
+<section class="page-hero">
+  <div class="container">
+    <div class="breadcrumb">
+      <a href="index.html">Home</a>
+      <span>›</span>
+      <span>Produtos</span>
+    </div>
+    <h1>Nossos Produtos</h1>
+    <p>Soluções elétricas e tecnológicas para o agronegócio</p>
+  </div>
+</section>
+
+<!-- LAYOUT PRINCIPAL -->
+<div class="container products-layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+
+    <!-- Busca por código -->
+    <div class="sidebar-block">
+      <h3>Encontre pelo código</h3>
+      <div class="search-row">
+        <input type="text" id="searchCode" placeholder="Cód. do produto">
+        <button onclick="filterByCode()">OK</button>
+      </div>
+    </div>
+
+    <!-- Categorias -->
+    <div class="sidebar-block">
+      <h3>Categorias</h3>
+      <ul class="category-list" id="categoryList">
+        <li class="active" data-cat="all" onclick="filterCategory(this, 'all')">
+          <span class="cat-icon">🗂</span> Todos os produtos
+          <span class="cat-count" id="count-all">1</span>
+        </li>
+        <li data-cat="isobus" onclick="filterCategory(this, 'isobus')">
+          <span class="cat-icon">🖥</span> Controle ISOBUS
+          <span class="cat-count" id="count-isobus">1</span>
+        </li>
+        <li data-cat="chicotes" onclick="filterCategory(this, 'chicotes')">
+          <span class="cat-icon">🔌</span> Chicotes Elétricos
+          <span class="cat-count" id="count-chicotes">0</span>
+        </li>
+        <li data-cat="sensores" onclick="filterCategory(this, 'sensores')">
+          <span class="cat-icon">📡</span> Sensores
+          <span class="cat-count" id="count-sensores">0</span>
+        </li>
+        <li data-cat="monitores" onclick="filterCategory(this, 'monitores')">
+          <span class="cat-icon">📟</span> Monitores Agrícolas
+          <span class="cat-count" id="count-monitores">0</span>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Aplicação -->
+    <div class="sidebar-block">
+      <h3>Aplicação</h3>
+      <div class="tag-list">
+        <span class="tag-chip active">Todos</span>
+        <span class="tag-chip">Pulverizadores</span>
+        <span class="tag-chip">Plantadeiras</span>
+        <span class="tag-chip">Colheitadeiras</span>
+        <span class="tag-chip">Tratores</span>
+        <span class="tag-chip">Implementos</span>
+      </div>
+    </div>
+
+  </aside>
+
+  <!-- ÁREA DE PRODUTOS -->
+  <main class="products-area">
+
+    <!-- Toolbar -->
+    <div class="products-toolbar">
+      <div>
+        <h2 id="toolbarTitle">Todos os produtos</h2>
+        <p id="toolbarCount">Exibindo 1 produto</p>
+      </div>
+      <select class="sort-select">
+        <option>Mais recentes</option>
+        <option>Nome (A–Z)</option>
+        <option>Nome (Z–A)</option>
+      </select>
+    </div>
+
+    <!-- Grid de produtos -->
+    <div class="products-grid" id="productsGrid">
+
+      <!-- PRODUTO 1 — ISOBUS -->
+      <div class="product-card featured" data-cat="isobus" data-code="ASJ-IB01">
+        <div class="product-img">
+          <div class="product-img-placeholder">
+            <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="8" y="14" width="48" height="32" rx="4" stroke="#0c4cae" stroke-width="2.5"/>
+              <rect x="14" y="20" width="36" height="20" rx="2" fill="#0c4cae" opacity="0.12"/>
+              <circle cx="32" cy="30" r="6" stroke="#0c4cae" stroke-width="2"/>
+              <line x1="24" y1="46" x2="40" y2="46" stroke="#0c4cae" stroke-width="2.5" stroke-linecap="round"/>
+              <line x1="32" y1="46" x2="32" y2="52" stroke="#0c4cae" stroke-width="2.5" stroke-linecap="round"/>
+              <line x1="26" y1="52" x2="38" y2="52" stroke="#0c4cae" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            <span>Imagem do produto em breve</span>
+          </div>
+        </div>
+        <div class="product-info">
+          <span class="product-category-label">Controle ISOBUS</span>
+          <p class="product-name">Sistema de Controle para Aplicação via ISOBUS</p>
+          <span class="product-code">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 9h6M9 12h6M9 15h4"/></svg>
+            ASJ-IB01
+          </span>
+          <p class="product-desc">
+            Terminal de controle agrícola com comunicação ISOBUS (ISO 11783), compatível com tratores e implementos certificados. Interface intuitiva para gerenciamento de aplicação de insumos em campo.
+          </p>
+          <div class="product-tags">
+            <span class="product-tag">ISOBUS</span>
+            <span class="product-tag">ISO 11783</span>
+            <span class="product-tag">Pulverizadores</span>
+            <span class="product-tag">Plantadeiras</span>
+          </div>
+        </div>
+        <div class="product-card-footer">
+          <button class="btn-saiba-mais" onclick="openModal('isobus')">Saiba mais</button>
+          <a class="btn-whats" href="https://wa.me/5516988616927?text=Olá,%20tenho%20interesse%20no%20Sistema%20de%20Controle%20ISOBUS%20(ASJ-IB01)." target="_blank">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            Consultar
+          </a>
+        </div>
+      </div>
+
+      <!-- PRODUTO PLACEHOLDER 2 (em breve) -->
+      <div class="product-card" data-cat="chicotes" data-code="">
+        <div class="product-img">
+          <div class="product-img-placeholder">
+            <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 52 Q20 30 32 20 Q44 10 54 14" stroke="#0c4cae" stroke-width="2.5" stroke-linecap="round" fill="none" opacity="0.4"/>
+              <circle cx="12" cy="52" r="4" stroke="#0c4cae" stroke-width="2" opacity="0.4"/>
+              <circle cx="54" cy="14" r="4" stroke="#0c4cae" stroke-width="2" opacity="0.4"/>
+              <path d="M30 36 Q36 28 40 28" stroke="#0c4cae" stroke-width="2" stroke-linecap="round" fill="none" opacity="0.4"/>
+              <circle cx="40" cy="28" r="3" stroke="#0c4cae" stroke-width="2" opacity="0.4"/>
+            </svg>
+            <span>Em breve</span>
+          </div>
+        </div>
+        <div class="product-info">
+          <span class="product-category-label">Chicotes Elétricos</span>
+          <p class="product-name">Novos produtos em breve</p>
+          <p class="product-desc">
+            Estamos ampliando nosso catálogo. Entre em contato para consultar disponibilidade e projetos customizados.
+          </p>
+        </div>
+        <div class="product-card-footer">
+          <a class="btn-whats" href="https://wa.me/5516988616927?text=Olá,%20gostaria%20de%20saber%20sobre%20os%20próximos%20produtos%20da%20ASJ." target="_blank">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            Consultar
+          </a>
+        </div>
+      </div>
+
+    </div>
+    <!-- /products-grid -->
+
+  </main>
+</div>
+<!-- /products-layout -->
+
+<!-- MODAL ISOBUS -->
+<div class="product-modal-overlay" id="modalOverlay" onclick="closeModalOutside(event)">
+  <div class="product-modal" id="productModal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+
+    <div class="modal-img">
+      <div class="modal-img-placeholder">
+        <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="8" y="14" width="48" height="32" rx="4" stroke="#0c4cae" stroke-width="2.5"/>
+          <rect x="14" y="20" width="36" height="20" rx="2" fill="#0c4cae" opacity="0.12"/>
+          <circle cx="32" cy="30" r="6" stroke="#0c4cae" stroke-width="2"/>
+          <line x1="24" y1="46" x2="40" y2="46" stroke="#0c4cae" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="32" y1="46" x2="32" y2="52" stroke="#0c4cae" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="26" y1="52" x2="38" y2="52" stroke="#0c4cae" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        <p style="color:#9ab0d4;font-size:13px;text-align:center;">Imagem do produto em breve</p>
+      </div>
+    </div>
+
+    <div class="modal-content">
+      <span class="modal-category">🖥 Controle ISOBUS</span>
+      <h2 class="modal-title">Sistema de Controle para Aplicação via ISOBUS</h2>
+      <span class="modal-code">Cód.: ASJ-IB01</span>
+
+      <p class="modal-desc">
+        Terminal desenvolvido para controle preciso de aplicação de insumos agrícolas com comunicação ISOBUS (norma ISO 11783). Compatível com tratores e implementos certificados, permite integração plug-and-play entre máquinas de diferentes fabricantes.
+      </p>
+
+      <ul class="modal-specs">
+        <li>Comunicação ISOBUS – ISO 11783 (CAN Bus)</li>
+        <li>Display colorido de alta resolução e leitura ao sol</li>
+        <li>Interface Universal Terminal (UT) compatível</li>
+        <li>Controle de seções e variação de taxa de aplicação</li>
+        <li>Conectividade com GPS e mapas de prescrição</li>
+        <li>Gabinete com proteção IP65 para uso em campo</li>
+        <li>Suporte técnico e assistência pela ASJ</li>
+      </ul>
+
+      <div class="modal-actions">
+        <a class="btn-saiba-mais" href="https://wa.me/5516988616927?text=Olá,%20tenho%20interesse%20no%20Sistema%20de%20Controle%20ISOBUS%20(ASJ-IB01)%20e%20gostaria%20de%20mais%20informações." target="_blank">
+          Solicitar informações
+        </a>
+        <a class="btn-whats" href="https://wa.me/5516988616927?text=Olá,%20quero%20um%20orçamento%20do%20ASJ-IB01." target="_blank">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          Orçamento
+        </a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer" style="background:#111;color:#aaa;text-align:center;padding:28px 0;font-size:14px;">
+  <p style="margin:0;">ASJ Tecnologia Agrícola © 2026 – Todos os direitos reservados.</p>
+</footer>
+
+<button id="btnTop">↑</button>
+
+<script src="script.js?v=14"></script>
+<script>
+  /* =============================================
+     LÓGICA DA PÁGINA DE PRODUTOS
+  ============================================= */
+
+  function filterCategory(el, cat) {
+    // Atualiza active na sidebar
+    document.querySelectorAll('#categoryList li').forEach(li => li.classList.remove('active'));
+    el.classList.add('active');
+
+    const cards = document.querySelectorAll('.products-grid .product-card');
+    let visible = 0;
+
+    cards.forEach(card => {
+      const match = cat === 'all' || card.dataset.cat === cat;
+      card.style.display = match ? '' : 'none';
+      if (match) visible++;
+    });
+
+    const titles = {
+      all: 'Todos os produtos',
+      isobus: 'Controle ISOBUS',
+      chicotes: 'Chicotes Elétricos',
+      sensores: 'Sensores',
+      monitores: 'Monitores Agrícolas'
+    };
+
+    document.getElementById('toolbarTitle').textContent = titles[cat] || 'Produtos';
+    document.getElementById('toolbarCount').textContent =
+      `Exibindo ${visible} produto${visible !== 1 ? 's' : ''}`;
+  }
+
+  function filterByCode() {
+    const val = document.getElementById('searchCode').value.trim().toUpperCase();
+    if (!val) {
+      // Limpa filtro
+      document.querySelectorAll('.products-grid .product-card').forEach(c => c.style.display = '');
+      return;
+    }
+    let found = 0;
+    document.querySelectorAll('.products-grid .product-card').forEach(card => {
+      const code = (card.dataset.code || '').toUpperCase();
+      const match = code.includes(val);
+      card.style.display = match ? '' : 'none';
+      if (match) found++;
+    });
+    document.getElementById('toolbarTitle').textContent = `Busca: "${val}"`;
+    document.getElementById('toolbarCount').textContent =
+      `${found} produto${found !== 1 ? 's' : ''} encontrado${found !== 1 ? 's' : ''}`;
+  }
+
+  // Busca ao pressionar Enter
+  document.getElementById('searchCode').addEventListener('keydown', e => {
+    if (e.key === 'Enter') filterByCode();
+  });
+
+  // Tag chips aplicação (visual apenas)
+  document.querySelectorAll('.tag-chip').forEach(chip => {
+    chip.addEventListener('click', function() {
+      document.querySelectorAll('.tag-chip').forEach(c => c.classList.remove('active'));
+      this.classList.add('active');
+    });
+  });
+
+  /* MODAL */
+  function openModal(id) {
+    document.getElementById('modalOverlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    document.getElementById('modalOverlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  function closeModalOutside(event) {
+    if (event.target === document.getElementById('modalOverlay')) closeModal();
+  }
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeModal();
+  });
+</script>
+</body>
+</html>
