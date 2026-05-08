@@ -148,6 +148,13 @@
       font-weight: 700;
     }
 
+    /* Chicotes aberto: fundo suave, não azul escuro */
+    .category-list li.has-sub.sub-open {
+      background: #eef3fc;
+      color: #0c4cae;
+      font-weight: 700;
+    }
+
     .category-list li .cat-count {
       margin-left: auto;
       background: rgba(0,0,0,0.08);
@@ -158,6 +165,11 @@
 
     .category-list li.active .cat-count {
       background: rgba(255,255,255,0.22);
+    }
+
+    .category-list li.has-sub.sub-open .cat-count {
+      background: rgba(12,76,174,0.12);
+      color: #0c4cae;
     }
 
     .cat-icon {
@@ -551,6 +563,66 @@
       margin-top: 6px;
     }
 
+    /* SUBMENU DE MARCAS */
+    .category-list li.has-sub {
+      flex-wrap: wrap;
+    }
+
+    .category-list li.has-sub .sub-arrow {
+      margin-left: auto;
+      transition: transform 0.2s;
+      font-style: normal;
+      font-size: 12px;
+      opacity: 0.6;
+    }
+
+    .category-list li.has-sub.sub-open .sub-arrow {
+      transform: rotate(90deg);
+    }
+
+    .submenu {
+      display: none;
+      width: 100%;
+      margin-top: 4px;
+      padding-left: 28px;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .submenu.open {
+      display: flex;
+    }
+
+    .submenu-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 7px 10px;
+      border-radius: 7px;
+      font-size: 13px;
+      color: #444;
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+    }
+
+    .submenu-item:hover {
+      background: #eef3fc;
+      color: #0c4cae;
+    }
+
+    .submenu-item.active {
+      background: #dde9fa;
+      color: #0c4cae;
+      font-weight: 700;
+    }
+
+    .submenu-item .sub-count {
+      font-size: 11px;
+      background: rgba(0,0,0,0.07);
+      border-radius: 99px;
+      padding: 1px 7px;
+    }
+
     /* RESPONSIVO */
     @media (max-width: 1000px) {
       .products-grid {
@@ -594,6 +666,248 @@
       .page-hero h1 {
         font-size: 26px;
       }
+    }
+    /* =============================================
+       PAINEL ADMIN
+    ============================================= */
+    .admin-fab {
+      position: fixed;
+      bottom: 28px;
+      left: 28px;
+      background: #0c4cae;
+      color: white;
+      border: none;
+      border-radius: 50px;
+      padding: 12px 20px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      z-index: 500;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 4px 18px rgba(12,76,174,0.35);
+      transition: background 0.2s, transform 0.15s;
+    }
+    .admin-fab:hover { background: #083a8a; transform: translateY(-2px); }
+
+    .admin-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(6,26,58,0.7);
+      z-index: 2000;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 30px 16px;
+      overflow-y: auto;
+    }
+    .admin-overlay.open { display: flex; }
+
+    .admin-panel {
+      background: white;
+      border-radius: 20px;
+      width: 100%;
+      max-width: 640px;
+      padding: 36px;
+      position: relative;
+    }
+
+    .admin-panel h2 {
+      margin: 0 0 6px;
+      font-size: 20px;
+      color: #111;
+    }
+
+    .admin-panel p.admin-sub {
+      margin: 0 0 28px;
+      font-size: 13px;
+      color: #888;
+    }
+
+    .admin-close {
+      position: absolute;
+      top: 16px; right: 16px;
+      background: #f0f4fb;
+      border: none;
+      border-radius: 50%;
+      width: 36px; height: 36px;
+      font-size: 18px;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      color: #333;
+    }
+
+    /* Login */
+    .admin-login { display: flex; flex-direction: column; gap: 14px; }
+    .admin-login input {
+      padding: 12px 14px;
+      border: 1.5px solid #ccd4e0;
+      border-radius: 8px;
+      font-size: 14px;
+      outline: none;
+    }
+    .admin-login input:focus { border-color: #0c4cae; }
+    .admin-login button {
+      padding: 13px;
+      background: #0c4cae;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .admin-login button:hover { background: #083a8a; }
+    .admin-error { color: #c0392b; font-size: 13px; display: none; }
+
+    /* Form produto */
+    .admin-form { display: none; flex-direction: column; gap: 16px; }
+    .admin-form.visible { display: flex; }
+
+    .admin-form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .admin-field {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .admin-field label {
+      font-size: 12px;
+      font-weight: 700;
+      color: #555;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .admin-field input,
+    .admin-field select,
+    .admin-field textarea {
+      padding: 10px 12px;
+      border: 1.5px solid #ccd4e0;
+      border-radius: 8px;
+      font-size: 14px;
+      outline: none;
+      font-family: Arial, sans-serif;
+    }
+
+    .admin-field input:focus,
+    .admin-field select:focus,
+    .admin-field textarea:focus { border-color: #0c4cae; }
+
+    .admin-field textarea { resize: vertical; min-height: 80px; }
+
+    .admin-field-full { grid-column: 1 / -1; }
+
+    .admin-specs-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .admin-spec-row {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .admin-spec-row input { flex: 1; }
+
+    .admin-spec-row button {
+      background: #fee2e2;
+      color: #c0392b;
+      border: none;
+      border-radius: 6px;
+      width: 32px; height: 32px;
+      cursor: pointer;
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+
+    .btn-add-spec {
+      background: #eef3fc;
+      color: #0c4cae;
+      border: 1.5px dashed #0c4cae;
+      border-radius: 8px;
+      padding: 8px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      width: 100%;
+    }
+
+    .admin-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 8px;
+      justify-content: flex-end;
+    }
+
+    .btn-admin-save {
+      padding: 12px 28px;
+      background: #0c4cae;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .btn-admin-save:hover { background: #083a8a; }
+
+    .btn-admin-cancel {
+      padding: 12px 20px;
+      background: #f4f6f8;
+      color: #555;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    .admin-success {
+      background: #d4edda;
+      color: #155724;
+      padding: 12px 16px;
+      border-radius: 8px;
+      font-size: 14px;
+      display: none;
+    }
+
+    /* Lista de produtos admin */
+    .admin-product-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+    .admin-product-item {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 12px 16px;
+      border: 1px solid #e4e8ee;
+      border-radius: 10px;
+      font-size: 14px;
+    }
+    .admin-product-item strong { color: #111; }
+    .admin-product-item span { color: #888; font-size: 12px; }
+    .btn-del {
+      background: #fee2e2; color: #c0392b;
+      border: none; border-radius: 6px;
+      padding: 5px 12px; font-size: 12px; cursor: pointer;
+    }
+    .btn-new-product {
+      width: 100%; padding: 12px;
+      background: #0c4cae; color: white;
+      border: none; border-radius: 8px;
+      font-size: 14px; font-weight: 700; cursor: pointer;
+      margin-bottom: 20px;
+    }
+    .btn-new-product:hover { background: #083a8a; }
+
+    .admin-logout {
+      background: none; border: none;
+      color: #888; font-size: 12px; cursor: pointer;
+      text-decoration: underline; margin-top: 8px;
     }
   </style>
 </head>
@@ -644,26 +958,46 @@
     <div class="sidebar-block">
       <h3>Categorias</h3>
       <ul class="category-list" id="categoryList">
+
         <li class="active" data-cat="all" onclick="filterCategory(this, 'all')">
           <span class="cat-icon">🗂</span> Todos os produtos
           <span class="cat-count" id="count-all">1</span>
         </li>
+
         <li data-cat="isobus" onclick="filterCategory(this, 'isobus')">
           <span class="cat-icon">🖥</span> Controle ISOBUS
           <span class="cat-count" id="count-isobus">1</span>
         </li>
-        <li data-cat="chicotes" onclick="filterCategory(this, 'chicotes')">
+
+        <!-- CHICOTES COM SUBMENU -->
+        <li class="has-sub" data-cat="chicotes" id="chicotesItem" onclick="toggleSubmenu(event, this, 'chicotes')">
           <span class="cat-icon">🔌</span> Chicotes Elétricos
           <span class="cat-count" id="count-chicotes">0</span>
+          <i class="sub-arrow">›</i>
+
+          <div class="submenu" id="submenuChicotes" onclick="event.stopPropagation()">
+            <div class="submenu-item" data-marca="stara"           onclick="filterMarca(this, 'stara')">Stara           <span class="sub-count">0</span></div>
+            <div class="submenu-item" data-marca="john-deere"      onclick="filterMarca(this, 'john-deere')">John Deere      <span class="sub-count">0</span></div>
+            <div class="submenu-item" data-marca="seg-controle"    onclick="filterMarca(this, 'seg-controle')">Seg Controle Veicular <span class="sub-count">0</span></div>
+            <div class="submenu-item" data-marca="hexagon"         onclick="filterMarca(this, 'hexagon')">Hexagon         <span class="sub-count">0</span></div>
+            <div class="submenu-item" data-marca="jumil"           onclick="filterMarca(this, 'jumil')">Jumil           <span class="sub-count">0</span></div>
+            <div class="submenu-item" data-marca="raven"           onclick="filterMarca(this, 'raven')">Raven           <span class="sub-count">0</span></div>
+            <div class="submenu-item" data-marca="muller"          onclick="filterMarca(this, 'muller')">Muller          <span class="sub-count">0</span></div>
+            <div class="submenu-item" data-marca="agres"           onclick="filterMarca(this, 'agres')">Agres           <span class="sub-count">0</span></div>
+            <div class="submenu-item" data-marca="outras"          onclick="filterMarca(this, 'outras')">Outras marcas   <span class="sub-count">0</span></div>
+          </div>
         </li>
+
         <li data-cat="sensores" onclick="filterCategory(this, 'sensores')">
           <span class="cat-icon">📡</span> Sensores
           <span class="cat-count" id="count-sensores">0</span>
         </li>
+
         <li data-cat="monitores" onclick="filterCategory(this, 'monitores')">
           <span class="cat-icon">📟</span> Monitores Agrícolas
           <span class="cat-count" id="count-monitores">0</span>
         </li>
+
       </ul>
     </div>
 
@@ -671,12 +1005,12 @@
     <div class="sidebar-block">
       <h3>Aplicação</h3>
       <div class="tag-list">
-        <span class="tag-chip active">Todos</span>
-        <span class="tag-chip">Pulverizadores</span>
-        <span class="tag-chip">Plantadeiras</span>
-        <span class="tag-chip">Colheitadeiras</span>
-        <span class="tag-chip">Tratores</span>
-        <span class="tag-chip">Implementos</span>
+        <span class="tag-chip active" data-ap="all"              onclick="filterAplicacao(this, 'all')">Todos</span>
+        <span class="tag-chip"        data-ap="pulverizadores"   onclick="filterAplicacao(this, 'pulverizadores')">Pulverizadores</span>
+        <span class="tag-chip"        data-ap="plantadeiras"     onclick="filterAplicacao(this, 'plantadeiras')">Plantadeiras</span>
+        <span class="tag-chip"        data-ap="colheitadeiras"   onclick="filterAplicacao(this, 'colheitadeiras')">Colheitadeiras</span>
+        <span class="tag-chip"        data-ap="tratores"         onclick="filterAplicacao(this, 'tratores')">Tratores</span>
+        <span class="tag-chip"        data-ap="implementos"      onclick="filterAplicacao(this, 'implementos')">Implementos</span>
       </div>
     </div>
 
@@ -702,7 +1036,7 @@
     <div class="products-grid" id="productsGrid">
 
       <!-- PRODUTO 1 — ISOBUS -->
-      <div class="product-card featured" data-cat="isobus" data-code="ASJ-IB01">
+      <div class="product-card featured" data-cat="isobus" data-code="ASJ-IB01" data-aplicacao="pulverizadores plantadeiras" data-marca="">
         <div class="product-img">
           <div class="product-img-placeholder">
             <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -743,7 +1077,7 @@
       </div>
 
       <!-- PRODUTO PLACEHOLDER 2 (em breve) -->
-      <div class="product-card" data-cat="chicotes" data-code="">
+      <div class="product-card" data-cat="chicotes" data-code="" data-aplicacao="" data-marca="">
         <div class="product-img">
           <div class="product-img-placeholder">
             <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -830,7 +1164,126 @@
   </div>
 </div>
 
-<!-- FOOTER -->
+<!-- BOTÃO FLUTUANTE ADMIN -->
+<button class="admin-fab" onclick="openAdmin()">⚙ Admin</button>
+
+<!-- PAINEL ADMIN -->
+<div class="admin-overlay" id="adminOverlay" onclick="closeAdminOutside(event)">
+  <div class="admin-panel">
+    <button class="admin-close" onclick="closeAdmin()">✕</button>
+
+    <!-- LOGIN -->
+    <div id="adminLogin">
+      <h2>🔐 Acesso Admin</h2>
+      <p class="admin-sub">Área restrita – ASJ Tecnologia</p>
+      <div class="admin-login">
+        <input type="password" id="adminPass" placeholder="Senha de acesso" onkeydown="if(event.key==='Enter') checkLogin()">
+        <button onclick="checkLogin()">Entrar</button>
+        <span class="admin-error" id="adminError">Senha incorreta.</span>
+      </div>
+    </div>
+
+    <!-- PAINEL APÓS LOGIN -->
+    <div id="adminDashboard" style="display:none;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
+        <div>
+          <h2 style="margin:0;">Gerenciar Produtos</h2>
+          <p class="admin-sub" style="margin:0;">Produtos salvos aparecem na página automaticamente</p>
+        </div>
+        <button class="admin-logout" onclick="adminLogout()">Sair</button>
+      </div>
+
+      <button class="btn-new-product" onclick="showNewProductForm()">+ Adicionar novo produto</button>
+
+      <div class="admin-product-list" id="adminProductList"></div>
+
+      <!-- FORM NOVO PRODUTO -->
+      <div class="admin-form" id="adminProductForm">
+        <hr style="border:none;border-top:1px solid #e4e8ee;margin:0 0 8px;">
+        <strong style="font-size:15px;" id="formTitle">Novo Produto</strong>
+
+        <div class="admin-form-row">
+          <div class="admin-field">
+            <label>Nome do produto *</label>
+            <input type="text" id="pNome" placeholder="Ex: Chicote Stara Sprayer 4500">
+          </div>
+          <div class="admin-field">
+            <label>Código</label>
+            <input type="text" id="pCodigo" placeholder="Ex: ASJ-ST01">
+          </div>
+        </div>
+
+        <div class="admin-form-row">
+          <div class="admin-field">
+            <label>Categoria *</label>
+            <select id="pCategoria">
+              <option value="isobus">Controle ISOBUS</option>
+              <option value="chicotes">Chicotes Elétricos</option>
+              <option value="sensores">Sensores</option>
+              <option value="monitores">Monitores Agrícolas</option>
+            </select>
+          </div>
+          <div class="admin-field">
+            <label>Marca (chicotes)</label>
+            <select id="pMarca">
+              <option value="">– Nenhuma –</option>
+              <option value="stara">Stara</option>
+              <option value="john-deere">John Deere</option>
+              <option value="seg-controle">Seg Controle Veicular</option>
+              <option value="hexagon">Hexagon</option>
+              <option value="jumil">Jumil</option>
+              <option value="raven">Raven</option>
+              <option value="muller">Muller</option>
+              <option value="agres">Agres</option>
+              <option value="outras">Outras marcas</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="admin-field admin-field-full">
+          <label>Aplicação (pode marcar mais de uma)</label>
+          <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:4px;" id="pAplicacaoGroup">
+            <label style="display:flex;align-items:center;gap:5px;font-weight:normal;text-transform:none;letter-spacing:0;font-size:13px;"><input type="checkbox" value="pulverizadores"> Pulverizadores</label>
+            <label style="display:flex;align-items:center;gap:5px;font-weight:normal;text-transform:none;letter-spacing:0;font-size:13px;"><input type="checkbox" value="plantadeiras"> Plantadeiras</label>
+            <label style="display:flex;align-items:center;gap:5px;font-weight:normal;text-transform:none;letter-spacing:0;font-size:13px;"><input type="checkbox" value="colheitadeiras"> Colheitadeiras</label>
+            <label style="display:flex;align-items:center;gap:5px;font-weight:normal;text-transform:none;letter-spacing:0;font-size:13px;"><input type="checkbox" value="tratores"> Tratores</label>
+            <label style="display:flex;align-items:center;gap:5px;font-weight:normal;text-transform:none;letter-spacing:0;font-size:13px;"><input type="checkbox" value="implementos"> Implementos</label>
+          </div>
+        </div>
+
+        <div class="admin-field admin-field-full">
+          <label>Descrição curta</label>
+          <textarea id="pDesc" placeholder="Descrição resumida que aparece no card..."></textarea>
+        </div>
+
+        <div class="admin-field admin-field-full">
+          <label>Especificações técnicas (modal)</label>
+          <div class="admin-specs-list" id="specsList">
+            <div class="admin-spec-row">
+              <input type="text" placeholder="Ex: Comunicação CAN Bus ISO 11783">
+              <button onclick="removeSpec(this)">×</button>
+            </div>
+          </div>
+          <button class="btn-add-spec" onclick="addSpec()">+ Adicionar especificação</button>
+        </div>
+
+        <div class="admin-field admin-field-full">
+          <label>Destaque</label>
+          <label style="display:flex;align-items:center;gap:8px;font-weight:normal;text-transform:none;letter-spacing:0;font-size:14px;">
+            <input type="checkbox" id="pDestaque"> Marcar como produto em destaque
+          </label>
+        </div>
+
+        <div class="admin-success" id="adminSuccess">✅ Produto salvo com sucesso!</div>
+
+        <div class="admin-actions">
+          <button class="btn-admin-cancel" onclick="cancelForm()">Cancelar</button>
+          <button class="btn-admin-save" onclick="saveProduct()">Salvar produto</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 <footer class="footer" style="background:#111;color:#aaa;text-align:center;padding:28px 0;font-size:14px;">
   <p style="margin:0;">ASJ Tecnologia Agrícola © 2026 – Todos os direitos reservados.</p>
 </footer>
@@ -843,42 +1296,123 @@
      LÓGICA DA PÁGINA DE PRODUTOS
   ============================================= */
 
-  function filterCategory(el, cat) {
-    // Atualiza active na sidebar
-    document.querySelectorAll('#categoryList li').forEach(li => li.classList.remove('active'));
-    el.classList.add('active');
+  // Estado dos filtros ativos
+  const filtros = { cat: 'all', marca: null, ap: 'all' };
 
+  function aplicarFiltros() {
     const cards = document.querySelectorAll('.products-grid .product-card');
     let visible = 0;
 
     cards.forEach(card => {
-      const match = cat === 'all' || card.dataset.cat === cat;
-      card.style.display = match ? '' : 'none';
-      if (match) visible++;
+      const cat   = card.dataset.cat   || '';
+      const marca = card.dataset.marca || '';
+      const ap    = card.dataset.aplicacao || '';
+
+      const matchCat   = filtros.cat   === 'all' || cat === filtros.cat;
+      const matchMarca = !filtros.marca || marca.includes(filtros.marca);
+      const matchAp    = filtros.ap    === 'all' || ap.includes(filtros.ap);
+
+      const show = matchCat && matchMarca && matchAp;
+      card.style.display = show ? '' : 'none';
+      if (show) visible++;
     });
 
-    const titles = {
-      all: 'Todos os produtos',
-      isobus: 'Controle ISOBUS',
-      chicotes: 'Chicotes Elétricos',
-      sensores: 'Sensores',
-      monitores: 'Monitores Agrícolas'
-    };
-
-    document.getElementById('toolbarTitle').textContent = titles[cat] || 'Produtos';
     document.getElementById('toolbarCount').textContent =
       `Exibindo ${visible} produto${visible !== 1 ? 's' : ''}`;
   }
 
+  /* ---- CATEGORIA ---- */
+  function filterCategory(el, cat) {
+    // Se clicou em chicotes, só abre/fecha submenu — não remove active de outros
+    if (cat === 'chicotes') return; // tratado em toggleSubmenu
+    document.querySelectorAll('#categoryList li').forEach(li => li.classList.remove('active'));
+    // Fecha submenu se aberto
+    document.getElementById('submenuChicotes').classList.remove('open');
+    document.getElementById('chicotesItem').classList.remove('sub-open', 'active');
+
+    el.classList.add('active');
+    filtros.cat   = cat;
+    filtros.marca = null;
+    document.querySelectorAll('.submenu-item').forEach(i => i.classList.remove('active'));
+
+    const titles = {
+      all:      'Todos os produtos',
+      isobus:   'Controle ISOBUS',
+      sensores: 'Sensores',
+      monitores:'Monitores Agrícolas'
+    };
+    document.getElementById('toolbarTitle').textContent = titles[cat] || 'Produtos';
+    aplicarFiltros();
+  }
+
+  /* ---- SUBMENU CHICOTES ---- */
+  function toggleSubmenu(event, el, cat) {
+    const submenu = document.getElementById('submenuChicotes');
+    const isOpen  = submenu.classList.contains('open');
+
+    if (isOpen) {
+      submenu.classList.remove('open');
+      el.classList.remove('sub-open', 'active');
+      // Volta para "todos" se estava filtrado por chicotes
+      if (filtros.cat === 'chicotes') {
+        filtros.cat   = 'all';
+        filtros.marca = null;
+        document.querySelector('[data-cat="all"]').classList.add('active');
+        document.getElementById('toolbarTitle').textContent = 'Todos os produtos';
+        aplicarFiltros();
+      }
+    } else {
+      // Remove active dos outros itens
+      document.querySelectorAll('#categoryList li').forEach(li => li.classList.remove('active'));
+      submenu.classList.add('open');
+      el.classList.add('sub-open', 'active');
+      filtros.cat   = 'chicotes';
+      filtros.marca = null;
+      document.querySelectorAll('.submenu-item').forEach(i => i.classList.remove('active'));
+      document.getElementById('toolbarTitle').textContent = 'Chicotes Elétricos';
+      aplicarFiltros();
+    }
+  }
+
+  /* ---- MARCA (submenu) ---- */
+  function filterMarca(el, marca) {
+    document.querySelectorAll('.submenu-item').forEach(i => i.classList.remove('active'));
+    el.classList.add('active');
+    filtros.cat   = 'chicotes';
+    filtros.marca = marca;
+
+    const nomes = {
+      'stara':'Stara','john-deere':'John Deere','seg-controle':'Seg Controle Veicular',
+      'hexagon':'Hexagon','jumil':'Jumil','raven':'Raven',
+      'muller':'Muller','agres':'Agres','outras':'Outras marcas'
+    };
+    document.getElementById('toolbarTitle').textContent =
+      `Chicotes – ${nomes[marca] || marca}`;
+    aplicarFiltros();
+  }
+
+  /* ---- APLICAÇÃO ---- */
+  function filterAplicacao(el, ap) {
+    document.querySelectorAll('.tag-chip').forEach(c => c.classList.remove('active'));
+    el.classList.add('active');
+    filtros.ap = ap;
+    aplicarFiltros();
+  }
+
+  /* ---- BUSCA POR CÓDIGO ---- */
   function filterByCode() {
     const val = document.getElementById('searchCode').value.trim().toUpperCase();
+    const cards = document.querySelectorAll('.products-grid .product-card');
+    let found = 0;
+
     if (!val) {
-      // Limpa filtro
-      document.querySelectorAll('.products-grid .product-card').forEach(c => c.style.display = '');
+      filtros.cat = 'all'; filtros.marca = null; filtros.ap = 'all';
+      aplicarFiltros();
+      document.getElementById('toolbarTitle').textContent = 'Todos os produtos';
       return;
     }
-    let found = 0;
-    document.querySelectorAll('.products-grid .product-card').forEach(card => {
+
+    cards.forEach(card => {
       const code = (card.dataset.code || '').toUpperCase();
       const match = code.includes(val);
       card.style.display = match ? '' : 'none';
@@ -889,20 +1423,11 @@
       `${found} produto${found !== 1 ? 's' : ''} encontrado${found !== 1 ? 's' : ''}`;
   }
 
-  // Busca ao pressionar Enter
   document.getElementById('searchCode').addEventListener('keydown', e => {
     if (e.key === 'Enter') filterByCode();
   });
 
-  // Tag chips aplicação (visual apenas)
-  document.querySelectorAll('.tag-chip').forEach(chip => {
-    chip.addEventListener('click', function() {
-      document.querySelectorAll('.tag-chip').forEach(c => c.classList.remove('active'));
-      this.classList.add('active');
-    });
-  });
-
-  /* MODAL */
+  /* ---- MODAL ---- */
   function openModal(id) {
     document.getElementById('modalOverlay').classList.add('open');
     document.body.style.overflow = 'hidden';
@@ -917,9 +1442,273 @@
     if (event.target === document.getElementById('modalOverlay')) closeModal();
   }
 
-  document.addEventListener('keydown', e => {
-    if (e.key === 'Escape') closeModal();
-  });
+  /* =============================================
+     PAINEL ADMIN
+  ============================================= */
+
+  const ADMIN_SENHA = 'ASJ16988612781asj@SILAS'; // ← Troque esta senha!
+  let editingId = null;
+
+  function openAdmin() {
+    document.getElementById('adminOverlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+    // Verifica se já está logado
+    if (sessionStorage.getItem('asjAdmin') === '1') {
+      showDashboard();
+    }
+  }
+
+  function closeAdmin() {
+    document.getElementById('adminOverlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  function closeAdminOutside(e) {
+    if (e.target === document.getElementById('adminOverlay')) closeAdmin();
+  }
+
+  function checkLogin() {
+    const pass = document.getElementById('adminPass').value;
+    if (pass === ADMIN_SENHA) {
+      sessionStorage.setItem('asjAdmin', '1');
+      document.getElementById('adminError').style.display = 'none';
+      document.getElementById('adminPass').value = '';
+      showDashboard();
+    } else {
+      document.getElementById('adminError').style.display = 'block';
+    }
+  }
+
+  function adminLogout() {
+    sessionStorage.removeItem('asjAdmin');
+    document.getElementById('adminLogin').style.display = 'block';
+    document.getElementById('adminDashboard').style.display = 'none';
+  }
+
+  function showDashboard() {
+    document.getElementById('adminLogin').style.display = 'none';
+    document.getElementById('adminDashboard').style.display = 'block';
+    renderAdminList();
+  }
+
+  /* ---- STORAGE DE PRODUTOS ---- */
+  function getProdutos() {
+    try { return JSON.parse(localStorage.getItem('asjProdutos') || '[]'); }
+    catch(e) { return []; }
+  }
+
+  function setProdutos(arr) {
+    localStorage.setItem('asjProdutos', JSON.stringify(arr));
+  }
+
+  /* ---- LISTA NO ADMIN ---- */
+  function renderAdminList() {
+    const lista = document.getElementById('adminProductList');
+    const produtos = getProdutos();
+    lista.innerHTML = '';
+
+    if (!produtos.length) {
+      lista.innerHTML = '<p style="color:#aaa;font-size:13px;text-align:center;">Nenhum produto cadastrado ainda.</p>';
+      return;
+    }
+
+    produtos.forEach(p => {
+      const div = document.createElement('div');
+      div.className = 'admin-product-item';
+      div.innerHTML = `
+        <div>
+          <strong>${p.nome}</strong><br>
+          <span>${p.codigo || 'Sem código'} · ${p.categoria}</span>
+        </div>
+        <button class="btn-del" onclick="deleteProduct('${p.id}')">Excluir</button>
+      `;
+      lista.appendChild(div);
+    });
+  }
+
+  /* ---- FORM ---- */
+  function showNewProductForm() {
+    editingId = null;
+    document.getElementById('formTitle').textContent = 'Novo Produto';
+    document.getElementById('pNome').value = '';
+    document.getElementById('pCodigo').value = '';
+    document.getElementById('pCategoria').value = 'chicotes';
+    document.getElementById('pMarca').value = '';
+    document.getElementById('pDesc').value = '';
+    document.getElementById('pDestaque').checked = false;
+    document.getElementById('adminSuccess').style.display = 'none';
+    // Limpa checkboxes
+    document.querySelectorAll('#pAplicacaoGroup input').forEach(c => c.checked = false);
+    // Specs: 1 linha vazia
+    document.getElementById('specsList').innerHTML = `
+      <div class="admin-spec-row">
+        <input type="text" placeholder="Ex: Comunicação CAN Bus ISO 11783">
+        <button onclick="removeSpec(this)">×</button>
+      </div>`;
+    document.getElementById('adminProductForm').classList.add('visible');
+    document.getElementById('adminProductForm').scrollIntoView({behavior:'smooth'});
+  }
+
+  function cancelForm() {
+    document.getElementById('adminProductForm').classList.remove('visible');
+    editingId = null;
+  }
+
+  function addSpec() {
+    const list = document.getElementById('specsList');
+    const row = document.createElement('div');
+    row.className = 'admin-spec-row';
+    row.innerHTML = `<input type="text" placeholder="Especificação técnica...">
+                     <button onclick="removeSpec(this)">×</button>`;
+    list.appendChild(row);
+    row.querySelector('input').focus();
+  }
+
+  function removeSpec(btn) {
+    const list = document.getElementById('specsList');
+    if (list.children.length > 1) btn.parentElement.remove();
+    else btn.previousElementSibling.value = '';
+  }
+
+  function saveProduct() {
+    const nome = document.getElementById('pNome').value.trim();
+    if (!nome) { alert('Informe o nome do produto.'); return; }
+
+    const aplicacoes = [...document.querySelectorAll('#pAplicacaoGroup input:checked')]
+      .map(c => c.value).join(' ');
+
+    const specs = [...document.querySelectorAll('#specsList input')]
+      .map(i => i.value.trim()).filter(Boolean);
+
+    const produto = {
+      id: editingId || Date.now().toString(),
+      nome,
+      codigo:     document.getElementById('pCodigo').value.trim(),
+      categoria:  document.getElementById('pCategoria').value,
+      marca:      document.getElementById('pMarca').value,
+      aplicacao:  aplicacoes,
+      descricao:  document.getElementById('pDesc').value.trim(),
+      specs,
+      destaque:   document.getElementById('pDestaque').checked
+    };
+
+    const produtos = getProdutos().filter(p => p.id !== produto.id);
+    produtos.push(produto);
+    setProdutos(produtos);
+
+    document.getElementById('adminSuccess').style.display = 'block';
+    setTimeout(() => {
+      document.getElementById('adminProductForm').classList.remove('visible');
+      document.getElementById('adminSuccess').style.display = 'none';
+      renderAdminList();
+      renderProductCards(); // Atualiza o grid
+    }, 1200);
+  }
+
+  function deleteProduct(id) {
+    if (!confirm('Excluir este produto?')) return;
+    setProdutos(getProdutos().filter(p => p.id !== id));
+    renderAdminList();
+    renderProductCards();
+  }
+
+  /* ---- RENDERIZAR CARDS DO LOCALSTORAGE ---- */
+  const WA = 'https://wa.me/5516988616927';
+  const WAMSG = encodeURIComponent('Olá, tenho interesse em um produto da ASJ e gostaria de mais informações.');
+
+  function svgIcon() {
+    return `<svg width="14" height="14" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>`;
+  }
+
+  const catLabels = {
+    isobus:'Controle ISOBUS', chicotes:'Chicotes Elétricos',
+    sensores:'Sensores', monitores:'Monitores Agrícolas'
+  };
+
+  function renderProductCards() {
+    const grid = document.getElementById('productsGrid');
+    // Remove cards dinâmicos anteriores
+    grid.querySelectorAll('.dynamic-card').forEach(c => c.remove());
+
+    const produtos = getProdutos();
+    produtos.forEach(p => {
+      const tags = p.specs.slice(0,3).map(s =>
+        `<span class="product-tag">${s.length > 20 ? s.substring(0,20)+'…' : s}</span>`
+      ).join('');
+
+      const card = document.createElement('div');
+      card.className = `product-card dynamic-card${p.destaque ? ' featured' : ''}`;
+      card.dataset.cat = p.categoria;
+      card.dataset.marca = p.marca || '';
+      card.dataset.aplicacao = p.aplicacao || '';
+      card.dataset.code = p.codigo || '';
+
+      card.innerHTML = `
+        <div class="product-img">
+          <div class="product-img-placeholder">
+            <svg viewBox="0 0 64 64" fill="none"><rect x="8" y="14" width="48" height="32" rx="4" stroke="#0c4cae" stroke-width="2.5"/><rect x="14" y="20" width="36" height="20" rx="2" fill="#0c4cae" opacity="0.12"/><circle cx="32" cy="30" r="6" stroke="#0c4cae" stroke-width="2"/></svg>
+            <span>Imagem em breve</span>
+          </div>
+        </div>
+        <div class="product-info">
+          <span class="product-category-label">${catLabels[p.categoria] || p.categoria}</span>
+          <p class="product-name">${p.nome}</p>
+          ${p.codigo ? `<span class="product-code">${p.codigo}</span>` : ''}
+          ${p.descricao ? `<p class="product-desc">${p.descricao}</p>` : ''}
+          <div class="product-tags">${tags}</div>
+        </div>
+        <div class="product-card-footer">
+          <button class="btn-saiba-mais" onclick="openDynamicModal('${p.id}')">Saiba mais</button>
+          <a class="btn-whats" href="${WA}?text=${encodeURIComponent('Olá, tenho interesse em: '+p.nome+(p.codigo?' ('+p.codigo+')':''))}" target="_blank">
+            ${svgIcon()} Consultar
+          </a>
+        </div>`;
+
+      grid.appendChild(card);
+    });
+
+    // Atualiza contadores
+    atualizarContadores();
+    aplicarFiltros();
+  }
+
+  function atualizarContadores() {
+    const cards = document.querySelectorAll('.products-grid .product-card');
+    const counts = { all: 0, isobus: 0, chicotes: 0, sensores: 0, monitores: 0 };
+    cards.forEach(c => {
+      counts.all++;
+      const cat = c.dataset.cat;
+      if (counts[cat] !== undefined) counts[cat]++;
+    });
+    Object.keys(counts).forEach(k => {
+      const el = document.getElementById('count-'+k);
+      if (el) el.textContent = counts[k];
+    });
+    document.getElementById('toolbarCount').textContent =
+      `Exibindo ${counts.all} produto${counts.all !== 1 ? 's' : ''}`;
+  }
+
+  /* ---- MODAL DINÂMICO ---- */
+  function openDynamicModal(id) {
+    const p = getProdutos().find(x => x.id === id);
+    if (!p) return;
+
+    const specsHtml = p.specs.map(s => `<li>${s}</li>`).join('');
+    const waLink = `${WA}?text=${encodeURIComponent('Olá, tenho interesse em: '+p.nome+(p.codigo?' ('+p.codigo+')':''))}`;
+
+    document.querySelector('.modal-category').textContent = catLabels[p.categoria] || p.categoria;
+    document.querySelector('.modal-title').textContent = p.nome;
+    document.querySelector('.modal-code').textContent = p.codigo ? 'Cód.: '+p.codigo : '';
+    document.querySelector('.modal-desc').textContent = p.descricao || '';
+    document.querySelector('.modal-specs').innerHTML = specsHtml;
+    document.querySelectorAll('.modal-actions a').forEach(a => a.href = waLink);
+
+    document.getElementById('modalOverlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  // Carrega produtos salvos ao abrir a página
+  renderProductCards();
 </script>
 </body>
 </html>
