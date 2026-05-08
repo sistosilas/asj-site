@@ -978,9 +978,8 @@
           <div class="submenu" id="submenuChicotes" onclick="event.stopPropagation()">
             <div class="submenu-item" data-marca="stara"           onclick="filterMarca(this, 'stara')">Stara           <span class="sub-count">0</span></div>
             <div class="submenu-item" data-marca="john-deere"      onclick="filterMarca(this, 'john-deere')">John Deere      <span class="sub-count">0</span></div>
-            <div class="submenu-item" data-marca="seg-controle"    onclick="filterMarca(this, 'seg-controle')">Seg Controle Veicular <span class="sub-count">0</span></div>
+            <div class="submenu-item" data-marca="trimble"         onclick="filterMarca(this, 'trimble')">Trimble         <span class="sub-count">0</span></div>
             <div class="submenu-item" data-marca="hexagon"         onclick="filterMarca(this, 'hexagon')">Hexagon         <span class="sub-count">0</span></div>
-            <div class="submenu-item" data-marca="jumil"           onclick="filterMarca(this, 'jumil')">Jumil           <span class="sub-count">0</span></div>
             <div class="submenu-item" data-marca="raven"           onclick="filterMarca(this, 'raven')">Raven           <span class="sub-count">0</span></div>
             <div class="submenu-item" data-marca="muller"          onclick="filterMarca(this, 'muller')">Muller          <span class="sub-count">0</span></div>
             <div class="submenu-item" data-marca="agres"           onclick="filterMarca(this, 'agres')">Agres           <span class="sub-count">0</span></div>
@@ -1229,9 +1228,8 @@
               <option value="">– Nenhuma –</option>
               <option value="stara">Stara</option>
               <option value="john-deere">John Deere</option>
-              <option value="seg-controle">Seg Controle Veicular</option>
+              <option value="trimble">Trimble</option>
               <option value="hexagon">Hexagon</option>
-              <option value="jumil">Jumil</option>
               <option value="raven">Raven</option>
               <option value="muller">Muller</option>
               <option value="agres">Agres</option>
@@ -1382,8 +1380,8 @@
     filtros.marca = marca;
 
     const nomes = {
-      'stara':'Stara','john-deere':'John Deere','seg-controle':'Seg Controle Veicular',
-      'hexagon':'Hexagon','jumil':'Jumil','raven':'Raven',
+      'stara':'Stara','john-deere':'John Deere','trimble':'Trimble',
+      'hexagon':'Hexagon','raven':'Raven',
       'muller':'Muller','agres':'Agres','outras':'Outras marcas'
     };
     document.getElementById('toolbarTitle').textContent =
@@ -1446,7 +1444,7 @@
      PAINEL ADMIN
   ============================================= */
 
-  const ADMIN_SENHA = 'ASJ16988612781asj@SILAS'; // ← Troque esta senha!
+  const ADMIN_SENHA = 'asj2026'; // ← Troque esta senha!
   let editingId = null;
 
   function openAdmin() {
