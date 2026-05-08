@@ -1212,6 +1212,15 @@
           </div>
         </div>
 
+        <div class="admin-field admin-field-full">
+          <label>Imagem do produto</label>
+          <input type="text" id="pImagem" placeholder="Ex: assets/chicote-stara-4500.jpg">
+          <small style="color:#888;font-size:12px;margin-top:4px;">
+            📁 Salve a foto na pasta <strong>assets/</strong> do seu projeto e digite o caminho aqui.<br>
+            Exemplos: <code>assets/chicote-stara.jpg</code> · <code>assets/monitor-isobus.png</code>
+          </small>
+        </div>
+
         <div class="admin-form-row">
           <div class="admin-field">
             <label>Categoria *</label>
@@ -1530,6 +1539,7 @@
     document.getElementById('formTitle').textContent = 'Novo Produto';
     document.getElementById('pNome').value = '';
     document.getElementById('pCodigo').value = '';
+    document.getElementById('pImagem').value = '';
     document.getElementById('pCategoria').value = 'chicotes';
     document.getElementById('pMarca').value = '';
     document.getElementById('pDesc').value = '';
@@ -1582,6 +1592,7 @@
       id: editingId || Date.now().toString(),
       nome,
       codigo:     document.getElementById('pCodigo').value.trim(),
+      imagem:     document.getElementById('pImagem').value.trim(),
       categoria:  document.getElementById('pCategoria').value,
       marca:      document.getElementById('pMarca').value,
       aplicacao:  aplicacoes,
@@ -1643,10 +1654,13 @@
 
       card.innerHTML = `
         <div class="product-img">
-          <div class="product-img-placeholder">
-            <svg viewBox="0 0 64 64" fill="none"><rect x="8" y="14" width="48" height="32" rx="4" stroke="#0c4cae" stroke-width="2.5"/><rect x="14" y="20" width="36" height="20" rx="2" fill="#0c4cae" opacity="0.12"/><circle cx="32" cy="30" r="6" stroke="#0c4cae" stroke-width="2"/></svg>
-            <span>Imagem em breve</span>
-          </div>
+          ${p.imagem
+            ? `<img src="${p.imagem}" alt="${p.nome}" onerror="this.parentElement.innerHTML='<div class=\\'product-img-placeholder\\'><svg viewBox=\\'0 0 64 64\\' fill=\\'none\\'><rect x=\\'8\\' y=\\'14\\' width=\\'48\\' height=\\'32\\' rx=\\'4\\' stroke=\\'#0c4cae\\' stroke-width=\\'2.5\\'/></svg><span>Imagem não encontrada</span></div>'">`
+            : `<div class="product-img-placeholder">
+                <svg viewBox="0 0 64 64" fill="none"><rect x="8" y="14" width="48" height="32" rx="4" stroke="#0c4cae" stroke-width="2.5"/><rect x="14" y="20" width="36" height="20" rx="2" fill="#0c4cae" opacity="0.12"/><circle cx="32" cy="30" r="6" stroke="#0c4cae" stroke-width="2"/></svg>
+                <span>Imagem em breve</span>
+              </div>`
+          }
         </div>
         <div class="product-info">
           <span class="product-category-label">${catLabels[p.categoria] || p.categoria}</span>
@@ -1700,6 +1714,17 @@
     document.querySelector('.modal-desc').textContent = p.descricao || '';
     document.querySelector('.modal-specs').innerHTML = specsHtml;
     document.querySelectorAll('.modal-actions a').forEach(a => a.href = waLink);
+
+    // Imagem no modal
+    const modalImgEl = document.querySelector('.modal-img');
+    if (p.imagem) {
+      modalImgEl.innerHTML = `<img src="${p.imagem}" alt="${p.nome}" style="width:100%;height:100%;object-fit:cover;">`;
+    } else {
+      modalImgEl.innerHTML = `<div class="modal-img-placeholder">
+        <svg viewBox="0 0 64 64" fill="none" style="width:70px;opacity:0.4"><rect x="8" y="14" width="48" height="32" rx="4" stroke="#0c4cae" stroke-width="2.5"/><rect x="14" y="20" width="36" height="20" rx="2" fill="#0c4cae" opacity="0.12"/><circle cx="32" cy="30" r="6" stroke="#0c4cae" stroke-width="2"/></svg>
+        <p style="color:#9ab0d4;font-size:13px;text-align:center;">Imagem do produto em breve</p>
+      </div>`;
+    }
 
     document.getElementById('modalOverlay').classList.add('open');
     document.body.style.overflow = 'hidden';
