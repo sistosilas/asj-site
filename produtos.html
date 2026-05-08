@@ -6,914 +6,154 @@
   <title>Produtos – ASJ Tecnologia Agrícola</title>
   <link rel="stylesheet" href="style.css?v=14">
   <style>
-    /* =============================================
-       PÁGINA DE PRODUTOS – ESTILOS EXCLUSIVOS
-    ============================================= */
-
-    /* PAGE HERO */
-    .page-hero {
-      background: linear-gradient(135deg, #061a3a, #0c4cae);
-      color: white;
-      padding: 48px 0 40px;
-    }
-
-    .page-hero h1 {
-      margin: 0 0 6px;
-      font-size: 34px;
-      font-weight: 800;
-      letter-spacing: -0.5px;
-    }
-
-    .page-hero p {
-      margin: 0;
-      opacity: 0.82;
-      font-size: 16px;
-    }
-
-    .breadcrumb {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 13px;
-      opacity: 0.7;
-      margin-bottom: 14px;
-    }
-
-    .breadcrumb a {
-      color: white;
-      text-decoration: none;
-    }
-
-    .breadcrumb span {
-      opacity: 0.5;
-    }
-
-    /* LAYOUT PRINCIPAL */
-    .products-layout {
-      display: grid;
-      grid-template-columns: 270px 1fr;
-      gap: 36px;
-      padding: 44px 0 70px;
-      align-items: start;
-    }
-
-    /* SIDEBAR */
-    .sidebar {
-      position: sticky;
-      top: 24px;
-    }
-
-    .sidebar-block {
-      background: #fff;
-      border: 1px solid #e4e8ee;
-      border-radius: 14px;
-      padding: 24px;
-      margin-bottom: 20px;
-    }
-
-    .sidebar-block h3 {
-      margin: 0 0 16px;
-      font-size: 14px;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: #0c4cae;
-      font-weight: 800;
-    }
-
-    /* Busca por código */
-    .search-row {
-      display: flex;
-      gap: 0;
-      border: 1.5px solid #ccd4e0;
-      border-radius: 8px;
-      overflow: hidden;
-    }
-
-    .search-row input {
-      flex: 1;
-      padding: 10px 12px;
-      border: none;
-      outline: none;
-      font-size: 14px;
-      color: #333;
-      background: #fff;
-    }
-
-    .search-row button {
-      padding: 10px 16px;
-      background: #0c4cae;
-      color: white;
-      border: none;
-      font-weight: 700;
-      font-size: 13px;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-
-    .search-row button:hover {
-      background: #083a8a;
-    }
-
-    /* Categorias */
-    .category-list {
-      list-style: none;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-
-    .category-list li {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 9px 12px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 14px;
-      color: #333;
-      transition: background 0.15s, color 0.15s;
-      user-select: none;
-    }
-
-    .category-list li:hover {
-      background: #eef3fc;
-      color: #0c4cae;
-    }
-
-    .category-list li.active {
-      background: #0c4cae;
-      color: white;
-      font-weight: 700;
-    }
-
-    /* Chicotes aberto: fundo suave, não azul escuro */
-    .category-list li.has-sub.sub-open {
-      background: #eef3fc;
-      color: #0c4cae;
-      font-weight: 700;
-    }
-
-    .category-list li .cat-count {
-      margin-left: auto;
-      background: rgba(0,0,0,0.08);
-      border-radius: 99px;
-      font-size: 12px;
-      padding: 1px 8px;
-    }
-
-    .category-list li.active .cat-count {
-      background: rgba(255,255,255,0.22);
-    }
-
-    .category-list li.has-sub.sub-open .cat-count {
-      background: rgba(12,76,174,0.12);
-      color: #0c4cae;
-    }
-
-    .cat-icon {
-      font-size: 16px;
-    }
-
-    /* Tags aplicação */
-    .tag-list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
-
-    .tag-chip {
-      padding: 5px 12px;
-      border-radius: 99px;
-      border: 1.5px solid #ccd4e0;
-      font-size: 13px;
-      color: #555;
-      cursor: pointer;
-      transition: all 0.15s;
-    }
-
-    .tag-chip:hover,
-    .tag-chip.active {
-      border-color: #0c4cae;
-      background: #eef3fc;
-      color: #0c4cae;
-      font-weight: 700;
-    }
-
-    /* ÁREA DE CONTEÚDO */
-    .products-area {}
-
-    .products-toolbar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 28px;
-      flex-wrap: wrap;
-      gap: 14px;
-    }
-
-    .products-toolbar h2 {
-      margin: 0;
-      font-size: 20px;
-      color: #111;
-    }
-
-    .products-toolbar p {
-      margin: 4px 0 0;
-      font-size: 13px;
-      color: #777;
-    }
-
-    .sort-select {
-      padding: 9px 14px;
-      border: 1.5px solid #ccd4e0;
-      border-radius: 8px;
-      font-size: 14px;
-      color: #333;
-      background: #fff;
-      cursor: pointer;
-      outline: none;
-    }
-
-    /* GRID DE PRODUTOS */
-    .products-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 24px;
-    }
-
-    /* CARD PRODUTO */
-    .product-card {
-      background: white;
-      border: 1px solid #e4e8ee;
-      border-radius: 14px;
-      overflow: hidden;
-      transition: transform 0.2s, box-shadow 0.2s;
-      cursor: pointer;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .product-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 12px 36px rgba(12,76,174,0.13);
-    }
-
-    .product-card.featured {
-      border-color: #0c4cae;
-      position: relative;
-    }
-
-    .product-card.featured::before {
-      content: "DESTAQUE";
-      position: absolute;
-      top: 14px;
-      left: 14px;
-      background: #0c4cae;
-      color: white;
-      font-size: 10px;
-      font-weight: 800;
-      letter-spacing: 0.1em;
-      padding: 4px 10px;
-      border-radius: 99px;
-      z-index: 2;
-    }
-
-    .product-img {
-      width: 100%;
-      aspect-ratio: 4/3;
-      background: #f0f4fb;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-      position: relative;
-    }
-
-    .product-img img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    /* Placeholder quando não há imagem */
-    .product-img-placeholder {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      color: #9ab0d4;
-      width: 100%;
-      height: 100%;
-    }
-
-    .product-img-placeholder svg {
-      width: 52px;
-      opacity: 0.45;
-    }
-
-    .product-img-placeholder span {
-      font-size: 12px;
-      text-align: center;
-      padding: 0 20px;
-    }
-
-    .product-info {
-      padding: 18px 18px 20px;
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      flex: 1;
-    }
-
-    .product-category-label {
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: #0c4cae;
-      font-weight: 700;
-    }
-
-    .product-name {
-      font-size: 15px;
-      font-weight: 700;
-      color: #111;
-      line-height: 1.35;
-      margin: 0;
-    }
-
-    .product-code {
-      font-size: 12px;
-      color: #999;
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      margin-top: 2px;
-    }
-
-    .product-desc {
-      font-size: 13px;
-      color: #666;
-      line-height: 1.5;
-      margin-top: 6px;
-    }
-
-    .product-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      margin-top: 8px;
-    }
-
-    .product-tag {
-      font-size: 11px;
-      padding: 3px 9px;
-      border-radius: 99px;
-      background: #eef3fc;
-      color: #0c4cae;
-      font-weight: 600;
-    }
-
-    .product-card-footer {
-      padding: 14px 18px;
-      border-top: 1px solid #f0f0f0;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .btn-saiba-mais {
-      display: inline-block;
-      padding: 9px 18px;
-      background: #0c4cae;
-      color: white;
-      border-radius: 7px;
-      font-size: 13px;
-      font-weight: 700;
-      text-decoration: none;
-      transition: background 0.2s;
-      border: none;
-      cursor: pointer;
-    }
-
-    .btn-saiba-mais:hover {
-      background: #083a8a;
-    }
-
-    .btn-whats {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 9px 14px;
-      background: #25d366;
-      color: white;
-      border-radius: 7px;
-      font-size: 13px;
-      font-weight: 700;
-      text-decoration: none;
-      transition: background 0.2s;
-    }
-
-    .btn-whats:hover {
-      background: #1aad54;
-    }
-
-    /* MODAL PRODUTO */
-    .product-modal-overlay {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(6,26,58,0.68);
-      z-index: 1000;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-    }
-
-    .product-modal-overlay.open {
-      display: flex;
-    }
-
-    .product-modal {
-      background: white;
-      border-radius: 20px;
-      max-width: 820px;
-      width: 100%;
-      max-height: 90vh;
-      overflow-y: auto;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 0;
-      position: relative;
-    }
-
-    .modal-close {
-      position: absolute;
-      top: 16px;
-      right: 16px;
-      background: #f0f4fb;
-      border: none;
-      border-radius: 50%;
-      width: 36px;
-      height: 36px;
-      font-size: 18px;
-      cursor: pointer;
-      z-index: 10;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #333;
-    }
-
-    .modal-img {
-      background: #eef3fc;
-      border-radius: 20px 0 0 20px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 320px;
-      overflow: hidden;
-    }
-
-    .modal-img img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .modal-img-placeholder {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      color: #9ab0d4;
-      gap: 12px;
-      padding: 40px;
-      text-align: center;
-    }
-
-    .modal-img-placeholder svg {
-      width: 70px;
-      opacity: 0.4;
-    }
-
-    .modal-content {
-      padding: 36px 32px;
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-    }
-
-    .modal-category {
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: #0c4cae;
-      font-weight: 800;
-    }
-
-    .modal-title {
-      font-size: 22px;
-      font-weight: 800;
-      color: #111;
-      margin: 0;
-      line-height: 1.25;
-    }
-
-    .modal-code {
-      font-size: 13px;
-      color: #999;
-    }
-
-    .modal-desc {
-      font-size: 14px;
-      color: #555;
-      line-height: 1.65;
-    }
-
-    .modal-specs {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-
-    .modal-specs li {
-      display: flex;
-      align-items: flex-start;
-      gap: 10px;
-      font-size: 13px;
-      color: #444;
-    }
-
-    .modal-specs li::before {
-      content: "✓";
-      color: #0c4cae;
-      font-weight: 800;
-      flex-shrink: 0;
-      margin-top: 1px;
-    }
-
-    .modal-actions {
-      display: flex;
-      gap: 10px;
-      margin-top: 6px;
-    }
-
-    /* SUBMENU DE MARCAS */
-    .category-list li.has-sub {
-      flex-wrap: wrap;
-    }
-
-    .category-list li.has-sub .sub-arrow {
-      margin-left: auto;
-      transition: transform 0.2s;
-      font-style: normal;
-      font-size: 12px;
-      opacity: 0.6;
-    }
-
-    .category-list li.has-sub.sub-open .sub-arrow {
-      transform: rotate(90deg);
-    }
-
-    .submenu {
-      display: none;
-      width: 100%;
-      margin-top: 4px;
-      padding-left: 28px;
-      flex-direction: column;
-      gap: 2px;
-    }
-
-    .submenu.open {
-      display: flex;
-    }
-
-    .submenu-item {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 7px 10px;
-      border-radius: 7px;
-      font-size: 13px;
-      color: #444;
-      cursor: pointer;
-      transition: background 0.15s, color 0.15s;
-    }
-
-    .submenu-item:hover {
-      background: #eef3fc;
-      color: #0c4cae;
-    }
-
-    .submenu-item.active {
-      background: #dde9fa;
-      color: #0c4cae;
-      font-weight: 700;
-    }
-
-    .submenu-item .sub-count {
-      font-size: 11px;
-      background: rgba(0,0,0,0.07);
-      border-radius: 99px;
-      padding: 1px 7px;
-    }
-
-    /* RESPONSIVO */
-    @media (max-width: 1000px) {
-      .products-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
-
-    @media (max-width: 820px) {
-      .product-modal {
-        grid-template-columns: 1fr;
-        max-height: 85vh;
-      }
-
-      .modal-img {
-        border-radius: 20px 20px 0 0;
-        min-height: 200px;
-      }
-    }
-
-    @media (max-width: 768px) {
-      .products-layout {
-        grid-template-columns: 1fr;
-        padding: 28px 0 55px;
-      }
-
-      .sidebar {
-        position: static;
-      }
-
-      .products-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 16px;
-      }
-    }
-
-    @media (max-width: 520px) {
-      .products-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .page-hero h1 {
-        font-size: 26px;
-      }
-    }
-    /* =============================================
-       PAINEL ADMIN
-    ============================================= */
-    .admin-fab {
-      position: fixed;
-      bottom: 28px;
-      left: 28px;
-      background: #0c4cae;
-      color: white;
-      border: none;
-      border-radius: 50px;
-      padding: 12px 20px;
-      font-size: 13px;
-      font-weight: 700;
-      cursor: pointer;
-      z-index: 500;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      box-shadow: 0 4px 18px rgba(12,76,174,0.35);
-      transition: background 0.2s, transform 0.15s;
-    }
+    .page-hero { background: linear-gradient(135deg, #061a3a, #0c4cae); color: white; padding: 48px 0 40px; }
+    .page-hero h1 { margin: 0 0 6px; font-size: 34px; font-weight: 800; letter-spacing: -0.5px; }
+    .page-hero p  { margin: 0; opacity: 0.82; font-size: 16px; }
+    .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 13px; opacity: 0.7; margin-bottom: 14px; }
+    .breadcrumb a { color: white; text-decoration: none; }
+    .breadcrumb span { opacity: 0.5; }
+
+    .products-layout { display: grid; grid-template-columns: 270px 1fr; gap: 36px; padding: 44px 0 70px; align-items: start; }
+    .sidebar { position: sticky; top: 24px; }
+    .sidebar-block { background: #fff; border: 1px solid #e4e8ee; border-radius: 14px; padding: 24px; margin-bottom: 20px; }
+    .sidebar-block h3 { margin: 0 0 16px; font-size: 14px; text-transform: uppercase; letter-spacing: 0.08em; color: #0c4cae; font-weight: 800; }
+
+    .search-row { display: flex; border: 1.5px solid #ccd4e0; border-radius: 8px; overflow: hidden; }
+    .search-row input { flex: 1; padding: 10px 12px; border: none; outline: none; font-size: 14px; color: #333; background: #fff; }
+    .search-row button { padding: 10px 16px; background: #0c4cae; color: white; border: none; font-weight: 700; font-size: 13px; cursor: pointer; }
+    .search-row button:hover { background: #083a8a; }
+
+    .category-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 4px; }
+    .category-list li { display: flex; align-items: center; gap: 10px; padding: 9px 12px; border-radius: 8px; cursor: pointer; font-size: 14px; color: #333; transition: background 0.15s, color 0.15s; user-select: none; }
+    .category-list li:hover { background: #eef3fc; color: #0c4cae; }
+    .category-list li.active { background: #0c4cae; color: white; font-weight: 700; }
+    .category-list li.has-sub.sub-open { background: #eef3fc; color: #0c4cae; font-weight: 700; }
+    .category-list li .cat-count { margin-left: auto; background: rgba(0,0,0,0.08); border-radius: 99px; font-size: 12px; padding: 1px 8px; }
+    .category-list li.active .cat-count { background: rgba(255,255,255,0.22); }
+    .category-list li.has-sub.sub-open .cat-count { background: rgba(12,76,174,0.12); color: #0c4cae; }
+    .cat-icon { font-size: 16px; }
+
+    .category-list li.has-sub { flex-wrap: wrap; }
+    .category-list li.has-sub .sub-arrow { margin-left: auto; transition: transform 0.2s; font-style: normal; font-size: 12px; opacity: 0.6; }
+    .category-list li.has-sub.sub-open .sub-arrow { transform: rotate(90deg); }
+    .submenu { display: none; width: 100%; margin-top: 4px; padding-left: 28px; flex-direction: column; gap: 2px; }
+    .submenu.open { display: flex; }
+    .submenu-item { display: flex; align-items: center; justify-content: space-between; padding: 7px 10px; border-radius: 7px; font-size: 13px; color: #444; cursor: pointer; transition: background 0.15s, color 0.15s; }
+    .submenu-item:hover { background: #eef3fc; color: #0c4cae; }
+    .submenu-item.active { background: #dde9fa; color: #0c4cae; font-weight: 700; }
+    .submenu-item .sub-count { font-size: 11px; background: rgba(0,0,0,0.07); border-radius: 99px; padding: 1px 7px; }
+
+    .tag-list { display: flex; flex-wrap: wrap; gap: 8px; }
+    .tag-chip { padding: 5px 12px; border-radius: 99px; border: 1.5px solid #ccd4e0; font-size: 13px; color: #555; cursor: pointer; transition: all 0.15s; }
+    .tag-chip:hover, .tag-chip.active { border-color: #0c4cae; background: #eef3fc; color: #0c4cae; font-weight: 700; }
+
+    .products-toolbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 28px; flex-wrap: wrap; gap: 14px; }
+    .products-toolbar h2 { margin: 0; font-size: 20px; color: #111; }
+    .products-toolbar p  { margin: 4px 0 0; font-size: 13px; color: #777; }
+    .sort-select { padding: 9px 14px; border: 1.5px solid #ccd4e0; border-radius: 8px; font-size: 14px; color: #333; background: #fff; cursor: pointer; outline: none; }
+
+    .products-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+
+    .loading-state { grid-column: 1/-1; text-align: center; padding: 60px 20px; color: #888; }
+    .loading-spinner { width: 36px; height: 36px; border: 3px solid #e4e8ee; border-top-color: #0c4cae; border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 16px; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .product-card { background: white; border: 1px solid #e4e8ee; border-radius: 14px; overflow: hidden; transition: transform 0.2s, box-shadow 0.2s; cursor: pointer; display: flex; flex-direction: column; }
+    .product-card:hover { transform: translateY(-4px); box-shadow: 0 12px 36px rgba(12,76,174,0.13); }
+    .product-card.featured { border-color: #0c4cae; position: relative; }
+    .product-card.featured::before { content: "DESTAQUE"; position: absolute; top: 14px; left: 14px; background: #0c4cae; color: white; font-size: 10px; font-weight: 800; letter-spacing: 0.1em; padding: 4px 10px; border-radius: 99px; z-index: 2; }
+
+    .product-img { width: 100%; aspect-ratio: 4/3; background: #f0f4fb; display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative; }
+    .product-img img { width: 100%; height: 100%; object-fit: cover; }
+    .product-img-placeholder { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; color: #9ab0d4; width: 100%; height: 100%; }
+    .product-img-placeholder svg { width: 52px; opacity: 0.45; }
+    .product-img-placeholder span { font-size: 12px; text-align: center; padding: 0 20px; }
+
+    .product-info { padding: 18px 18px 20px; display: flex; flex-direction: column; gap: 6px; flex: 1; }
+    .product-category-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: #0c4cae; font-weight: 700; }
+    .product-name { font-size: 15px; font-weight: 700; color: #111; line-height: 1.35; margin: 0; }
+    .product-code { font-size: 12px; color: #999; display: flex; align-items: center; gap: 5px; margin-top: 2px; }
+    .product-desc { font-size: 13px; color: #666; line-height: 1.5; margin-top: 6px; }
+    .product-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+    .product-tag { font-size: 11px; padding: 3px 9px; border-radius: 99px; background: #eef3fc; color: #0c4cae; font-weight: 600; }
+
+    .product-card-footer { padding: 14px 18px; border-top: 1px solid #f0f0f0; display: flex; align-items: center; justify-content: space-between; }
+    .btn-saiba-mais { display: inline-block; padding: 9px 18px; background: #0c4cae; color: white; border-radius: 7px; font-size: 13px; font-weight: 700; text-decoration: none; transition: background 0.2s; border: none; cursor: pointer; }
+    .btn-saiba-mais:hover { background: #083a8a; }
+    .btn-whats { display: inline-flex; align-items: center; gap: 6px; padding: 9px 14px; background: #25d366; color: white; border-radius: 7px; font-size: 13px; font-weight: 700; text-decoration: none; transition: background 0.2s; }
+    .btn-whats:hover { background: #1aad54; }
+
+    .product-modal-overlay { display: none; position: fixed; inset: 0; background: rgba(6,26,58,0.68); z-index: 1000; align-items: center; justify-content: center; padding: 20px; }
+    .product-modal-overlay.open { display: flex; }
+    .product-modal { background: white; border-radius: 20px; max-width: 820px; width: 100%; max-height: 90vh; overflow-y: auto; display: grid; grid-template-columns: 1fr 1fr; position: relative; }
+    .modal-close { position: absolute; top: 16px; right: 16px; background: #f0f4fb; border: none; border-radius: 50%; width: 36px; height: 36px; font-size: 18px; cursor: pointer; z-index: 10; display: flex; align-items: center; justify-content: center; color: #333; }
+    .modal-img { background: #eef3fc; border-radius: 20px 0 0 20px; display: flex; align-items: center; justify-content: center; min-height: 320px; overflow: hidden; }
+    .modal-img img { width: 100%; height: 100%; object-fit: cover; }
+    .modal-img-placeholder { display: flex; flex-direction: column; align-items: center; color: #9ab0d4; gap: 12px; padding: 40px; text-align: center; }
+    .modal-content { padding: 36px 32px; display: flex; flex-direction: column; gap: 14px; }
+    .modal-category { font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: #0c4cae; font-weight: 800; }
+    .modal-title { font-size: 22px; font-weight: 800; color: #111; margin: 0; line-height: 1.25; }
+    .modal-code { font-size: 13px; color: #999; }
+    .modal-desc { font-size: 14px; color: #555; line-height: 1.65; }
+    .modal-specs { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px; }
+    .modal-specs li { display: flex; align-items: flex-start; gap: 10px; font-size: 13px; color: #444; }
+    .modal-specs li::before { content: "✓"; color: #0c4cae; font-weight: 800; flex-shrink: 0; margin-top: 1px; }
+    .modal-actions { display: flex; gap: 10px; margin-top: 6px; }
+
+    .admin-fab { position: fixed; bottom: 28px; left: 28px; background: #0c4cae; color: white; border: none; border-radius: 50px; padding: 12px 20px; font-size: 13px; font-weight: 700; cursor: pointer; z-index: 500; display: flex; align-items: center; gap: 8px; box-shadow: 0 4px 18px rgba(12,76,174,0.35); transition: background 0.2s, transform 0.15s; }
     .admin-fab:hover { background: #083a8a; transform: translateY(-2px); }
-
-    .admin-overlay {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(6,26,58,0.7);
-      z-index: 2000;
-      align-items: flex-start;
-      justify-content: center;
-      padding: 30px 16px;
-      overflow-y: auto;
-    }
+    .admin-overlay { display: none; position: fixed; inset: 0; background: rgba(6,26,58,0.7); z-index: 2000; align-items: flex-start; justify-content: center; padding: 30px 16px; overflow-y: auto; }
     .admin-overlay.open { display: flex; }
-
-    .admin-panel {
-      background: white;
-      border-radius: 20px;
-      width: 100%;
-      max-width: 640px;
-      padding: 36px;
-      position: relative;
-    }
-
-    .admin-panel h2 {
-      margin: 0 0 6px;
-      font-size: 20px;
-      color: #111;
-    }
-
-    .admin-panel p.admin-sub {
-      margin: 0 0 28px;
-      font-size: 13px;
-      color: #888;
-    }
-
-    .admin-close {
-      position: absolute;
-      top: 16px; right: 16px;
-      background: #f0f4fb;
-      border: none;
-      border-radius: 50%;
-      width: 36px; height: 36px;
-      font-size: 18px;
-      cursor: pointer;
-      display: flex; align-items: center; justify-content: center;
-      color: #333;
-    }
-
-    /* Login */
+    .admin-panel { background: white; border-radius: 20px; width: 100%; max-width: 640px; padding: 36px; position: relative; }
+    .admin-panel h2 { margin: 0 0 6px; font-size: 20px; color: #111; }
+    .admin-panel p.admin-sub { margin: 0 0 28px; font-size: 13px; color: #888; }
+    .admin-close { position: absolute; top: 16px; right: 16px; background: #f0f4fb; border: none; border-radius: 50%; width: 36px; height: 36px; font-size: 18px; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #333; }
     .admin-login { display: flex; flex-direction: column; gap: 14px; }
-    .admin-login input {
-      padding: 12px 14px;
-      border: 1.5px solid #ccd4e0;
-      border-radius: 8px;
-      font-size: 14px;
-      outline: none;
-    }
+    .admin-login input { padding: 12px 14px; border: 1.5px solid #ccd4e0; border-radius: 8px; font-size: 14px; outline: none; }
     .admin-login input:focus { border-color: #0c4cae; }
-    .admin-login button {
-      padding: 13px;
-      background: #0c4cae;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      font-size: 14px;
-      font-weight: 700;
-      cursor: pointer;
-    }
+    .admin-login button { padding: 13px; background: #0c4cae; color: white; border: none; border-radius: 8px; font-size: 14px; font-weight: 700; cursor: pointer; }
     .admin-login button:hover { background: #083a8a; }
     .admin-error { color: #c0392b; font-size: 13px; display: none; }
-
-    /* Form produto */
     .admin-form { display: none; flex-direction: column; gap: 16px; }
     .admin-form.visible { display: flex; }
-
-    .admin-form-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 14px;
-    }
-
-    .admin-field {
-      display: flex;
-      flex-direction: column;
-      gap: 5px;
-    }
-
-    .admin-field label {
-      font-size: 12px;
-      font-weight: 700;
-      color: #555;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
-
-    .admin-field input,
-    .admin-field select,
-    .admin-field textarea {
-      padding: 10px 12px;
-      border: 1.5px solid #ccd4e0;
-      border-radius: 8px;
-      font-size: 14px;
-      outline: none;
-      font-family: Arial, sans-serif;
-    }
-
-    .admin-field input:focus,
-    .admin-field select:focus,
-    .admin-field textarea:focus { border-color: #0c4cae; }
-
+    .admin-form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .admin-field { display: flex; flex-direction: column; gap: 5px; }
+    .admin-field label { font-size: 12px; font-weight: 700; color: #555; text-transform: uppercase; letter-spacing: 0.05em; }
+    .admin-field input, .admin-field select, .admin-field textarea { padding: 10px 12px; border: 1.5px solid #ccd4e0; border-radius: 8px; font-size: 14px; outline: none; font-family: Arial, sans-serif; }
+    .admin-field input:focus, .admin-field select:focus, .admin-field textarea:focus { border-color: #0c4cae; }
     .admin-field textarea { resize: vertical; min-height: 80px; }
-
     .admin-field-full { grid-column: 1 / -1; }
-
-    .admin-specs-list {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-
-    .admin-spec-row {
-      display: flex;
-      gap: 8px;
-      align-items: center;
-    }
-
+    .admin-specs-list { display: flex; flex-direction: column; gap: 8px; }
+    .admin-spec-row { display: flex; gap: 8px; align-items: center; }
     .admin-spec-row input { flex: 1; }
-
-    .admin-spec-row button {
-      background: #fee2e2;
-      color: #c0392b;
-      border: none;
-      border-radius: 6px;
-      width: 32px; height: 32px;
-      cursor: pointer;
-      font-size: 16px;
-      flex-shrink: 0;
-    }
-
-    .btn-add-spec {
-      background: #eef3fc;
-      color: #0c4cae;
-      border: 1.5px dashed #0c4cae;
-      border-radius: 8px;
-      padding: 8px;
-      font-size: 13px;
-      font-weight: 700;
-      cursor: pointer;
-      width: 100%;
-    }
-
-    .admin-actions {
-      display: flex;
-      gap: 10px;
-      margin-top: 8px;
-      justify-content: flex-end;
-    }
-
-    .btn-admin-save {
-      padding: 12px 28px;
-      background: #0c4cae;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      font-size: 14px;
-      font-weight: 700;
-      cursor: pointer;
-    }
+    .admin-spec-row button { background: #fee2e2; color: #c0392b; border: none; border-radius: 6px; width: 32px; height: 32px; cursor: pointer; font-size: 16px; flex-shrink: 0; }
+    .btn-add-spec { background: #eef3fc; color: #0c4cae; border: 1.5px dashed #0c4cae; border-radius: 8px; padding: 8px; font-size: 13px; font-weight: 700; cursor: pointer; width: 100%; }
+    .admin-actions { display: flex; gap: 10px; margin-top: 8px; justify-content: flex-end; }
+    .btn-admin-save { padding: 12px 28px; background: #0c4cae; color: white; border: none; border-radius: 8px; font-size: 14px; font-weight: 700; cursor: pointer; }
     .btn-admin-save:hover { background: #083a8a; }
-
-    .btn-admin-cancel {
-      padding: 12px 20px;
-      background: #f4f6f8;
-      color: #555;
-      border: none;
-      border-radius: 8px;
-      font-size: 14px;
-      cursor: pointer;
-    }
-
-    .admin-success {
-      background: #d4edda;
-      color: #155724;
-      padding: 12px 16px;
-      border-radius: 8px;
-      font-size: 14px;
-      display: none;
-    }
-
-    /* Lista de produtos admin */
+    .btn-admin-save:disabled { background: #aaa; cursor: not-allowed; }
+    .btn-admin-cancel { padding: 12px 20px; background: #f4f6f8; color: #555; border: none; border-radius: 8px; font-size: 14px; cursor: pointer; }
+    .admin-msg { padding: 12px 16px; border-radius: 8px; font-size: 14px; display: none; margin-bottom: 4px; }
+    .admin-msg.info    { background: #cce5ff; color: #004085; }
+    .admin-msg.success { background: #d4edda; color: #155724; }
+    .admin-msg.erro    { background: #f8d7da; color: #721c24; }
     .admin-product-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
-    .admin-product-item {
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 12px 16px;
-      border: 1px solid #e4e8ee;
-      border-radius: 10px;
-      font-size: 14px;
-    }
+    .admin-product-item { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; border: 1px solid #e4e8ee; border-radius: 10px; font-size: 14px; }
     .admin-product-item strong { color: #111; }
     .admin-product-item span { color: #888; font-size: 12px; }
-    .btn-del {
-      background: #fee2e2; color: #c0392b;
-      border: none; border-radius: 6px;
-      padding: 5px 12px; font-size: 12px; cursor: pointer;
-    }
-    .btn-new-product {
-      width: 100%; padding: 12px;
-      background: #0c4cae; color: white;
-      border: none; border-radius: 8px;
-      font-size: 14px; font-weight: 700; cursor: pointer;
-      margin-bottom: 20px;
-    }
+    .btn-del { background: #fee2e2; color: #c0392b; border: none; border-radius: 6px; padding: 5px 12px; font-size: 12px; cursor: pointer; }
+    .btn-new-product { width: 100%; padding: 12px; background: #0c4cae; color: white; border: none; border-radius: 8px; font-size: 14px; font-weight: 700; cursor: pointer; margin-bottom: 20px; }
     .btn-new-product:hover { background: #083a8a; }
+    .admin-logout { background: none; border: none; color: #888; font-size: 12px; cursor: pointer; text-decoration: underline; }
 
-    .admin-logout {
-      background: none; border: none;
-      color: #888; font-size: 12px; cursor: pointer;
-      text-decoration: underline; margin-top: 8px;
-    }
+    @media (max-width: 1000px) { .products-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 820px) { .product-modal { grid-template-columns: 1fr; max-height: 85vh; } .modal-img { border-radius: 20px 20px 0 0; min-height: 200px; } }
+    @media (max-width: 768px) { .products-layout { grid-template-columns: 1fr; padding: 28px 0 55px; } .sidebar { position: static; } .products-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; } }
+    @media (max-width: 520px) { .products-grid { grid-template-columns: 1fr; } .page-hero h1 { font-size: 26px; } }
   </style>
 </head>
 <body>
 
-<!-- HEADER (idêntico ao index) -->
 <header class="header">
   <div class="container header-content">
     <img src="assets/logo-asj.png" alt="ASJ Tecnologia Agrícola" class="logo">
@@ -926,26 +166,17 @@
   </div>
 </header>
 
-<!-- PAGE HERO -->
 <section class="page-hero">
   <div class="container">
-    <div class="breadcrumb">
-      <a href="index.html">Home</a>
-      <span>›</span>
-      <span>Produtos</span>
-    </div>
+    <div class="breadcrumb"><a href="index.html">Home</a><span>›</span><span>Produtos</span></div>
     <h1>Nossos Produtos</h1>
     <p>Soluções elétricas e tecnológicas para o agronegócio</p>
   </div>
 </section>
 
-<!-- LAYOUT PRINCIPAL -->
 <div class="container products-layout">
-
-  <!-- SIDEBAR -->
   <aside class="sidebar">
 
-    <!-- Busca por código -->
     <div class="sidebar-block">
       <h3>Encontre pelo código</h3>
       <div class="search-row">
@@ -954,216 +185,95 @@
       </div>
     </div>
 
-    <!-- Categorias -->
     <div class="sidebar-block">
       <h3>Categorias</h3>
       <ul class="category-list" id="categoryList">
-
-        <li class="active" data-cat="all" onclick="filterCategory(this, 'all')">
+        <li class="active" data-cat="all" onclick="filterCategory(this,'all')">
           <span class="cat-icon">🗂</span> Todos os produtos
-          <span class="cat-count" id="count-all">1</span>
+          <span class="cat-count" id="count-all">–</span>
         </li>
-
-        <li data-cat="isobus" onclick="filterCategory(this, 'isobus')">
+        <li data-cat="isobus" onclick="filterCategory(this,'isobus')">
           <span class="cat-icon">🖥</span> Controle ISOBUS
-          <span class="cat-count" id="count-isobus">1</span>
+          <span class="cat-count" id="count-isobus">–</span>
         </li>
-
-        <!-- CHICOTES COM SUBMENU -->
-        <li class="has-sub" data-cat="chicotes" id="chicotesItem" onclick="toggleSubmenu(event, this, 'chicotes')">
+        <li class="has-sub" data-cat="chicotes" id="chicotesItem" onclick="toggleSubmenu(event,this,'chicotes')">
           <span class="cat-icon">🔌</span> Chicotes Elétricos
-          <span class="cat-count" id="count-chicotes">0</span>
+          <span class="cat-count" id="count-chicotes">–</span>
           <i class="sub-arrow">›</i>
-
           <div class="submenu" id="submenuChicotes" onclick="event.stopPropagation()">
-            <div class="submenu-item" data-marca="stara"           onclick="filterMarca(this, 'stara')">Stara           <span class="sub-count">0</span></div>
-            <div class="submenu-item" data-marca="john-deere"      onclick="filterMarca(this, 'john-deere')">John Deere      <span class="sub-count">0</span></div>
-            <div class="submenu-item" data-marca="trimble"         onclick="filterMarca(this, 'trimble')">Trimble         <span class="sub-count">0</span></div>
-            <div class="submenu-item" data-marca="hexagon"         onclick="filterMarca(this, 'hexagon')">Hexagon         <span class="sub-count">0</span></div>
-            <div class="submenu-item" data-marca="raven"           onclick="filterMarca(this, 'raven')">Raven           <span class="sub-count">0</span></div>
-            <div class="submenu-item" data-marca="muller"          onclick="filterMarca(this, 'muller')">Muller          <span class="sub-count">0</span></div>
-            <div class="submenu-item" data-marca="agres"           onclick="filterMarca(this, 'agres')">Agres           <span class="sub-count">0</span></div>
-            <div class="submenu-item" data-marca="outras"          onclick="filterMarca(this, 'outras')">Outras marcas   <span class="sub-count">0</span></div>
+            <div class="submenu-item" data-marca="stara"      onclick="filterMarca(this,'stara')">Stara <span class="sub-count">–</span></div>
+            <div class="submenu-item" data-marca="john-deere" onclick="filterMarca(this,'john-deere')">John Deere <span class="sub-count">–</span></div>
+            <div class="submenu-item" data-marca="trimble"    onclick="filterMarca(this,'trimble')">Trimble <span class="sub-count">–</span></div>
+            <div class="submenu-item" data-marca="hexagon"    onclick="filterMarca(this,'hexagon')">Hexagon <span class="sub-count">–</span></div>
+            <div class="submenu-item" data-marca="raven"      onclick="filterMarca(this,'raven')">Raven <span class="sub-count">–</span></div>
+            <div class="submenu-item" data-marca="muller"     onclick="filterMarca(this,'muller')">Muller <span class="sub-count">–</span></div>
+            <div class="submenu-item" data-marca="agres"      onclick="filterMarca(this,'agres')">Agres <span class="sub-count">–</span></div>
+            <div class="submenu-item" data-marca="outras"     onclick="filterMarca(this,'outras')">Outras marcas <span class="sub-count">–</span></div>
           </div>
         </li>
-
-        <li data-cat="sensores" onclick="filterCategory(this, 'sensores')">
+        <li data-cat="sensores" onclick="filterCategory(this,'sensores')">
           <span class="cat-icon">📡</span> Sensores
-          <span class="cat-count" id="count-sensores">0</span>
+          <span class="cat-count" id="count-sensores">–</span>
         </li>
-
-        <li data-cat="monitores" onclick="filterCategory(this, 'monitores')">
+        <li data-cat="monitores" onclick="filterCategory(this,'monitores')">
           <span class="cat-icon">📟</span> Monitores Agrícolas
-          <span class="cat-count" id="count-monitores">0</span>
+          <span class="cat-count" id="count-monitores">–</span>
         </li>
-
       </ul>
     </div>
 
-    <!-- Aplicação -->
     <div class="sidebar-block">
       <h3>Aplicação</h3>
       <div class="tag-list">
-        <span class="tag-chip active" data-ap="all"              onclick="filterAplicacao(this, 'all')">Todos</span>
-        <span class="tag-chip"        data-ap="pulverizadores"   onclick="filterAplicacao(this, 'pulverizadores')">Pulverizadores</span>
-        <span class="tag-chip"        data-ap="plantadeiras"     onclick="filterAplicacao(this, 'plantadeiras')">Plantadeiras</span>
-        <span class="tag-chip"        data-ap="colheitadeiras"   onclick="filterAplicacao(this, 'colheitadeiras')">Colheitadeiras</span>
-        <span class="tag-chip"        data-ap="tratores"         onclick="filterAplicacao(this, 'tratores')">Tratores</span>
-        <span class="tag-chip"        data-ap="implementos"      onclick="filterAplicacao(this, 'implementos')">Implementos</span>
+        <span class="tag-chip active" data-ap="all"          onclick="filterAplicacao(this,'all')">Todos</span>
+        <span class="tag-chip" data-ap="pulverizadores"      onclick="filterAplicacao(this,'pulverizadores')">Pulverizadores</span>
+        <span class="tag-chip" data-ap="plantadeiras"        onclick="filterAplicacao(this,'plantadeiras')">Plantadeiras</span>
+        <span class="tag-chip" data-ap="colheitadeiras"      onclick="filterAplicacao(this,'colheitadeiras')">Colheitadeiras</span>
+        <span class="tag-chip" data-ap="tratores"            onclick="filterAplicacao(this,'tratores')">Tratores</span>
+        <span class="tag-chip" data-ap="implementos"         onclick="filterAplicacao(this,'implementos')">Implementos</span>
       </div>
     </div>
 
   </aside>
 
-  <!-- ÁREA DE PRODUTOS -->
   <main class="products-area">
-
-    <!-- Toolbar -->
     <div class="products-toolbar">
       <div>
         <h2 id="toolbarTitle">Todos os produtos</h2>
-        <p id="toolbarCount">Exibindo 1 produto</p>
+        <p id="toolbarCount">Carregando...</p>
       </div>
-      <select class="sort-select">
-        <option>Mais recentes</option>
-        <option>Nome (A–Z)</option>
-        <option>Nome (Z–A)</option>
+      <select class="sort-select" id="sortSelect" onchange="ordenar()">
+        <option value="recentes">Mais recentes</option>
+        <option value="az">Nome (A–Z)</option>
+        <option value="za">Nome (Z–A)</option>
       </select>
     </div>
-
-    <!-- Grid de produtos -->
     <div class="products-grid" id="productsGrid">
-
-      <!-- PRODUTO 1 — ISOBUS -->
-      <div class="product-card featured" data-cat="isobus" data-code="ASJ-IB01" data-aplicacao="pulverizadores plantadeiras" data-marca="">
-        <div class="product-img">
-          <div class="product-img-placeholder">
-            <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect x="8" y="14" width="48" height="32" rx="4" stroke="#0c4cae" stroke-width="2.5"/>
-              <rect x="14" y="20" width="36" height="20" rx="2" fill="#0c4cae" opacity="0.12"/>
-              <circle cx="32" cy="30" r="6" stroke="#0c4cae" stroke-width="2"/>
-              <line x1="24" y1="46" x2="40" y2="46" stroke="#0c4cae" stroke-width="2.5" stroke-linecap="round"/>
-              <line x1="32" y1="46" x2="32" y2="52" stroke="#0c4cae" stroke-width="2.5" stroke-linecap="round"/>
-              <line x1="26" y1="52" x2="38" y2="52" stroke="#0c4cae" stroke-width="2" stroke-linecap="round"/>
-            </svg>
-            <span>Imagem do produto em breve</span>
-          </div>
-        </div>
-        <div class="product-info">
-          <span class="product-category-label">Controle ISOBUS</span>
-          <p class="product-name">Sistema de Controle para Aplicação via ISOBUS</p>
-          <span class="product-code">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 9h6M9 12h6M9 15h4"/></svg>
-            ASJ-IB01
-          </span>
-          <p class="product-desc">
-            Terminal de controle agrícola com comunicação ISOBUS (ISO 11783), compatível com tratores e implementos certificados. Interface intuitiva para gerenciamento de aplicação de insumos em campo.
-          </p>
-          <div class="product-tags">
-            <span class="product-tag">ISOBUS</span>
-            <span class="product-tag">ISO 11783</span>
-            <span class="product-tag">Pulverizadores</span>
-            <span class="product-tag">Plantadeiras</span>
-          </div>
-        </div>
-        <div class="product-card-footer">
-          <button class="btn-saiba-mais" onclick="openModal('isobus')">Saiba mais</button>
-          <a class="btn-whats" href="https://wa.me/5516988616927?text=Olá,%20tenho%20interesse%20no%20Sistema%20de%20Controle%20ISOBUS%20(ASJ-IB01)." target="_blank">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-            Consultar
-          </a>
-        </div>
+      <div class="loading-state">
+        <div class="loading-spinner"></div>
+        <p>Carregando produtos...</p>
       </div>
-
-      <!-- PRODUTO PLACEHOLDER 2 (em breve) -->
-      <div class="product-card" data-cat="chicotes" data-code="" data-aplicacao="" data-marca="">
-        <div class="product-img">
-          <div class="product-img-placeholder">
-            <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M12 52 Q20 30 32 20 Q44 10 54 14" stroke="#0c4cae" stroke-width="2.5" stroke-linecap="round" fill="none" opacity="0.4"/>
-              <circle cx="12" cy="52" r="4" stroke="#0c4cae" stroke-width="2" opacity="0.4"/>
-              <circle cx="54" cy="14" r="4" stroke="#0c4cae" stroke-width="2" opacity="0.4"/>
-              <path d="M30 36 Q36 28 40 28" stroke="#0c4cae" stroke-width="2" stroke-linecap="round" fill="none" opacity="0.4"/>
-              <circle cx="40" cy="28" r="3" stroke="#0c4cae" stroke-width="2" opacity="0.4"/>
-            </svg>
-            <span>Em breve</span>
-          </div>
-        </div>
-        <div class="product-info">
-          <span class="product-category-label">Chicotes Elétricos</span>
-          <p class="product-name">Novos produtos em breve</p>
-          <p class="product-desc">
-            Estamos ampliando nosso catálogo. Entre em contato para consultar disponibilidade e projetos customizados.
-          </p>
-        </div>
-        <div class="product-card-footer">
-          <a class="btn-whats" href="https://wa.me/5516988616927?text=Olá,%20gostaria%20de%20saber%20sobre%20os%20próximos%20produtos%20da%20ASJ." target="_blank">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-            Consultar
-          </a>
-        </div>
-      </div>
-
     </div>
-    <!-- /products-grid -->
-
   </main>
 </div>
-<!-- /products-layout -->
 
-<!-- MODAL ISOBUS -->
+<!-- MODAL -->
 <div class="product-modal-overlay" id="modalOverlay" onclick="closeModalOutside(event)">
-  <div class="product-modal" id="productModal">
+  <div class="product-modal">
     <button class="modal-close" onclick="closeModal()">✕</button>
-
-    <div class="modal-img">
-      <div class="modal-img-placeholder">
-        <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect x="8" y="14" width="48" height="32" rx="4" stroke="#0c4cae" stroke-width="2.5"/>
-          <rect x="14" y="20" width="36" height="20" rx="2" fill="#0c4cae" opacity="0.12"/>
-          <circle cx="32" cy="30" r="6" stroke="#0c4cae" stroke-width="2"/>
-          <line x1="24" y1="46" x2="40" y2="46" stroke="#0c4cae" stroke-width="2.5" stroke-linecap="round"/>
-          <line x1="32" y1="46" x2="32" y2="52" stroke="#0c4cae" stroke-width="2.5" stroke-linecap="round"/>
-          <line x1="26" y1="52" x2="38" y2="52" stroke="#0c4cae" stroke-width="2" stroke-linecap="round"/>
-        </svg>
-        <p style="color:#9ab0d4;font-size:13px;text-align:center;">Imagem do produto em breve</p>
-      </div>
-    </div>
-
+    <div class="modal-img" id="modalImg"></div>
     <div class="modal-content">
-      <span class="modal-category">🖥 Controle ISOBUS</span>
-      <h2 class="modal-title">Sistema de Controle para Aplicação via ISOBUS</h2>
-      <span class="modal-code">Cód.: ASJ-IB01</span>
-
-      <p class="modal-desc">
-        Terminal desenvolvido para controle preciso de aplicação de insumos agrícolas com comunicação ISOBUS (norma ISO 11783). Compatível com tratores e implementos certificados, permite integração plug-and-play entre máquinas de diferentes fabricantes.
-      </p>
-
-      <ul class="modal-specs">
-        <li>Comunicação ISOBUS – ISO 11783 (CAN Bus)</li>
-        <li>Display colorido de alta resolução e leitura ao sol</li>
-        <li>Interface Universal Terminal (UT) compatível</li>
-        <li>Controle de seções e variação de taxa de aplicação</li>
-        <li>Conectividade com GPS e mapas de prescrição</li>
-        <li>Gabinete com proteção IP65 para uso em campo</li>
-        <li>Suporte técnico e assistência pela ASJ</li>
-      </ul>
-
-      <div class="modal-actions">
-        <a class="btn-saiba-mais" href="https://wa.me/5516988616927?text=Olá,%20tenho%20interesse%20no%20Sistema%20de%20Controle%20ISOBUS%20(ASJ-IB01)%20e%20gostaria%20de%20mais%20informações." target="_blank">
-          Solicitar informações
-        </a>
-        <a class="btn-whats" href="https://wa.me/5516988616927?text=Olá,%20quero%20um%20orçamento%20do%20ASJ-IB01." target="_blank">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-          Orçamento
-        </a>
-      </div>
+      <span class="modal-category" id="modalCat"></span>
+      <h2 class="modal-title" id="modalTitle"></h2>
+      <span class="modal-code" id="modalCode"></span>
+      <p class="modal-desc" id="modalDesc"></p>
+      <ul class="modal-specs" id="modalSpecs"></ul>
+      <div class="modal-actions" id="modalActions"></div>
     </div>
-
   </div>
 </div>
 
-<!-- BOTÃO FLUTUANTE ADMIN -->
+<!-- ADMIN FAB -->
 <button class="admin-fab" onclick="openAdmin()">⚙ Admin</button>
 
 <!-- PAINEL ADMIN -->
@@ -1171,7 +281,6 @@
   <div class="admin-panel">
     <button class="admin-close" onclick="closeAdmin()">✕</button>
 
-    <!-- LOGIN -->
     <div id="adminLogin">
       <h2>🔐 Acesso Admin</h2>
       <p class="admin-sub">Área restrita – ASJ Tecnologia</p>
@@ -1182,21 +291,18 @@
       </div>
     </div>
 
-    <!-- PAINEL APÓS LOGIN -->
     <div id="adminDashboard" style="display:none;">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
         <div>
           <h2 style="margin:0;">Gerenciar Produtos</h2>
-          <p class="admin-sub" style="margin:0;">Produtos salvos aparecem na página automaticamente</p>
+          <p class="admin-sub" style="margin:0;">☁️ Dados salvos no Google Sheets · visíveis para todos</p>
         </div>
         <button class="admin-logout" onclick="adminLogout()">Sair</button>
       </div>
 
       <button class="btn-new-product" onclick="showNewProductForm()">+ Adicionar novo produto</button>
-
       <div class="admin-product-list" id="adminProductList"></div>
 
-      <!-- FORM NOVO PRODUTO -->
       <div class="admin-form" id="adminProductForm">
         <hr style="border:none;border-top:1px solid #e4e8ee;margin:0 0 8px;">
         <strong style="font-size:15px;" id="formTitle">Novo Produto</strong>
@@ -1216,8 +322,8 @@
           <label>Imagem do produto</label>
           <input type="text" id="pImagem" placeholder="Ex: assets/chicote-stara-4500.jpg">
           <small style="color:#888;font-size:12px;margin-top:4px;">
-            📁 Salve a foto na pasta <strong>assets/</strong> do seu projeto e digite o caminho aqui.<br>
-            Exemplos: <code>assets/chicote-stara.jpg</code> · <code>assets/monitor-isobus.png</code>
+            📁 Salve a foto na pasta <strong>assets/</strong> e digite o caminho aqui.
+            Exemplo: <code>assets/chicote-stara.jpg</code>
           </small>
         </div>
 
@@ -1281,457 +387,344 @@
           </label>
         </div>
 
-        <div class="admin-success" id="adminSuccess">✅ Produto salvo com sucesso!</div>
+        <div class="admin-msg" id="adminMsg"></div>
 
         <div class="admin-actions">
           <button class="btn-admin-cancel" onclick="cancelForm()">Cancelar</button>
-          <button class="btn-admin-save" onclick="saveProduct()">Salvar produto</button>
+          <button class="btn-admin-save" id="btnSalvar" onclick="saveProduct()">Salvar produto</button>
         </div>
       </div>
     </div>
   </div>
 </div>
+
 <footer class="footer" style="background:#111;color:#aaa;text-align:center;padding:28px 0;font-size:14px;">
   <p style="margin:0;">ASJ Tecnologia Agrícola © 2026 – Todos os direitos reservados.</p>
 </footer>
 
 <button id="btnTop">↑</button>
-
 <script src="script.js?v=14"></script>
 <script>
-  /* =============================================
-     LÓGICA DA PÁGINA DE PRODUTOS
-  ============================================= */
+  /* == CONFIGURAÇÃO == */
+  const SHEETS_URL  = 'https://script.google.com/macros/s/AKfycbw5tbkMheUxCCOGcsnK3rdSVLMHbqor4rlkQnKVMN6NkJF8zBrjq84XnxhW8k0L1Y-V/exec';
+  const ADMIN_SENHA = 'ASJ16988612781asj@SILAS';
+  const WA          = 'https://wa.me/5516988616927';
+  const catLabels   = { isobus:'Controle ISOBUS', chicotes:'Chicotes Elétricos', sensores:'Sensores', monitores:'Monitores Agrícolas' };
 
-  // Estado dos filtros ativos
-  const filtros = { cat: 'all', marca: null, ap: 'all' };
+  let todosOsProdutos = [];
+  let filtros = { cat:'all', marca:null, ap:'all' };
+  let editingId = null;
 
-  function aplicarFiltros() {
-    const cards = document.querySelectorAll('.products-grid .product-card');
-    let visible = 0;
-
-    cards.forEach(card => {
-      const cat   = card.dataset.cat   || '';
-      const marca = card.dataset.marca || '';
-      const ap    = card.dataset.aplicacao || '';
-
-      const matchCat   = filtros.cat   === 'all' || cat === filtros.cat;
-      const matchMarca = !filtros.marca || marca.includes(filtros.marca);
-      const matchAp    = filtros.ap    === 'all' || ap.includes(filtros.ap);
-
-      const show = matchCat && matchMarca && matchAp;
-      card.style.display = show ? '' : 'none';
-      if (show) visible++;
-    });
-
-    document.getElementById('toolbarCount').textContent =
-      `Exibindo ${visible} produto${visible !== 1 ? 's' : ''}`;
+  /* == SHEETS == */
+  async function sheetsReq(params) {
+    const url = SHEETS_URL + '?' + new URLSearchParams(params).toString();
+    const res = await fetch(url);
+    return res.json();
   }
 
-  /* ---- CATEGORIA ---- */
-  function filterCategory(el, cat) {
-    // Se clicou em chicotes, só abre/fecha submenu — não remove active de outros
-    if (cat === 'chicotes') return; // tratado em toggleSubmenu
-    document.querySelectorAll('#categoryList li').forEach(li => li.classList.remove('active'));
-    // Fecha submenu se aberto
-    document.getElementById('submenuChicotes').classList.remove('open');
-    document.getElementById('chicotesItem').classList.remove('sub-open', 'active');
+  async function carregarProdutos() {
+    try {
+      const data = await sheetsReq({ action:'listar' });
+      if (data.ok) {
+        todosOsProdutos = data.produtos || [];
+        renderCards(todosOsProdutos);
+      } else {
+        erroGrid('Não foi possível carregar os produtos.');
+      }
+    } catch(e) { erroGrid('Erro de conexão. Verifique o Apps Script.'); }
+  }
 
-    el.classList.add('active');
-    filtros.cat   = cat;
-    filtros.marca = null;
-    document.querySelectorAll('.submenu-item').forEach(i => i.classList.remove('active'));
+  function erroGrid(msg) {
+    document.getElementById('productsGrid').innerHTML =
+      `<div class="loading-state"><p style="color:#c0392b;">⚠️ ${msg}</p></div>`;
+  }
 
-    const titles = {
-      all:      'Todos os produtos',
-      isobus:   'Controle ISOBUS',
-      sensores: 'Sensores',
-      monitores:'Monitores Agrícolas'
-    };
-    document.getElementById('toolbarTitle').textContent = titles[cat] || 'Produtos';
+  /* == HELPERS == */
+  function waSvg() {
+    return `<svg width="14" height="14" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>`;
+  }
+
+  function placeholderSvg(size) {
+    return `<svg viewBox="0 0 64 64" fill="none" style="width:${size}px;opacity:0.4">
+      <rect x="8" y="14" width="48" height="32" rx="4" stroke="#0c4cae" stroke-width="2.5"/>
+      <rect x="14" y="20" width="36" height="20" rx="2" fill="#0c4cae" opacity="0.12"/>
+      <circle cx="32" cy="30" r="6" stroke="#0c4cae" stroke-width="2"/>
+    </svg>`;
+  }
+
+  /* == RENDER CARDS == */
+  function renderCards(produtos) {
+    const grid = document.getElementById('productsGrid');
+    if (!produtos.length) {
+      grid.innerHTML = `<div class="loading-state"><p>Nenhum produto encontrado.</p></div>`;
+      atualizarContadores([]);
+      return;
+    }
+    grid.innerHTML = '';
+    produtos.forEach(p => {
+      const tags = (p.specs||[]).slice(0,3).map(s =>
+        `<span class="product-tag">${s.length>22?s.substring(0,22)+'…':s}</span>`).join('');
+      const waLink = `${WA}?text=${encodeURIComponent('Olá, tenho interesse em: '+p.nome+(p.codigo?' ('+p.codigo+')':''))}`;
+      const card = document.createElement('div');
+      card.className = `product-card${p.destaque?' featured':''}`;
+      card.dataset.cat       = p.categoria  || '';
+      card.dataset.marca     = p.marca      || '';
+      card.dataset.aplicacao = p.aplicacao  || '';
+      card.dataset.code      = p.codigo     || '';
+      card.innerHTML = `
+        <div class="product-img">
+          ${p.imagem
+            ? `<img src="${p.imagem}" alt="${p.nome}" onerror="this.parentElement.innerHTML='<div class=\\'product-img-placeholder\\'>${placeholderSvg(52).replace(/'/g,"\\'")} <span>Imagem não encontrada</span></div>'">`
+            : `<div class="product-img-placeholder">${placeholderSvg(52)}<span>Imagem em breve</span></div>`}
+        </div>
+        <div class="product-info">
+          <span class="product-category-label">${catLabels[p.categoria]||p.categoria}</span>
+          <p class="product-name">${p.nome}</p>
+          ${p.codigo   ? `<span class="product-code">${p.codigo}</span>`    : ''}
+          ${p.descricao? `<p class="product-desc">${p.descricao}</p>`       : ''}
+          <div class="product-tags">${tags}</div>
+        </div>
+        <div class="product-card-footer">
+          <button class="btn-saiba-mais" onclick="openModal('${p.id}')">Saiba mais</button>
+          <a class="btn-whats" href="${waLink}" target="_blank">${waSvg()} Consultar</a>
+        </div>`;
+      grid.appendChild(card);
+    });
+    atualizarContadores(produtos);
     aplicarFiltros();
   }
 
-  /* ---- SUBMENU CHICOTES ---- */
-  function toggleSubmenu(event, el, cat) {
-    const submenu = document.getElementById('submenuChicotes');
-    const isOpen  = submenu.classList.contains('open');
+  /* == FILTROS == */
+  function aplicarFiltros() {
+    let visible = 0;
+    document.querySelectorAll('.products-grid .product-card').forEach(card => {
+      const ok = (filtros.cat==='all' || card.dataset.cat===filtros.cat)
+              && (!filtros.marca      || card.dataset.marca===filtros.marca)
+              && (filtros.ap==='all'  || (card.dataset.aplicacao||'').includes(filtros.ap));
+      card.style.display = ok ? '' : 'none';
+      if (ok) visible++;
+    });
+    document.getElementById('toolbarCount').textContent =
+      `Exibindo ${visible} produto${visible!==1?'s':''}`;
+  }
 
-    if (isOpen) {
-      submenu.classList.remove('open');
-      el.classList.remove('sub-open', 'active');
-      // Volta para "todos" se estava filtrado por chicotes
-      if (filtros.cat === 'chicotes') {
-        filtros.cat   = 'all';
-        filtros.marca = null;
+  function filterCategory(el, cat) {
+    if (cat==='chicotes') return;
+    document.querySelectorAll('#categoryList li').forEach(li=>li.classList.remove('active'));
+    document.getElementById('submenuChicotes').classList.remove('open');
+    document.getElementById('chicotesItem').classList.remove('sub-open','active');
+    el.classList.add('active');
+    filtros.cat=cat; filtros.marca=null;
+    document.querySelectorAll('.submenu-item').forEach(i=>i.classList.remove('active'));
+    const t={all:'Todos os produtos',isobus:'Controle ISOBUS',sensores:'Sensores',monitores:'Monitores Agrícolas'};
+    document.getElementById('toolbarTitle').textContent = t[cat]||'Produtos';
+    aplicarFiltros();
+  }
+
+  function toggleSubmenu(event, el) {
+    const sub = document.getElementById('submenuChicotes');
+    const open = sub.classList.contains('open');
+    if (open) {
+      sub.classList.remove('open'); el.classList.remove('sub-open','active');
+      if (filtros.cat==='chicotes') {
+        filtros.cat='all'; filtros.marca=null;
         document.querySelector('[data-cat="all"]').classList.add('active');
-        document.getElementById('toolbarTitle').textContent = 'Todos os produtos';
+        document.getElementById('toolbarTitle').textContent='Todos os produtos';
         aplicarFiltros();
       }
     } else {
-      // Remove active dos outros itens
-      document.querySelectorAll('#categoryList li').forEach(li => li.classList.remove('active'));
-      submenu.classList.add('open');
-      el.classList.add('sub-open', 'active');
-      filtros.cat   = 'chicotes';
-      filtros.marca = null;
-      document.querySelectorAll('.submenu-item').forEach(i => i.classList.remove('active'));
-      document.getElementById('toolbarTitle').textContent = 'Chicotes Elétricos';
+      document.querySelectorAll('#categoryList li').forEach(li=>li.classList.remove('active'));
+      sub.classList.add('open'); el.classList.add('sub-open','active');
+      filtros.cat='chicotes'; filtros.marca=null;
+      document.querySelectorAll('.submenu-item').forEach(i=>i.classList.remove('active'));
+      document.getElementById('toolbarTitle').textContent='Chicotes Elétricos';
       aplicarFiltros();
     }
   }
 
-  /* ---- MARCA (submenu) ---- */
   function filterMarca(el, marca) {
-    document.querySelectorAll('.submenu-item').forEach(i => i.classList.remove('active'));
+    document.querySelectorAll('.submenu-item').forEach(i=>i.classList.remove('active'));
     el.classList.add('active');
-    filtros.cat   = 'chicotes';
-    filtros.marca = marca;
-
-    const nomes = {
-      'stara':'Stara','john-deere':'John Deere','trimble':'Trimble',
-      'hexagon':'Hexagon','raven':'Raven',
-      'muller':'Muller','agres':'Agres','outras':'Outras marcas'
-    };
-    document.getElementById('toolbarTitle').textContent =
-      `Chicotes – ${nomes[marca] || marca}`;
+    filtros.cat='chicotes'; filtros.marca=marca;
+    const n={'stara':'Stara','john-deere':'John Deere','trimble':'Trimble','hexagon':'Hexagon','raven':'Raven','muller':'Muller','agres':'Agres','outras':'Outras marcas'};
+    document.getElementById('toolbarTitle').textContent=`Chicotes – ${n[marca]||marca}`;
     aplicarFiltros();
   }
 
-  /* ---- APLICAÇÃO ---- */
   function filterAplicacao(el, ap) {
-    document.querySelectorAll('.tag-chip').forEach(c => c.classList.remove('active'));
-    el.classList.add('active');
-    filtros.ap = ap;
-    aplicarFiltros();
+    document.querySelectorAll('.tag-chip').forEach(c=>c.classList.remove('active'));
+    el.classList.add('active'); filtros.ap=ap; aplicarFiltros();
   }
 
-  /* ---- BUSCA POR CÓDIGO ---- */
   function filterByCode() {
     const val = document.getElementById('searchCode').value.trim().toUpperCase();
-    const cards = document.querySelectorAll('.products-grid .product-card');
-    let found = 0;
+    if (!val) { filtros.cat='all';filtros.marca=null;filtros.ap='all'; renderCards(todosOsProdutos); document.getElementById('toolbarTitle').textContent='Todos os produtos'; return; }
+    renderCards(todosOsProdutos.filter(p=>(p.codigo||'').toUpperCase().includes(val)||(p.nome||'').toUpperCase().includes(val)));
+    document.getElementById('toolbarTitle').textContent=`Busca: "${val}"`;
+  }
+  document.getElementById('searchCode').addEventListener('keydown',e=>{if(e.key==='Enter')filterByCode();});
 
-    if (!val) {
-      filtros.cat = 'all'; filtros.marca = null; filtros.ap = 'all';
-      aplicarFiltros();
-      document.getElementById('toolbarTitle').textContent = 'Todos os produtos';
-      return;
-    }
-
-    cards.forEach(card => {
-      const code = (card.dataset.code || '').toUpperCase();
-      const match = code.includes(val);
-      card.style.display = match ? '' : 'none';
-      if (match) found++;
-    });
-    document.getElementById('toolbarTitle').textContent = `Busca: "${val}"`;
-    document.getElementById('toolbarCount').textContent =
-      `${found} produto${found !== 1 ? 's' : ''} encontrado${found !== 1 ? 's' : ''}`;
+  function ordenar() {
+    const v=document.getElementById('sortSelect').value;
+    let l=[...todosOsProdutos];
+    if(v==='az') l.sort((a,b)=>a.nome.localeCompare(b.nome));
+    if(v==='za') l.sort((a,b)=>b.nome.localeCompare(a.nome));
+    renderCards(l);
   }
 
-  document.getElementById('searchCode').addEventListener('keydown', e => {
-    if (e.key === 'Enter') filterByCode();
-  });
+  function atualizarContadores(produtos) {
+    const c={all:0,isobus:0,chicotes:0,sensores:0,monitores:0};
+    produtos.forEach(p=>{c.all++;if(c[p.categoria]!==undefined)c[p.categoria]++;});
+    Object.keys(c).forEach(k=>{const el=document.getElementById('count-'+k);if(el)el.textContent=c[k];});
+    document.getElementById('toolbarCount').textContent=`Exibindo ${c.all} produto${c.all!==1?'s':''}`;
+  }
 
-  /* ---- MODAL ---- */
+  /* == MODAL == */
   function openModal(id) {
+    const p = todosOsProdutos.find(x=>x.id===id); if(!p) return;
+    const waLink=`${WA}?text=${encodeURIComponent('Olá, tenho interesse em: '+p.nome+(p.codigo?' ('+p.codigo+')':''))}`;
+    document.getElementById('modalCat').textContent   = catLabels[p.categoria]||p.categoria;
+    document.getElementById('modalTitle').textContent = p.nome;
+    document.getElementById('modalCode').textContent  = p.codigo?'Cód.: '+p.codigo:'';
+    document.getElementById('modalDesc').textContent  = p.descricao||'';
+    document.getElementById('modalSpecs').innerHTML   = (p.specs||[]).map(s=>`<li>${s}</li>`).join('');
+    document.getElementById('modalActions').innerHTML =
+      `<a class="btn-saiba-mais" href="${waLink}" target="_blank">Solicitar informações</a>
+       <a class="btn-whats" href="${waLink}" target="_blank">${waSvg()} Orçamento</a>`;
+    document.getElementById('modalImg').innerHTML = p.imagem
+      ? `<img src="${p.imagem}" alt="${p.nome}" style="width:100%;height:100%;object-fit:cover;">`
+      : `<div class="modal-img-placeholder">${placeholderSvg(70)}<p style="color:#9ab0d4;font-size:13px;">Imagem em breve</p></div>`;
     document.getElementById('modalOverlay').classList.add('open');
-    document.body.style.overflow = 'hidden';
+    document.body.style.overflow='hidden';
   }
+  function closeModal() { document.getElementById('modalOverlay').classList.remove('open'); document.body.style.overflow=''; }
+  function closeModalOutside(e) { if(e.target===document.getElementById('modalOverlay')) closeModal(); }
 
-  function closeModal() {
-    document.getElementById('modalOverlay').classList.remove('open');
-    document.body.style.overflow = '';
-  }
-
-  function closeModalOutside(event) {
-    if (event.target === document.getElementById('modalOverlay')) closeModal();
-  }
-
-  /* =============================================
-     PAINEL ADMIN
-  ============================================= */
-
-  const ADMIN_SENHA = 'asj2026'; // ← Troque esta senha!
-  let editingId = null;
-
+  /* == ADMIN == */
   function openAdmin() {
     document.getElementById('adminOverlay').classList.add('open');
-    document.body.style.overflow = 'hidden';
-    // Verifica se já está logado
-    if (sessionStorage.getItem('asjAdmin') === '1') {
-      showDashboard();
-    }
+    document.body.style.overflow='hidden';
+    if(sessionStorage.getItem('asjAdmin')==='1') showDashboard();
   }
-
-  function closeAdmin() {
-    document.getElementById('adminOverlay').classList.remove('open');
-    document.body.style.overflow = '';
-  }
-
-  function closeAdminOutside(e) {
-    if (e.target === document.getElementById('adminOverlay')) closeAdmin();
-  }
+  function closeAdmin() { document.getElementById('adminOverlay').classList.remove('open'); document.body.style.overflow=''; }
+  function closeAdminOutside(e) { if(e.target===document.getElementById('adminOverlay')) closeAdmin(); }
+  document.addEventListener('keydown',e=>{ if(e.key==='Escape'){closeModal();closeAdmin();} });
 
   function checkLogin() {
-    const pass = document.getElementById('adminPass').value;
-    if (pass === ADMIN_SENHA) {
-      sessionStorage.setItem('asjAdmin', '1');
-      document.getElementById('adminError').style.display = 'none';
-      document.getElementById('adminPass').value = '';
+    const pass=document.getElementById('adminPass').value;
+    if(pass===ADMIN_SENHA) {
+      sessionStorage.setItem('asjAdmin','1');
+      document.getElementById('adminError').style.display='none';
+      document.getElementById('adminPass').value='';
       showDashboard();
-    } else {
-      document.getElementById('adminError').style.display = 'block';
-    }
+    } else { document.getElementById('adminError').style.display='block'; }
   }
 
   function adminLogout() {
     sessionStorage.removeItem('asjAdmin');
-    document.getElementById('adminLogin').style.display = 'block';
-    document.getElementById('adminDashboard').style.display = 'none';
+    document.getElementById('adminLogin').style.display='block';
+    document.getElementById('adminDashboard').style.display='none';
   }
 
   function showDashboard() {
-    document.getElementById('adminLogin').style.display = 'none';
-    document.getElementById('adminDashboard').style.display = 'block';
+    document.getElementById('adminLogin').style.display='none';
+    document.getElementById('adminDashboard').style.display='block';
     renderAdminList();
   }
 
-  /* ---- STORAGE DE PRODUTOS ---- */
-  function getProdutos() {
-    try { return JSON.parse(localStorage.getItem('asjProdutos') || '[]'); }
-    catch(e) { return []; }
-  }
-
-  function setProdutos(arr) {
-    localStorage.setItem('asjProdutos', JSON.stringify(arr));
-  }
-
-  /* ---- LISTA NO ADMIN ---- */
   function renderAdminList() {
-    const lista = document.getElementById('adminProductList');
-    const produtos = getProdutos();
-    lista.innerHTML = '';
-
-    if (!produtos.length) {
-      lista.innerHTML = '<p style="color:#aaa;font-size:13px;text-align:center;">Nenhum produto cadastrado ainda.</p>';
-      return;
-    }
-
-    produtos.forEach(p => {
-      const div = document.createElement('div');
-      div.className = 'admin-product-item';
-      div.innerHTML = `
-        <div>
-          <strong>${p.nome}</strong><br>
-          <span>${p.codigo || 'Sem código'} · ${p.categoria}</span>
-        </div>
-        <button class="btn-del" onclick="deleteProduct('${p.id}')">Excluir</button>
-      `;
+    const lista=document.getElementById('adminProductList');
+    if(!todosOsProdutos.length){lista.innerHTML='<p style="color:#aaa;font-size:13px;text-align:center;">Nenhum produto cadastrado ainda.</p>';return;}
+    lista.innerHTML='';
+    todosOsProdutos.forEach(p=>{
+      const div=document.createElement('div');
+      div.className='admin-product-item';
+      div.innerHTML=`<div><strong>${p.nome}</strong><br><span>${p.codigo||'Sem código'} · ${catLabels[p.categoria]||p.categoria}</span></div>
+        <button class="btn-del" onclick="deleteProduct('${p.id}')">Excluir</button>`;
       lista.appendChild(div);
     });
   }
 
-  /* ---- FORM ---- */
   function showNewProductForm() {
-    editingId = null;
-    document.getElementById('formTitle').textContent = 'Novo Produto';
-    document.getElementById('pNome').value = '';
-    document.getElementById('pCodigo').value = '';
-    document.getElementById('pImagem').value = '';
-    document.getElementById('pCategoria').value = 'chicotes';
-    document.getElementById('pMarca').value = '';
-    document.getElementById('pDesc').value = '';
-    document.getElementById('pDestaque').checked = false;
-    document.getElementById('adminSuccess').style.display = 'none';
-    // Limpa checkboxes
-    document.querySelectorAll('#pAplicacaoGroup input').forEach(c => c.checked = false);
-    // Specs: 1 linha vazia
-    document.getElementById('specsList').innerHTML = `
-      <div class="admin-spec-row">
-        <input type="text" placeholder="Ex: Comunicação CAN Bus ISO 11783">
-        <button onclick="removeSpec(this)">×</button>
-      </div>`;
+    editingId=null;
+    document.getElementById('formTitle').textContent='Novo Produto';
+    ['pNome','pCodigo','pImagem','pDesc'].forEach(id=>document.getElementById(id).value='');
+    document.getElementById('pCategoria').value='chicotes';
+    document.getElementById('pMarca').value='';
+    document.getElementById('pDestaque').checked=false;
+    document.querySelectorAll('#pAplicacaoGroup input').forEach(c=>c.checked=false);
+    document.getElementById('specsList').innerHTML=`<div class="admin-spec-row"><input type="text" placeholder="Ex: Comunicação CAN Bus ISO 11783"><button onclick="removeSpec(this)">×</button></div>`;
+    setMsg('','');
     document.getElementById('adminProductForm').classList.add('visible');
     document.getElementById('adminProductForm').scrollIntoView({behavior:'smooth'});
   }
 
-  function cancelForm() {
-    document.getElementById('adminProductForm').classList.remove('visible');
-    editingId = null;
-  }
+  function cancelForm() { document.getElementById('adminProductForm').classList.remove('visible'); editingId=null; }
 
   function addSpec() {
-    const list = document.getElementById('specsList');
-    const row = document.createElement('div');
-    row.className = 'admin-spec-row';
-    row.innerHTML = `<input type="text" placeholder="Especificação técnica...">
-                     <button onclick="removeSpec(this)">×</button>`;
-    list.appendChild(row);
-    row.querySelector('input').focus();
+    const list=document.getElementById('specsList');
+    const row=document.createElement('div'); row.className='admin-spec-row';
+    row.innerHTML=`<input type="text" placeholder="Especificação técnica..."><button onclick="removeSpec(this)">×</button>`;
+    list.appendChild(row); row.querySelector('input').focus();
   }
 
   function removeSpec(btn) {
-    const list = document.getElementById('specsList');
-    if (list.children.length > 1) btn.parentElement.remove();
-    else btn.previousElementSibling.value = '';
+    const list=document.getElementById('specsList');
+    if(list.children.length>1) btn.parentElement.remove();
+    else btn.previousElementSibling.value='';
   }
 
-  function saveProduct() {
-    const nome = document.getElementById('pNome').value.trim();
-    if (!nome) { alert('Informe o nome do produto.'); return; }
+  function setMsg(tipo, texto) {
+    const el=document.getElementById('adminMsg');
+    el.className='admin-msg'+(tipo?' '+tipo:'');
+    el.textContent=texto;
+    el.style.display=texto?'block':'none';
+  }
 
-    const aplicacoes = [...document.querySelectorAll('#pAplicacaoGroup input:checked')]
-      .map(c => c.value).join(' ');
+  async function saveProduct() {
+    const nome=document.getElementById('pNome').value.trim();
+    if(!nome){alert('Informe o nome do produto.');return;}
 
-    const specs = [...document.querySelectorAll('#specsList input')]
-      .map(i => i.value.trim()).filter(Boolean);
-
-    const produto = {
-      id: editingId || Date.now().toString(),
+    const produto={
+      id:        editingId||Date.now().toString(),
       nome,
-      codigo:     document.getElementById('pCodigo').value.trim(),
-      imagem:     document.getElementById('pImagem').value.trim(),
-      categoria:  document.getElementById('pCategoria').value,
-      marca:      document.getElementById('pMarca').value,
-      aplicacao:  aplicacoes,
-      descricao:  document.getElementById('pDesc').value.trim(),
-      specs,
-      destaque:   document.getElementById('pDestaque').checked
+      codigo:    document.getElementById('pCodigo').value.trim(),
+      imagem:    document.getElementById('pImagem').value.trim(),
+      categoria: document.getElementById('pCategoria').value,
+      marca:     document.getElementById('pMarca').value,
+      aplicacao: [...document.querySelectorAll('#pAplicacaoGroup input:checked')].map(c=>c.value).join(' '),
+      descricao: document.getElementById('pDesc').value.trim(),
+      specs:     [...document.querySelectorAll('#specsList input')].map(i=>i.value.trim()).filter(Boolean),
+      destaque:  document.getElementById('pDestaque').checked
     };
 
-    const produtos = getProdutos().filter(p => p.id !== produto.id);
-    produtos.push(produto);
-    setProdutos(produtos);
+    const btn=document.getElementById('btnSalvar');
+    btn.disabled=true;
+    setMsg('info','⏳ Salvando no Google Sheets...');
 
-    document.getElementById('adminSuccess').style.display = 'block';
-    setTimeout(() => {
-      document.getElementById('adminProductForm').classList.remove('visible');
-      document.getElementById('adminSuccess').style.display = 'none';
-      renderAdminList();
-      renderProductCards(); // Atualiza o grid
-    }, 1200);
+    try {
+      const data=await sheetsReq({action:'salvar',produto:JSON.stringify(produto)});
+      if(data.ok){
+        setMsg('success','✅ Produto salvo com sucesso!');
+        await carregarProdutos();
+        renderAdminList();
+        setTimeout(()=>{ setMsg('',''); cancelForm(); },1500);
+      } else { throw new Error(data.erro||'Erro desconhecido'); }
+    } catch(e) { setMsg('erro','❌ Erro: '+e.message); }
+    finally { btn.disabled=false; }
   }
 
-  function deleteProduct(id) {
-    if (!confirm('Excluir este produto?')) return;
-    setProdutos(getProdutos().filter(p => p.id !== id));
-    renderAdminList();
-    renderProductCards();
+  async function deleteProduct(id) {
+    if(!confirm('Excluir este produto? Esta ação não pode ser desfeita.')) return;
+    try {
+      const data=await sheetsReq({action:'excluir',id});
+      if(data.ok){ await carregarProdutos(); renderAdminList(); }
+      else { alert('Erro ao excluir: '+(data.erro||'')); }
+    } catch(e){ alert('Erro de conexão ao excluir.'); }
   }
 
-  /* ---- RENDERIZAR CARDS DO LOCALSTORAGE ---- */
-  const WA = 'https://wa.me/5516988616927';
-  const WAMSG = encodeURIComponent('Olá, tenho interesse em um produto da ASJ e gostaria de mais informações.');
-
-  function svgIcon() {
-    return `<svg width="14" height="14" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>`;
-  }
-
-  const catLabels = {
-    isobus:'Controle ISOBUS', chicotes:'Chicotes Elétricos',
-    sensores:'Sensores', monitores:'Monitores Agrícolas'
-  };
-
-  function renderProductCards() {
-    const grid = document.getElementById('productsGrid');
-    // Remove cards dinâmicos anteriores
-    grid.querySelectorAll('.dynamic-card').forEach(c => c.remove());
-
-    const produtos = getProdutos();
-    produtos.forEach(p => {
-      const tags = p.specs.slice(0,3).map(s =>
-        `<span class="product-tag">${s.length > 20 ? s.substring(0,20)+'…' : s}</span>`
-      ).join('');
-
-      const card = document.createElement('div');
-      card.className = `product-card dynamic-card${p.destaque ? ' featured' : ''}`;
-      card.dataset.cat = p.categoria;
-      card.dataset.marca = p.marca || '';
-      card.dataset.aplicacao = p.aplicacao || '';
-      card.dataset.code = p.codigo || '';
-
-      card.innerHTML = `
-        <div class="product-img">
-          ${p.imagem
-            ? `<img src="${p.imagem}" alt="${p.nome}" onerror="this.parentElement.innerHTML='<div class=\\'product-img-placeholder\\'><svg viewBox=\\'0 0 64 64\\' fill=\\'none\\'><rect x=\\'8\\' y=\\'14\\' width=\\'48\\' height=\\'32\\' rx=\\'4\\' stroke=\\'#0c4cae\\' stroke-width=\\'2.5\\'/></svg><span>Imagem não encontrada</span></div>'">`
-            : `<div class="product-img-placeholder">
-                <svg viewBox="0 0 64 64" fill="none"><rect x="8" y="14" width="48" height="32" rx="4" stroke="#0c4cae" stroke-width="2.5"/><rect x="14" y="20" width="36" height="20" rx="2" fill="#0c4cae" opacity="0.12"/><circle cx="32" cy="30" r="6" stroke="#0c4cae" stroke-width="2"/></svg>
-                <span>Imagem em breve</span>
-              </div>`
-          }
-        </div>
-        <div class="product-info">
-          <span class="product-category-label">${catLabels[p.categoria] || p.categoria}</span>
-          <p class="product-name">${p.nome}</p>
-          ${p.codigo ? `<span class="product-code">${p.codigo}</span>` : ''}
-          ${p.descricao ? `<p class="product-desc">${p.descricao}</p>` : ''}
-          <div class="product-tags">${tags}</div>
-        </div>
-        <div class="product-card-footer">
-          <button class="btn-saiba-mais" onclick="openDynamicModal('${p.id}')">Saiba mais</button>
-          <a class="btn-whats" href="${WA}?text=${encodeURIComponent('Olá, tenho interesse em: '+p.nome+(p.codigo?' ('+p.codigo+')':''))}" target="_blank">
-            ${svgIcon()} Consultar
-          </a>
-        </div>`;
-
-      grid.appendChild(card);
-    });
-
-    // Atualiza contadores
-    atualizarContadores();
-    aplicarFiltros();
-  }
-
-  function atualizarContadores() {
-    const cards = document.querySelectorAll('.products-grid .product-card');
-    const counts = { all: 0, isobus: 0, chicotes: 0, sensores: 0, monitores: 0 };
-    cards.forEach(c => {
-      counts.all++;
-      const cat = c.dataset.cat;
-      if (counts[cat] !== undefined) counts[cat]++;
-    });
-    Object.keys(counts).forEach(k => {
-      const el = document.getElementById('count-'+k);
-      if (el) el.textContent = counts[k];
-    });
-    document.getElementById('toolbarCount').textContent =
-      `Exibindo ${counts.all} produto${counts.all !== 1 ? 's' : ''}`;
-  }
-
-  /* ---- MODAL DINÂMICO ---- */
-  function openDynamicModal(id) {
-    const p = getProdutos().find(x => x.id === id);
-    if (!p) return;
-
-    const specsHtml = p.specs.map(s => `<li>${s}</li>`).join('');
-    const waLink = `${WA}?text=${encodeURIComponent('Olá, tenho interesse em: '+p.nome+(p.codigo?' ('+p.codigo+')':''))}`;
-
-    document.querySelector('.modal-category').textContent = catLabels[p.categoria] || p.categoria;
-    document.querySelector('.modal-title').textContent = p.nome;
-    document.querySelector('.modal-code').textContent = p.codigo ? 'Cód.: '+p.codigo : '';
-    document.querySelector('.modal-desc').textContent = p.descricao || '';
-    document.querySelector('.modal-specs').innerHTML = specsHtml;
-    document.querySelectorAll('.modal-actions a').forEach(a => a.href = waLink);
-
-    // Imagem no modal
-    const modalImgEl = document.querySelector('.modal-img');
-    if (p.imagem) {
-      modalImgEl.innerHTML = `<img src="${p.imagem}" alt="${p.nome}" style="width:100%;height:100%;object-fit:cover;">`;
-    } else {
-      modalImgEl.innerHTML = `<div class="modal-img-placeholder">
-        <svg viewBox="0 0 64 64" fill="none" style="width:70px;opacity:0.4"><rect x="8" y="14" width="48" height="32" rx="4" stroke="#0c4cae" stroke-width="2.5"/><rect x="14" y="20" width="36" height="20" rx="2" fill="#0c4cae" opacity="0.12"/><circle cx="32" cy="30" r="6" stroke="#0c4cae" stroke-width="2"/></svg>
-        <p style="color:#9ab0d4;font-size:13px;text-align:center;">Imagem do produto em breve</p>
-      </div>`;
-    }
-
-    document.getElementById('modalOverlay').classList.add('open');
-    document.body.style.overflow = 'hidden';
-  }
-
-  // Carrega produtos salvos ao abrir a página
-  renderProductCards();
+  /* == INIT == */
+  carregarProdutos();
 </script>
 </body>
 </html>
