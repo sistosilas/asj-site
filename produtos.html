@@ -407,7 +407,7 @@
 <script>
   /* == CONFIGURAÇÃO == */
   const SHEETS_URL  = 'https://script.google.com/macros/s/AKfycbw5tbkMheUxCCOGcsnK3rdSVLMHbqor4rlkQnKVMN6NkJF8zBrjq84XnxhW8k0L1Y-V/exec';
-  const ADMIN_SENHA = 'ASJ16988612781asj@SILAS';
+  const ADMIN_SENHA = 'asj2026';
   const WA          = 'https://wa.me/5516988616927';
   const catLabels   = { isobus:'Controle ISOBUS', chicotes:'Chicotes Elétricos', sensores:'Sensores', monitores:'Monitores Agrícolas' };
 
@@ -471,12 +471,11 @@
       card.dataset.marca     = p.marca      || '';
       card.dataset.aplicacao = p.aplicacao  || '';
       card.dataset.code      = p.codigo     || '';
+      const imgHtml = p.imagem
+        ? `<img src="${p.imagem}" alt="${p.nome}" style="width:100%;height:100%;object-fit:cover;" onerror="this.parentElement.innerHTML='<div class=\\'product-img-placeholder\\'><span>Imagem não encontrada</span></div>'">`
+        : `<div class="product-img-placeholder">${placeholderSvg(52)}<span>Imagem em breve</span></div>`;
       card.innerHTML = `
-        <div class="product-img">
-          ${p.imagem
-            ? `<img src="${p.imagem}" alt="${p.nome}" onerror="this.parentElement.innerHTML='<div class=\\'product-img-placeholder\\'>${placeholderSvg(52).replace(/'/g,"\\'")} <span>Imagem não encontrada</span></div>'">`
-            : `<div class="product-img-placeholder">${placeholderSvg(52)}<span>Imagem em breve</span></div>`}
-        </div>
+        <div class="product-img">${imgHtml}</div>
         <div class="product-info">
           <span class="product-category-label">${catLabels[p.categoria]||p.categoria}</span>
           <p class="product-name">${p.nome}</p>
