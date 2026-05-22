@@ -267,6 +267,51 @@
       color: rgba(255,255,255,.82);
     }
 
+    /* ── VÍDEO ──────────────────────────────────────────────── */
+    .lp-video-wrap {
+      position: relative;
+      width: 100%;
+      max-width: 900px;
+      margin: 0 auto;
+      border-radius: 20px;
+      overflow: hidden;
+      background: #000;
+      box-shadow: 0 20px 60px rgba(0,0,0,.5);
+    }
+
+    .lp-video-wrap video {
+      width: 100%;
+      display: block;
+      aspect-ratio: 16/9;
+      object-fit: cover;
+    }
+
+    .lp-video-sound {
+      position: absolute;
+      bottom: 18px;
+      right: 18px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(0,0,0,.55);
+      border: 1px solid rgba(255,255,255,.25);
+      color: #fff;
+      padding: 8px 16px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      backdrop-filter: blur(4px);
+      transition: background .15s;
+    }
+
+    .lp-video-sound:hover { background: rgba(0,0,0,.75); }
+
+    @media (max-width: 680px) {
+      .lp-video-wrap { border-radius: 12px; }
+      .lp-video-sound { bottom: 12px; right: 12px; padding: 6px 12px; font-size: 12px; }
+    }
+
     /* ── BENEFÍCIOS PRODUTOR ────────────────────────────────── */
     .lp-benefits {
       display: grid;
@@ -619,7 +664,7 @@
         <h3>DPM100 — Monitor de Plantio</h3>
         <ul>
           <li>Monitora sementes linha a linha em tempo real</li>
-          <li>Controle de inoculante líquido integrado</li>
+          <li>Monitoramento de inoculante líquido integrado</li>
           <li>Distribuição de adubo monitorada por linha</li>
           <li>Display touchscreen com interface dedicada</li>
           <li>Compatível com plantadeiras de 1 a 40 linhas</li>
@@ -644,7 +689,7 @@
     <div class="lp-title">
       <span class="eyebrow">O Produto</span>
       <h2>Tudo que o produtor precisa,<br>em um único monitor</h2>
-      <p>O DPM100 entrega controle total da plantadora em um display touchscreen compacto e robusto — sem necessidade de múltiplos equipamentos.</p>
+      <p>O DPM100 entrega visibilidade total da plantadora em um display touchscreen compacto e robusto — sem necessidade de múltiplos equipamentos.</p>
     </div>
 
     <div class="lp-highlights">
@@ -656,15 +701,36 @@
 
       <div class="lp-highlight-card">
         <div class="lp-highlight-icon">💧</div>
-        <h3>Controle de Inoculante</h3>
+        <h3>Monitoramento de Inoculante</h3>
         <p>Monitoramento do inoculante líquido integrado à mesma tela. Identifica falhas na aplicação antes de comprometer a lavoura.</p>
       </div>
 
       <div class="lp-highlight-card">
         <div class="lp-highlight-icon">⚗️</div>
         <h3>Distribuição de Adubo</h3>
-        <p>Acompanhe a distribuição de adubo linha a linha. Controle preciso da dosagem para reduzir desperdício e aumentar a produtividade.</p>
+        <p>Acompanhe a distribuição de adubo linha a linha. Monitoramento preciso da dosagem para identificar falhas e reduzir desperdício.</p>
       </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- VÍDEO DPM100 -->
+<section class="lp-section dark" style="padding: 60px 0;">
+  <div class="container">
+    <div class="lp-title" style="margin-bottom: 36px;">
+      <span class="eyebrow">Veja em ação</span>
+      <h2>O DPM100 trabalhando no campo</h2>
+    </div>
+
+    <div class="lp-video-wrap">
+      <video id="dpm100Video" autoplay muted loop playsinline preload="metadata">
+        <source src="assets/dpm100.mp4" type="video/mp4">
+      </video>
+      <button class="lp-video-sound" id="dpm100SoundBtn" onclick="toggleDpm100Sound()">
+        <span id="dpm100SoundIcon">🔇</span>
+        <span id="dpm100SoundText">Ativar som</span>
+      </button>
     </div>
   </div>
 </section>
@@ -701,7 +767,7 @@
       <div class="lp-benefit">
         <div class="lp-benefit-icon">💰</div>
         <h4>Economia de Insumos</h4>
-        <p>Controle preciso de dosagem reduz desperdício de sementes, inoculante e adubo.</p>
+        <p>Monitoramento preciso da dosagem permite identificar falhas e reduzir desperdício de sementes, inoculante e adubo.</p>
       </div>
 
       <div class="lp-benefit">
@@ -936,7 +1002,7 @@
       <div class="lp-kit-item">
         <div class="lp-kit-icon">🖥️</div>
         <h4>Central de Controle</h4>
-        <p>Display touchscreen com processador dedicado para visualização e controle.</p>
+        <p>Display touchscreen com processador dedicado para visualização e monitoramento em tempo real.</p>
       </div>
 
       <div class="lp-kit-item">
@@ -995,6 +1061,15 @@
   </div>
 </footer>
 
+
+<script>
+  function toggleDpm100Sound() {
+    const v = document.getElementById('dpm100Video');
+    v.muted = !v.muted;
+    document.getElementById('dpm100SoundIcon').textContent = v.muted ? '🔇' : '🔊';
+    document.getElementById('dpm100SoundText').textContent = v.muted ? 'Ativar som' : 'Silenciar';
+  }
+</script>
 
 <!-- STICKY CTA MOBILE -->
 <a href="https://wa.me/5516988616927?text=Olá,%20tenho%20interesse%20no%20Monitor%20DPM100." target="_blank" rel="noopener" class="sticky-wpp">
