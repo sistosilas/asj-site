@@ -1,0 +1,989 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Monitor DPM100 — Semente + Inoculante + Adubo em Uma Tela | ASJ Tecnologia</title>
+  <meta name="description" content="Monitor de plantio DPM100 da ASJ Tecnologia: monitoramento de sementes, inoculante e adubo em um único display touchscreen. Exclusivo para revendas e fabricantes de implementos.">
+  <link rel="stylesheet" href="style.css?v=14">
+  <style>
+    /* ── RESET LANDING ─────────────────────────────────────── */
+    :root {
+      --blue:    #0c4cae;
+      --dark:    #061a3a;
+      --green:   #1a7a34;
+      --green2:  #22a347;
+      --gold:    #e8a900;
+      --light:   #f4f6fa;
+      --text:    #1a1a2e;
+      --radius:  12px;
+    }
+
+    .lp-section { padding: 80px 0; }
+    .lp-section.gray { background: var(--light); }
+    .lp-section.dark { background: var(--dark); color: #fff; }
+    .lp-section.blue { background: var(--blue); color: #fff; }
+    .lp-section.green { background: var(--green); color: #fff; }
+
+    /* ── HERO ──────────────────────────────────────────────── */
+    .lp-hero {
+      background: linear-gradient(135deg, #061a3a 0%, #0c4cae 55%, #0e5fc4 100%);
+      color: #fff;
+      padding: 70px 0 80px;
+    }
+
+    .lp-hero-badge {
+      display: inline-block;
+      background: var(--gold);
+      color: #3a2500;
+      font-weight: 800;
+      font-size: 13px;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+      padding: 6px 16px;
+      border-radius: 999px;
+      margin-bottom: 22px;
+    }
+
+    .lp-hero h1 {
+      font-size: 46px;
+      font-weight: 900;
+      line-height: 1.1;
+      margin: 0 0 18px;
+      max-width: 640px;
+    }
+
+    .lp-hero h1 em {
+      font-style: normal;
+      color: var(--gold);
+    }
+
+    .lp-hero p.lead {
+      font-size: 20px;
+      opacity: .9;
+      max-width: 560px;
+      line-height: 1.55;
+      margin: 0 0 36px;
+    }
+
+    .lp-hero-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 60px;
+      align-items: center;
+    }
+
+    .lp-hero-card {
+      background: rgba(255,255,255,.09);
+      border: 1px solid rgba(255,255,255,.18);
+      border-radius: 18px;
+      padding: 32px 28px;
+    }
+
+    .lp-hero-card h3 {
+      font-size: 17px;
+      font-weight: 800;
+      margin: 0 0 20px;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      color: var(--gold);
+    }
+
+    .lp-hero-card ul {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .lp-hero-card ul li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 15px;
+      line-height: 1.45;
+    }
+
+    .lp-hero-card ul li::before {
+      content: "✔";
+      color: var(--gold);
+      font-weight: 900;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    /* ── BUTTONS ───────────────────────────────────────────── */
+    .btn-wpp {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--green2);
+      color: #fff;
+      font-size: 17px;
+      font-weight: 800;
+      padding: 16px 32px;
+      border-radius: 999px;
+      text-decoration: none;
+      box-shadow: 0 6px 24px rgba(34,163,71,.35);
+      transition: transform .15s, box-shadow .15s;
+    }
+
+    .btn-wpp:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(34,163,71,.45);
+    }
+
+    .btn-wpp svg { flex-shrink: 0; }
+
+    .btn-wpp-outline {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: transparent;
+      color: var(--green2);
+      font-size: 16px;
+      font-weight: 800;
+      padding: 15px 30px;
+      border: 2px solid var(--green2);
+      border-radius: 999px;
+      text-decoration: none;
+      transition: background .15s, color .15s;
+    }
+
+    .btn-wpp-outline:hover {
+      background: var(--green2);
+      color: #fff;
+    }
+
+    .btn-center { text-align: center; margin-top: 40px; }
+
+    /* ── PRODUTO HIGHLIGHTS ─────────────────────────────────── */
+    .lp-highlights {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 50px;
+    }
+
+    .lp-highlight-card {
+      background: #fff;
+      border-radius: var(--radius);
+      padding: 30px 26px;
+      text-align: center;
+      box-shadow: 0 4px 20px rgba(0,0,0,.07);
+      transition: transform .2s;
+    }
+
+    .lp-highlight-card:hover { transform: translateY(-4px); }
+
+    .lp-highlight-icon {
+      width: 64px;
+      height: 64px;
+      background: linear-gradient(135deg, #0c4cae, #1565d8);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 18px;
+      font-size: 26px;
+    }
+
+    .lp-highlight-card h3 {
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--dark);
+      margin: 0 0 10px;
+    }
+
+    .lp-highlight-card p {
+      font-size: 14.5px;
+      color: #555;
+      line-height: 1.55;
+      margin: 0;
+    }
+
+    /* ── SEÇÃO TÍTULO ──────────────────────────────────────── */
+    .lp-title {
+      text-align: center;
+      margin-bottom: 50px;
+    }
+
+    .lp-title .eyebrow {
+      display: inline-block;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--blue);
+      margin-bottom: 10px;
+    }
+
+    .lp-section.dark .lp-title .eyebrow,
+    .lp-section.blue .lp-title .eyebrow,
+    .lp-section.green .lp-title .eyebrow {
+      color: var(--gold);
+    }
+
+    .lp-title h2 {
+      font-size: 36px;
+      font-weight: 900;
+      color: var(--dark);
+      margin: 0 0 14px;
+      line-height: 1.15;
+    }
+
+    .lp-section.dark .lp-title h2,
+    .lp-section.blue .lp-title h2,
+    .lp-section.green .lp-title h2 {
+      color: #fff;
+    }
+
+    .lp-title p {
+      font-size: 17px;
+      color: #555;
+      max-width: 620px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    .lp-section.dark .lp-title p,
+    .lp-section.blue .lp-title p,
+    .lp-section.green .lp-title p {
+      color: rgba(255,255,255,.82);
+    }
+
+    /* ── BENEFÍCIOS PRODUTOR ────────────────────────────────── */
+    .lp-benefits {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+
+    .lp-benefit {
+      background: #fff;
+      border-radius: var(--radius);
+      padding: 24px 20px;
+      text-align: center;
+      box-shadow: 0 2px 14px rgba(0,0,0,.06);
+    }
+
+    .lp-benefit-icon { font-size: 36px; margin-bottom: 12px; }
+
+    .lp-benefit h4 {
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--dark);
+      margin: 0 0 8px;
+    }
+
+    .lp-benefit p {
+      font-size: 13.5px;
+      color: #666;
+      margin: 0;
+      line-height: 1.5;
+    }
+
+    /* ── POR QUE REVENDER ───────────────────────────────────── */
+    .lp-reasons {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 22px;
+    }
+
+    .lp-reason {
+      display: flex;
+      gap: 18px;
+      align-items: flex-start;
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.14);
+      border-radius: var(--radius);
+      padding: 24px 22px;
+    }
+
+    .lp-reason-num {
+      min-width: 42px;
+      height: 42px;
+      background: var(--gold);
+      color: #3a2500;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      font-weight: 900;
+    }
+
+    .lp-reason h4 {
+      font-size: 16px;
+      font-weight: 800;
+      margin: 0 0 6px;
+      color: #fff;
+    }
+
+    .lp-reason p {
+      font-size: 14px;
+      color: rgba(255,255,255,.78);
+      margin: 0;
+      line-height: 1.5;
+    }
+
+    /* ── SPECS ──────────────────────────────────────────────── */
+    .lp-specs-table {
+      width: 100%;
+      border-collapse: collapse;
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0,0,0,.08);
+    }
+
+    .lp-specs-table th {
+      background: var(--blue);
+      color: #fff;
+      padding: 14px 20px;
+      text-align: left;
+      font-size: 14px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+    }
+
+    .lp-specs-table td {
+      padding: 14px 20px;
+      border-bottom: 1px solid #e8edf4;
+      font-size: 14.5px;
+      color: var(--text);
+    }
+
+    .lp-specs-table td:first-child {
+      font-weight: 700;
+      color: var(--blue);
+      width: 35%;
+      background: #f7f9fc;
+    }
+
+    .lp-specs-table tr:last-child td { border-bottom: none; }
+
+    /* ── KIT COMPONENTES ────────────────────────────────────── */
+    .lp-kit {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 22px;
+    }
+
+    .lp-kit-item {
+      background: rgba(255,255,255,.09);
+      border: 1px solid rgba(255,255,255,.16);
+      border-radius: var(--radius);
+      padding: 28px 22px;
+      text-align: center;
+    }
+
+    .lp-kit-icon { font-size: 38px; margin-bottom: 14px; }
+
+    .lp-kit-item h4 {
+      font-size: 15px;
+      font-weight: 800;
+      color: #fff;
+      margin: 0 0 8px;
+    }
+
+    .lp-kit-item p {
+      font-size: 13.5px;
+      color: rgba(255,255,255,.72);
+      margin: 0;
+      line-height: 1.5;
+    }
+
+    /* ── DIFERENCIAIS ───────────────────────────────────────── */
+    .lp-diff-list {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    .lp-diff-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      background: #fff;
+      border-radius: var(--radius);
+      padding: 22px 24px;
+      box-shadow: 0 3px 14px rgba(0,0,0,.06);
+    }
+
+    .lp-diff-check {
+      min-width: 36px;
+      height: 36px;
+      background: var(--green2);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 17px;
+      font-weight: 900;
+    }
+
+    .lp-diff-item h4 {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--dark);
+      margin: 0 0 5px;
+    }
+
+    .lp-diff-item p {
+      font-size: 14px;
+      color: #666;
+      margin: 0;
+      line-height: 1.5;
+    }
+
+    /* ── URGÊNCIA / CTA FINAL ───────────────────────────────── */
+    .lp-cta-box {
+      background: linear-gradient(135deg, #0f2f0a, #1a7a34);
+      border-radius: 20px;
+      padding: 56px 48px;
+      text-align: center;
+      color: #fff;
+      box-shadow: 0 12px 40px rgba(26,122,52,.35);
+    }
+
+    .lp-cta-box .urgency-badge {
+      display: inline-block;
+      background: var(--gold);
+      color: #3a2500;
+      font-size: 13px;
+      font-weight: 800;
+      padding: 6px 18px;
+      border-radius: 999px;
+      margin-bottom: 24px;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+    }
+
+    .lp-cta-box h2 {
+      font-size: 36px;
+      font-weight: 900;
+      margin: 0 0 14px;
+      line-height: 1.15;
+    }
+
+    .lp-cta-box p {
+      font-size: 17px;
+      opacity: .88;
+      max-width: 540px;
+      margin: 0 auto 36px;
+      line-height: 1.6;
+    }
+
+    /* ── FOOTER LANDING ─────────────────────────────────────── */
+    .lp-footer {
+      background: #080e1a;
+      color: rgba(255,255,255,.65);
+      padding: 36px 0;
+    }
+
+    .lp-footer-grid {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .lp-footer p { margin: 4px 0; font-size: 13.5px; }
+    .lp-footer strong { color: #fff; }
+
+    .lp-footer-links { display: flex; gap: 22px; }
+
+    .lp-footer-links a {
+      color: rgba(255,255,255,.6);
+      text-decoration: none;
+      font-size: 13.5px;
+      transition: color .15s;
+    }
+
+    .lp-footer-links a:hover { color: #fff; }
+
+    /* ── STICKY CTA MOBILE ──────────────────────────────────── */
+    .sticky-wpp {
+      display: none;
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      background: var(--green);
+      color: #fff;
+      text-align: center;
+      padding: 14px;
+      font-weight: 800;
+      font-size: 16px;
+      z-index: 1000;
+      text-decoration: none;
+      gap: 10px;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* ── RESPONSIVO ─────────────────────────────────────────── */
+    @media (max-width: 960px) {
+      .lp-hero-grid { grid-template-columns: 1fr; }
+      .lp-highlights { grid-template-columns: repeat(2, 1fr); }
+      .lp-benefits { grid-template-columns: repeat(2, 1fr); }
+      .lp-kit { grid-template-columns: repeat(2, 1fr); }
+      .lp-reasons { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 680px) {
+      .lp-hero h1 { font-size: 30px; }
+      .lp-hero p.lead { font-size: 16px; }
+      .lp-title h2 { font-size: 26px; }
+      .lp-highlights { grid-template-columns: 1fr; }
+      .lp-benefits { grid-template-columns: 1fr 1fr; }
+      .lp-kit { grid-template-columns: 1fr 1fr; }
+      .lp-cta-box { padding: 40px 24px; }
+      .lp-cta-box h2 { font-size: 26px; }
+      .lp-footer-grid { grid-template-columns: 1fr; }
+      .lp-footer-links { flex-wrap: wrap; gap: 14px; }
+      .lp-section { padding: 60px 0; }
+      .sticky-wpp { display: flex; }
+      body { padding-bottom: 58px; }
+    }
+
+    @media (max-width: 400px) {
+      .lp-benefits { grid-template-columns: 1fr; }
+      .lp-kit { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="container header-content">
+    <a href="index.html">
+      <img src="assets/logo-asj.png" alt="ASJ Tecnologia Agrícola" class="logo">
+    </a>
+
+    <a href="https://wa.me/5516988616927?text=Olá,%20tenho%20interesse%20no%20Monitor%20DPM100.%20Pode%20me%20passar%20mais%20informações?" target="_blank" rel="noopener" class="btn-wpp" style="font-size:15px;padding:12px 24px;">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="#fff"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.126 1.528 5.86L.057 23.743a.5.5 0 0 0 .615.612l5.974-1.493A11.954 11.954 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.882a9.874 9.874 0 0 1-5.031-1.375l-.36-.214-3.742.935.984-3.654-.234-.374A9.857 9.857 0 0 1 2.118 12C2.118 6.533 6.533 2.118 12 2.118S21.882 6.533 21.882 12 17.467 21.882 12 21.882z"/></svg>
+      Falar com a ASJ
+    </a>
+  </div>
+</header>
+
+
+<!-- HERO -->
+<section class="lp-hero">
+  <div class="container">
+    <div class="lp-hero-grid">
+
+      <div class="lp-hero-text">
+        <span class="lp-hero-badge">Exclusivo para Revendas e Fabricantes de Implementos</span>
+
+        <h1>
+          O Monitor que integra<br>
+          <em>Semente + Inoculante + Adubo</em><br>
+          em uma única tela
+        </h1>
+
+        <p class="lead">
+          O DPM100 da ASJ Tecnologia é o monitor de plantio que seus clientes precisam — e que você ainda não tem na sua prateleira. Tecnologia nacional, suporte direto da fábrica e margens competitivas.
+        </p>
+
+        <a href="https://wa.me/5516988616927?text=Olá,%20tenho%20interesse%20em%20revender%20o%20Monitor%20DPM100.%20Pode%20me%20enviar%20mais%20informações?" target="_blank" rel="noopener" class="btn-wpp">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="#fff"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.126 1.528 5.86L.057 23.743a.5.5 0 0 0 .615.612l5.974-1.493A11.954 11.954 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.882a9.874 9.874 0 0 1-5.031-1.375l-.36-.214-3.742.935.984-3.654-.234-.374A9.857 9.857 0 0 1 2.118 12C2.118 6.533 6.533 2.118 12 2.118S21.882 6.533 21.882 12 17.467 21.882 12 21.882z"/></svg>
+          Quero Ser Revenda — Falar no WhatsApp
+        </a>
+      </div>
+
+      <div class="lp-hero-card">
+        <h3>DPM100 — Monitor de Plantio</h3>
+        <ul>
+          <li>Monitora sementes linha a linha em tempo real</li>
+          <li>Controle de inoculante líquido integrado</li>
+          <li>Distribuição de adubo monitorada por linha</li>
+          <li>Display touchscreen com interface dedicada</li>
+          <li>Compatível com plantadeiras de 1 a 40 linhas</li>
+          <li>Alarme sonoro e visual para falhas por linha</li>
+          <li>Construção robusta para o campo brasileiro</li>
+          <li>Suporte técnico direto com a fábrica</li>
+        </ul>
+        <a href="https://wa.me/5516988616927?text=Olá,%20quero%20saber%20mais%20sobre%20o%20DPM100%20para%20revenda." target="_blank" rel="noopener" class="btn-wpp" style="width:100%;justify-content:center;border-radius:10px;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="#fff"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.126 1.528 5.86L.057 23.743a.5.5 0 0 0 .615.612l5.974-1.493A11.954 11.954 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.882a9.874 9.874 0 0 1-5.031-1.375l-.36-.214-3.742.935.984-3.654-.234-.374A9.857 9.857 0 0 1 2.118 12C2.118 6.533 6.533 2.118 12 2.118S21.882 6.533 21.882 12 17.467 21.882 12 21.882z"/></svg>
+          Solicitar Informações
+        </a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- DESTAQUES DO PRODUTO -->
+<section class="lp-section gray">
+  <div class="container">
+    <div class="lp-title">
+      <span class="eyebrow">O Produto</span>
+      <h2>Tudo que o produtor precisa,<br>em um único monitor</h2>
+      <p>O DPM100 entrega controle total da plantadora em um display touchscreen compacto e robusto — sem necessidade de múltiplos equipamentos.</p>
+    </div>
+
+    <div class="lp-highlights">
+      <div class="lp-highlight-card">
+        <div class="lp-highlight-icon">🌱</div>
+        <h3>Monitoramento de Sementes</h3>
+        <p>Sensor óptico por linha detecta e conta a passagem de cada semente. Alarme imediato em caso de falha ou entupimento.</p>
+      </div>
+
+      <div class="lp-highlight-card">
+        <div class="lp-highlight-icon">💧</div>
+        <h3>Controle de Inoculante</h3>
+        <p>Monitoramento do inoculante líquido integrado à mesma tela. Identifica falhas na aplicação antes de comprometer a lavoura.</p>
+      </div>
+
+      <div class="lp-highlight-card">
+        <div class="lp-highlight-icon">⚗️</div>
+        <h3>Distribuição de Adubo</h3>
+        <p>Acompanhe a distribuição de adubo linha a linha. Controle preciso da dosagem para reduzir desperdício e aumentar a produtividade.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- BENEFÍCIOS PARA O PRODUTOR FINAL -->
+<section class="lp-section">
+  <div class="container">
+    <div class="lp-title">
+      <span class="eyebrow">Argumento de Venda</span>
+      <h2>O que o seu cliente ganha com o DPM100</h2>
+      <p>Venda com confiança. Estes são os benefícios concretos que o produtor rural experimenta no dia a dia da operação.</p>
+    </div>
+
+    <div class="lp-benefits">
+      <div class="lp-benefit">
+        <div class="lp-benefit-icon">📉</div>
+        <h4>Redução de Falhas</h4>
+        <p>Identificação imediata de entupimentos e falhas por linha durante o plantio.</p>
+      </div>
+
+      <div class="lp-benefit">
+        <div class="lp-benefit-icon">⏱️</div>
+        <h4>Dados em Tempo Real</h4>
+        <p>Visualização instantânea do status de cada linha sem parar a máquina.</p>
+      </div>
+
+      <div class="lp-benefit">
+        <div class="lp-benefit-icon">🎛️</div>
+        <h4>Interface Intuitiva</h4>
+        <p>Touchscreen de fácil operação, sem necessidade de treinamento extenso.</p>
+      </div>
+
+      <div class="lp-benefit">
+        <div class="lp-benefit-icon">💰</div>
+        <h4>Economia de Insumos</h4>
+        <p>Controle preciso de dosagem reduz desperdício de sementes, inoculante e adubo.</p>
+      </div>
+
+      <div class="lp-benefit">
+        <div class="lp-benefit-icon">🚜</div>
+        <h4>Compatibilidade Ampla</h4>
+        <p>Funciona com plantadeiras de 1 a 40 linhas — atende desde o pequeno ao grande produtor.</p>
+      </div>
+
+      <div class="lp-benefit">
+        <div class="lp-benefit-icon">🔔</div>
+        <h4>Alarme Inteligente</h4>
+        <p>Alerta sonoro e visual por linha mantém o operador sempre informado.</p>
+      </div>
+
+      <div class="lp-benefit">
+        <div class="lp-benefit-icon">📊</div>
+        <h4>Maior Produtividade</h4>
+        <p>Menos falhas, mais precisão. O resultado é uma lavoura uniforme e mais produtiva.</p>
+      </div>
+
+      <div class="lp-benefit">
+        <div class="lp-benefit-icon">🛡️</div>
+        <h4>Construção Robusta</h4>
+        <p>Desenvolvido para resistir às condições severas do campo brasileiro.</p>
+      </div>
+    </div>
+
+    <div class="btn-center">
+      <a href="https://wa.me/5516988616927?text=Olá,%20quero%20saber%20mais%20sobre%20o%20Monitor%20DPM100%20para%20minha%20revenda." target="_blank" rel="noopener" class="btn-wpp-outline">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.126 1.528 5.86L.057 23.743a.5.5 0 0 0 .615.612l5.974-1.493A11.954 11.954 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.882a9.874 9.874 0 0 1-5.031-1.375l-.36-.214-3.742.935.984-3.654-.234-.374A9.857 9.857 0 0 1 2.118 12C2.118 6.533 6.533 2.118 12 2.118S21.882 6.533 21.882 12 17.467 21.882 12 21.882z"/></svg>
+        Conversar sobre Condições Comerciais
+      </a>
+    </div>
+  </div>
+</section>
+
+
+<!-- POR QUE REVENDER -->
+<section class="lp-section dark">
+  <div class="container">
+    <div class="lp-title">
+      <span class="eyebrow">Para Revendas e Fabricantes</span>
+      <h2>Por que incluir o DPM100 no seu portfólio?</h2>
+      <p>Monitores de plantio são um dos produtos de maior crescimento no agronegócio brasileiro. Posicione sua revenda na frente dessa demanda.</p>
+    </div>
+
+    <div class="lp-reasons">
+      <div class="lp-reason">
+        <div class="lp-reason-num">1</div>
+        <div>
+          <h4>Alta demanda no agronegócio brasileiro</h4>
+          <p>A digitalização do campo está acelerando. Produtores de todos os portes buscam soluções de monitoramento para aumentar produtividade e reduzir perdas.</p>
+        </div>
+      </div>
+
+      <div class="lp-reason">
+        <div class="lp-reason-num">2</div>
+        <div>
+          <h4>Tecnologia diferenciada — único no mercado</h4>
+          <p>O DPM100 é o único monitor que integra semente + inoculante + adubo em uma única tela. Diferencial claro de venda contra concorrentes.</p>
+        </div>
+      </div>
+
+      <div class="lp-reason">
+        <div class="lp-reason-num">3</div>
+        <div>
+          <h4>Treinamento gratuito para revendas</h4>
+          <p>A ASJ oferece capacitação técnica e comercial para sua equipe de vendas sem custo adicional. Você vende com segurança e confiança.</p>
+        </div>
+      </div>
+
+      <div class="lp-reason">
+        <div class="lp-reason-num">4</div>
+        <div>
+          <h4>Margens competitivas e atrativas</h4>
+          <p>Condições exclusivas para revendas cadastradas, com margens que permitem competitividade no mercado regional.</p>
+        </div>
+      </div>
+
+      <div class="lp-reason">
+        <div class="lp-reason-num">5</div>
+        <div>
+          <h4>Suporte técnico direto da fábrica</h4>
+          <p>Sua revenda tem acesso ao suporte especializado da ASJ Tecnologia, sem intermediários. Pós-venda completo para seus clientes.</p>
+        </div>
+      </div>
+
+      <div class="lp-reason">
+        <div class="lp-reason-num">6</div>
+        <div>
+          <h4>Produto nacional com clientela recorrente</h4>
+          <p>Tecnologia desenvolvida para o campo brasileiro. Quem compra, volta — e indica. Um produto que constrói fidelização na sua base de clientes.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="btn-center">
+      <a href="https://wa.me/5516988616927?text=Olá,%20quero%20me%20cadastrar%20como%20revenda%20do%20Monitor%20DPM100." target="_blank" rel="noopener" class="btn-wpp">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="#fff"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.126 1.528 5.86L.057 23.743a.5.5 0 0 0 .615.612l5.974-1.493A11.954 11.954 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.882a9.874 9.874 0 0 1-5.031-1.375l-.36-.214-3.742.935.984-3.654-.234-.374A9.857 9.857 0 0 1 2.118 12C2.118 6.533 6.533 2.118 12 2.118S21.882 6.533 21.882 12 17.467 21.882 12 21.882z"/></svg>
+        Quero Me Cadastrar como Revenda
+      </a>
+    </div>
+  </div>
+</section>
+
+
+<!-- DIFERENCIAIS TÉCNICOS -->
+<section class="lp-section gray">
+  <div class="container">
+    <div class="lp-title">
+      <span class="eyebrow">Diferenciais ASJ</span>
+      <h2>Por que escolher a ASJ Tecnologia?</h2>
+    </div>
+
+    <div class="lp-diff-list">
+      <div class="lp-diff-item">
+        <div class="lp-diff-check">✔</div>
+        <div>
+          <h4>Tecnologia 100% nacional</h4>
+          <p>Desenvolvido e fabricado no Brasil, para as condições reais do campo brasileiro. Assistência técnica ágil e sem dependência de importação.</p>
+        </div>
+      </div>
+
+      <div class="lp-diff-item">
+        <div class="lp-diff-check">✔</div>
+        <div>
+          <h4>Único monitor 3-em-1 do mercado</h4>
+          <p>Semente + Inoculante + Adubo em uma única interface. Sem necessidade de múltiplos monitores ou sistemas paralelos.</p>
+        </div>
+      </div>
+
+      <div class="lp-diff-item">
+        <div class="lp-diff-check">✔</div>
+        <div>
+          <h4>Suporte técnico especializado direto com a fábrica</h4>
+          <p>Sua revenda e seus clientes têm acesso direto à equipe técnica da ASJ. Sem terceiros, sem demora.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ESPECIFICAÇÕES TÉCNICAS -->
+<section class="lp-section">
+  <div class="container">
+    <div class="lp-title">
+      <span class="eyebrow">Ficha Técnica</span>
+      <h2>Especificações do DPM100</h2>
+      <p>Dados técnicos para apoiar sua equipe comercial e responder dúvidas de clientes e engenheiros de produto.</p>
+    </div>
+
+    <table class="lp-specs-table">
+      <thead>
+        <tr>
+          <th>Parâmetro</th>
+          <th>Descrição</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Monitor / Display</td>
+          <td>Touchscreen integrado com interface gráfica dedicada</td>
+        </tr>
+        <tr>
+          <td>Compatibilidade</td>
+          <td>Plantadeiras de 1 a 40 linhas (configurável)</td>
+        </tr>
+        <tr>
+          <td>Canais de Monitoramento</td>
+          <td>Sementes, Inoculante (líquido) e Adubo</td>
+        </tr>
+        <tr>
+          <td>Alimentação</td>
+          <td>Compatível com sistema elétrico do trator / implemento</td>
+        </tr>
+        <tr>
+          <td>Conexão dos Sensores</td>
+          <td>Sensores individuais por linha via cabos industriais</td>
+        </tr>
+        <tr>
+          <td>Tecnologia de Sensores</td>
+          <td>Sensores ópticos / mecânicos de alta precisão por linha</td>
+        </tr>
+        <tr>
+          <td>Leitura</td>
+          <td>Tempo real durante operação de plantio</td>
+        </tr>
+        <tr>
+          <td>Alertas</td>
+          <td>Alarme sonoro e visual para falhas por linha</td>
+        </tr>
+        <tr>
+          <td>Montagem</td>
+          <td>Suporte universal para cabine do trator</td>
+        </tr>
+        <tr>
+          <td>Resistência</td>
+          <td>Construção robusta para ambiente agrícola</td>
+        </tr>
+        <tr>
+          <td>Garantia</td>
+          <td>Garantia de fábrica — consultar condições</td>
+        </tr>
+        <tr>
+          <td>Suporte</td>
+          <td>Suporte técnico ASJ Tecnologia + rede de revendas</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="btn-center">
+      <a href="https://wa.me/5516988616927?text=Olá,%20vi%20as%20especificações%20do%20DPM100%20e%20quero%20mais%20detalhes%20técnicos." target="_blank" rel="noopener" class="btn-wpp-outline">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.126 1.528 5.86L.057 23.743a.5.5 0 0 0 .615.612l5.974-1.493A11.954 11.954 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.882a9.874 9.874 0 0 1-5.031-1.375l-.36-.214-3.742.935.984-3.654-.234-.374A9.857 9.857 0 0 1 2.118 12C2.118 6.533 6.533 2.118 12 2.118S21.882 6.533 21.882 12 17.467 21.882 12 21.882z"/></svg>
+        Solicitar Ficha Técnica Completa
+      </a>
+    </div>
+  </div>
+</section>
+
+
+<!-- KIT COMPONENTES -->
+<section class="lp-section dark">
+  <div class="container">
+    <div class="lp-title">
+      <span class="eyebrow">O que está incluído</span>
+      <h2>Componentes do Kit DPM100</h2>
+      <p>Kit completo pronto para instalação. Tudo que o instalador precisa sai na caixa.</p>
+    </div>
+
+    <div class="lp-kit">
+      <div class="lp-kit-item">
+        <div class="lp-kit-icon">🖥️</div>
+        <h4>Central de Controle</h4>
+        <p>Display touchscreen com processador dedicado para visualização e controle.</p>
+      </div>
+
+      <div class="lp-kit-item">
+        <div class="lp-kit-icon">🔌</div>
+        <h4>Cabos e Conectores</h4>
+        <p>Cabeamento industrial de alta durabilidade com conectores robustos para o campo.</p>
+      </div>
+
+      <div class="lp-kit-item">
+        <div class="lp-kit-icon">🔧</div>
+        <h4>Kit de Fixação</h4>
+        <p>Suporte e acessórios para instalação segura na cabine do trator.</p>
+      </div>
+
+      <div class="lp-kit-item">
+        <div class="lp-kit-icon">📡</div>
+        <h4>Sensores por Linha</h4>
+        <p>Sensor individual de alta precisão para cada linha de plantio — semente, inoculante ou adubo.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- CTA FINAL COM URGÊNCIA -->
+<section class="lp-section">
+  <div class="container">
+    <div class="lp-cta-box">
+      <span class="urgency-badge">⚡ Estoque Disponível para Pronta Entrega</span>
+      <h2>Garanta o DPM100 para a sua revenda agora</h2>
+      <p>
+        Unidades disponíveis em estoque para entrega imediata. Converse com nossa equipe comercial e descubra as condições exclusivas para revendas e fabricantes de implementos.
+      </p>
+      <a href="https://wa.me/5516988616927?text=Olá,%20quero%20garantir%20unidades%20do%20DPM100%20para%20minha%20revenda.%20Pode%20me%20passar%20as%20condições%20comerciais?" target="_blank" rel="noopener" class="btn-wpp" style="font-size:18px;padding:18px 40px;">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="#fff"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.126 1.528 5.86L.057 23.743a.5.5 0 0 0 .615.612l5.974-1.493A11.954 11.954 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.882a9.874 9.874 0 0 1-5.031-1.375l-.36-.214-3.742.935.984-3.654-.234-.374A9.857 9.857 0 0 1 2.118 12C2.118 6.533 6.533 2.118 12 2.118S21.882 6.533 21.882 12 17.467 21.882 12 21.882z"/></svg>
+        Falar com o Time Comercial no WhatsApp
+      </a>
+    </div>
+  </div>
+</section>
+
+
+<!-- FOOTER -->
+<footer class="lp-footer">
+  <div class="container lp-footer-grid">
+    <div>
+      <p><strong>ASJ Indústria e Comércio de Equipamentos Elétrico</strong></p>
+      <p>Rua Guatapará, 227 — Vila Virgínia | Ribeirão Preto - SP | CEP: 14030-060</p>
+      <p>WhatsApp: (16) 98861-6927 · E-mail: asj@asjtecnologia.com.br</p>
+    </div>
+    <div class="lp-footer-links">
+      <a href="index.html">Home</a>
+      <a href="produtos.html">Produtos</a>
+      <a href="https://wa.me/5516988616927" target="_blank" rel="noopener">WhatsApp</a>
+    </div>
+  </div>
+</footer>
+
+
+<!-- STICKY CTA MOBILE -->
+<a href="https://wa.me/5516988616927?text=Olá,%20tenho%20interesse%20no%20Monitor%20DPM100." target="_blank" rel="noopener" class="sticky-wpp">
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="#fff"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.126 1.528 5.86L.057 23.743a.5.5 0 0 0 .615.612l5.974-1.493A11.954 11.954 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.882a9.874 9.874 0 0 1-5.031-1.375l-.36-.214-3.742.935.984-3.654-.234-.374A9.857 9.857 0 0 1 2.118 12C2.118 6.533 6.533 2.118 12 2.118S21.882 6.533 21.882 12 17.467 21.882 12 21.882z"/></svg>
+  Falar no WhatsApp agora
+</a>
+
+</body>
+</html>
