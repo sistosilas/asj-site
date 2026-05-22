@@ -452,15 +452,54 @@
     </svg>`;
   }
 
+  /* == CARD ESTÁTICO DPM100 == */
+  function injetarCardDPM100() {
+    const existing = document.getElementById('card-dpm100');
+    if (existing) existing.remove();
+    const grid = document.getElementById('productsGrid');
+    if (grid.querySelector('.loading-state')) return;
+    const waLink = `${WA}?text=${encodeURIComponent('Olá, tenho interesse no Monitor DPM100. Pode me passar mais informações?')}`;
+    const card = document.createElement('div');
+    card.id = 'card-dpm100';
+    card.className = 'product-card featured';
+    card.dataset.cat = 'monitores';
+    card.dataset.marca = '';
+    card.dataset.aplicacao = 'plantadeiras';
+    card.dataset.code = 'DPM100';
+    card.innerHTML = `
+      <div class="product-img">
+        <img src="assets/dpm100-kit.png" alt="Monitor DPM100 — Kit Completo" style="width:100%;height:100%;object-fit:cover;">
+      </div>
+      <div class="product-info">
+        <span class="product-category-label">Monitores Agrícolas</span>
+        <p class="product-name">Monitor de Plantio DPM100</p>
+        <span class="product-code">DPM100</span>
+        <p class="product-desc">Semente + Inoculante + Adubo em uma única tela. Compatível com plantadeiras de 1 a 40 linhas.</p>
+        <div class="product-tags">
+          <span class="product-tag">Monitor Touchscreen</span>
+          <span class="product-tag">1–40 linhas</span>
+          <span class="product-tag">Pronta Entrega</span>
+        </div>
+      </div>
+      <div class="product-card-footer">
+        <a class="btn-saiba-mais" href="dpm100.html">Saiba mais</a>
+        <a class="btn-whats" href="${waLink}" target="_blank">${waSvg()} Consultar</a>
+      </div>`;
+    grid.insertBefore(card, grid.firstChild);
+  }
+
   /* == RENDER CARDS == */
   function renderCards(produtos) {
     const grid = document.getElementById('productsGrid');
     if (!produtos.length) {
-      grid.innerHTML = `<div class="loading-state"><p>Nenhum produto encontrado.</p></div>`;
+      grid.innerHTML = '';
+      injetarCardDPM100();
       atualizarContadores([]);
+      aplicarFiltros();
       return;
     }
     grid.innerHTML = '';
+    injetarCardDPM100();
     produtos.forEach(p => {
       const tags = (p.specs||[]).slice(0,3).map(s =>
         `<span class="product-tag">${s.length>22?s.substring(0,22)+'…':s}</span>`).join('');
@@ -574,6 +613,7 @@
   function atualizarContadores(produtos) {
     const c={all:0,isobus:0,chicotes:0,sensores:0,monitores:0};
     produtos.forEach(p=>{c.all++;if(c[p.categoria]!==undefined)c[p.categoria]++;});
+    c.all++; c.monitores++; // card estático DPM100
     Object.keys(c).forEach(k=>{const el=document.getElementById('count-'+k);if(el)el.textContent=c[k];});
     document.getElementById('toolbarCount').textContent=`Exibindo ${c.all} produto${c.all!==1?'s':''}`;
   }
