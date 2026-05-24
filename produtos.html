@@ -452,6 +452,42 @@
     </svg>`;
   }
 
+  /* == CARD ESTÁTICO CONTROLE ISOBUS == */
+  function injetarCardControleISOBUS() {
+    const existing = document.getElementById('card-controle-isobus');
+    if (existing) existing.remove();
+    const grid = document.getElementById('productsGrid');
+    if (grid.querySelector('.loading-state')) return;
+    const waLink = `${WA}?text=${encodeURIComponent('Olá, tenho interesse no Controle ISOBUS para retrofit de distribuidores. Pode me passar mais informações?')}`;
+    const card = document.createElement('div');
+    card.id = 'card-controle-isobus';
+    card.className = 'product-card featured';
+    card.dataset.cat = 'isobus';
+    card.dataset.marca = '';
+    card.dataset.aplicacao = 'distribuidores';
+    card.dataset.code = 'ISOBUS-RETROFIT';
+    card.innerHTML = `
+      <div class="product-img" style="background:linear-gradient(135deg,#061a3a,#0c4cae);display:flex;align-items:center;justify-content:center;">
+        <img src="assets/page_1_image_0.png" alt="Controle ISOBUS — Kit de Retrofit para Distribuidores de Fertilizantes" style="width:100%;height:100%;object-fit:cover;">
+      </div>
+      <div class="product-info">
+        <span class="product-category-label">Controle ISOBUS</span>
+        <p class="product-name">Controle ISOBUS — Retrofit para Distribuidores</p>
+        <span class="product-code">ISOBUS-RETROFIT</span>
+        <p class="product-desc">Transforme seu distribuidor manual em sistema ISOBUS profissional. Controle, sensores, chicotes e automação hidráulica.</p>
+        <div class="product-tags">
+          <span class="product-tag">Sistema ISOBUS</span>
+          <span class="product-tag">Automação Hidráulica</span>
+          <span class="product-tag">Produto Principal</span>
+        </div>
+      </div>
+      <div class="product-card-footer">
+        <a class="btn-saiba-mais" href="controle-isobus.html">Saiba mais</a>
+        <a class="btn-whats" href="${waLink}" target="_blank">${waSvg()} Consultar</a>
+      </div>`;
+    grid.insertBefore(card, grid.firstChild);
+  }
+
   /* == CARD ESTÁTICO DPM100 == */
   function injetarCardDPM100() {
     const existing = document.getElementById('card-dpm100');
@@ -493,12 +529,14 @@
     const grid = document.getElementById('productsGrid');
     if (!produtos.length) {
       grid.innerHTML = '';
+      injetarCardControleISOBUS();
       injetarCardDPM100();
       atualizarContadores([]);
       aplicarFiltros();
       return;
     }
     grid.innerHTML = '';
+    injetarCardControleISOBUS();
     injetarCardDPM100();
     produtos.forEach(p => {
       const tags = (p.specs||[]).slice(0,3).map(s =>
@@ -614,6 +652,7 @@
     const c={all:0,isobus:0,chicotes:0,sensores:0,monitores:0};
     produtos.forEach(p=>{c.all++;if(c[p.categoria]!==undefined)c[p.categoria]++;});
     c.all++; c.monitores++; // card estático DPM100
+    c.all++; c.isobus++;   // card estático Controle ISOBUS
     Object.keys(c).forEach(k=>{const el=document.getElementById('count-'+k);if(el)el.textContent=c[k];});
     document.getElementById('toolbarCount').textContent=`Exibindo ${c.all} produto${c.all!==1?'s':''}`;
   }
