@@ -1191,6 +1191,58 @@
       gap: 10px;
     }
 
+    /* ── VIDEO SECTION ──────────────────────────────────────────*/
+    .lp-video-section {
+      background: linear-gradient(135deg, #040e1e 0%, #061a3a 100%);
+      padding: 90px 0;
+      color: #fff;
+    }
+
+    .lp-video-wrap {
+      max-width: 900px;
+      margin: 0 auto;
+      position: relative;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0,0,0,.5);
+    }
+
+    .lp-video-wrap video {
+      width: 100%;
+      display: block;
+      border-radius: 20px;
+    }
+
+    .lp-video-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(6,26,58,.45) 0%, transparent 50%);
+      border-radius: 20px;
+      pointer-events: none;
+    }
+
+    .lp-sound-btn {
+      position: absolute;
+      bottom: 18px;
+      right: 18px;
+      background: rgba(255,255,255,.15);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,.25);
+      color: #fff;
+      border-radius: 999px;
+      padding: 8px 18px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      transition: background .2s;
+      z-index: 2;
+    }
+
+    .lp-sound-btn:hover { background: rgba(255,255,255,.25); }
+
     /* ── ANIMATE ─────────────────────────────────────────────── */
     .animate-in {
       opacity: 0;
@@ -1526,6 +1578,39 @@
           height="300"
         >
       </figure>
+    </div>
+  </div>
+</section>
+
+
+<!-- ╔═══════════════════════════════════════════════════╗ -->
+<!-- ║  VÍDEO — SISTEMA EM AÇÃO                          ║ -->
+<!-- ╚═══════════════════════════════════════════════════╝ -->
+<section class="lp-video-section" aria-labelledby="video-titulo">
+  <div class="container">
+    <div class="lp-title">
+      <span class="eyebrow">Sistema em ação</span>
+      <h2 id="video-titulo">Veja o controle de aplicação funcionando no campo</h2>
+      <p>Do implemento ao monitor — automação hidráulica e controle ISOBUS integrados em tempo real.</p>
+    </div>
+
+    <div class="lp-video-wrap">
+      <video
+        id="sistemaVideo"
+        autoplay
+        muted
+        loop
+        playsinline
+        preload="metadata"
+        aria-label="Vídeo demonstrativo do sistema de controle de aplicação ASJ para distribuidores de fertilizantes"
+      >
+        <source src="assets/sistema-de-controle.mp4" type="video/mp4">
+      </video>
+      <div class="lp-video-overlay"></div>
+      <button class="lp-sound-btn" onclick="toggleSistemaSound()" type="button" aria-label="Ativar ou silenciar o som do vídeo">
+        <span id="sistemaVideoIcon">🔇</span>
+        <span id="sistemaVideoText">Ativar som</span>
+      </button>
     </div>
   </div>
 </section>
@@ -1969,6 +2054,14 @@
 
 <script src="script.js?v=14"></script>
 <script>
+  /* ── SOUND TOGGLE VIDEO ────────────────────────────── */
+  function toggleSistemaSound() {
+    var v = document.getElementById('sistemaVideo');
+    v.muted = !v.muted;
+    document.getElementById('sistemaVideoIcon').textContent = v.muted ? '🔇' : '🔊';
+    document.getElementById('sistemaVideoText').textContent = v.muted ? 'Ativar som' : 'Silenciar';
+  }
+
   /* ── FAQ ACCORDION ─────────────────────────────────── */
   document.querySelectorAll('.lp-faq-question').forEach(function(btn) {
     btn.addEventListener('click', function() {
