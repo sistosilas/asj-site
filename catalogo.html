@@ -2909,6 +2909,7 @@ const PRODUCTS = [["KT-ISO-012","KT ISO 012","isobus","KIT ISO ASJ-HYDAC/KT-ISO-
 ["FR-002","Suprimento de Bancada","ferramentas","FR/FR-002.png","7dc3823fc239823c",[5,14,29,17,0,0,0,0,0,5,2,0,0,0,0,2,203,17,10,26,55,33,100,67],"DESPCRIPÃO: COMVERSNRE ESTATICO BIVOLT D/IPCETV MUIFTLECAMERA 19/41 EA 190 MW 19"]];
 // Cada produto: [code, desc, catId, relPath, hash, sig]
 const P_CODE=0, P_DESC=1, P_CAT=2, P_PATH=3, P_HASH=4, P_SIG=5, P_AIDESC=6;
+const IMG_BASE = 'CODIGOS CONECTORES-PEÇAS/';
 
 // ─── ESTADO ──────────────────────────────────────────────────────────────────
 let filtered = [];
@@ -3006,7 +3007,7 @@ function renderPage() {
     card.innerHTML = `
       <div class="card-top" style="background:${cat.color||'#888'}"></div>
       <div class="card-img-wrap">
-        <img src="${encodeURI(p[P_PATH])}" alt="${p[P_CODE]}" loading="lazy" onerror="this.style.opacity='.2'">
+        <img src="${encodeURI(IMG_BASE + p[P_PATH])}" alt="${p[P_CODE]}" loading="lazy" onerror="this.style.opacity='.2'">
       </div>
       <div class="card-body">
         <div class="card-code">${highlight(p[P_CODE], q)}</div>
@@ -3042,7 +3043,7 @@ function openModal(p) {
   const cat = catMap[p[P_CAT]] || {};
   document.getElementById('modal-code').textContent = p[P_CODE];
   document.getElementById('modal-cat').textContent = cat.name || '';
-  document.getElementById('modal-img').src = encodeURI(p[P_PATH]);
+  document.getElementById('modal-img').src = encodeURI(IMG_BASE + p[P_PATH]);
   document.getElementById('mi-code').textContent = p[P_CODE];
   document.getElementById('mi-desc').textContent = p[P_DESC];
   document.getElementById('mi-cat').textContent = cat.name || '';
@@ -3661,7 +3662,7 @@ function renderCartItems() {
     const item = document.createElement('div');
     item.className = 'cart-item';
     item.innerHTML = `
-      <img class="cart-item-img" src="${encodeURI(p[P_PATH])}" alt="${p[P_CODE]}" onerror="this.style.opacity=0">
+      <img class="cart-item-img" src="${encodeURI(IMG_BASE + p[P_PATH])}" alt="${p[P_CODE]}" onerror="this.style.opacity=0">
       <div class="cart-item-info">
         <div class="cart-item-code">${p[P_CODE]}</div>
         <div class="cart-item-desc">${p[P_DESC]}</div>
