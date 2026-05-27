@@ -167,12 +167,48 @@ body.admin-mode .card:hover::after{content:'✏️ Editar';position:absolute;top
 #admin-stats{font-size:12px;color:var(--gray);text-align:center;padding:8px 0 0}
 
 @media(max-width:640px){
+  /* ── Sidebar e grid ── */
   #sidebar{display:none}
-  #grid{grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px}
+  #grid{grid-template-columns:repeat(auto-fill,minmax(148px,1fr));gap:10px}
+
+  /* ── Header: 2 linhas ── */
+  #header{flex-wrap:wrap;height:auto;padding:8px 12px;gap:6px}
+  #header .logo{order:1;flex-shrink:0}
   #header .logo span{display:none}
+  #search-wrap{order:10;width:100%;max-width:none;margin-top:2px}
+  #btn-img-search{display:none}
+  #btn-cart{order:3;padding:6px 10px;flex-shrink:0}
+  .cart-txt{display:none}
+  #btn-admin-toggle{order:4;padding:6px 8px;flex-shrink:0}
+  #admin-label{display:none}
+  #user-chip{order:5;border-left:none;padding-left:0;margin-left:auto}
+  #user-chip-info{display:none}
+
+  /* ── Stat bar ── */
+  .stat-title{display:none}
+  #stat-bar{justify-content:center;font-size:11px}
+
+  /* ── Chips de categoria mobile ── */
+  #mobile-cats{display:flex!important}
+
+  /* ── Painéis laterais ── */
   #admin-panel{width:100%}
   #cart-panel{width:100%}
+
+  /* ── Modal ── */
+  #modal-box{flex-direction:column}
+  #modal-img-side{width:100%;height:160px;border-right:none;border-bottom:1px solid var(--border)}
+  #modal-img-side img{max-height:140px}
+  #modal-body{flex-direction:column}
 }
+
+/* ── MOBILE: barra de categorias horizontal ─────────────────────────────── */
+#mobile-cats{overflow-x:auto;gap:8px;padding:10px 12px;background:#fff;border-bottom:1px solid var(--border);-webkit-overflow-scrolling:touch;scrollbar-width:none;display:none}
+#mobile-cats::-webkit-scrollbar{display:none}
+@media(min-width:641px){#mobile-cats{display:none!important}}
+.mob-chip{flex-shrink:0;display:flex;align-items:center;gap:5px;padding:6px 14px;border-radius:99px;border:1.5px solid var(--border);font-size:12.5px;font-weight:600;cursor:pointer;white-space:nowrap;color:var(--gray);background:#fff;transition:all .15s}
+.mob-chip .mob-dot{width:8px;height:8px;border-radius:50%;display:inline-block;flex-shrink:0}
+.mob-chip.active{color:#fff;border-color:transparent}
 
 /* ── PORTAL: chip de usuário logado ──────────────────────────────────────── */
 #user-chip{display:flex;align-items:center;gap:8px;flex-shrink:0;margin-left:6px;border-left:1px solid rgba(255,255,255,.15);padding-left:12px}
@@ -229,7 +265,7 @@ body.admin-mode .card:hover::after{content:'✏️ Editar';position:absolute;top
   </button>
   <button id="btn-cart" title="Carrinho de Compras">
     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
-    Carrinho
+    <span class="cart-txt">Carrinho</span>
     <span id="cart-count">0</span>
   </button>
   <button id="btn-admin-toggle" title="Painel Administrativo">
@@ -246,9 +282,10 @@ body.admin-mode .card:hover::after{content:'✏️ Editar';position:absolute;top
   </div>
 </div>
 <div id="stat-bar">
-  <span>ASJ Tecnologia — Catálogo Técnico Comercial 2025</span>
+  <span class="stat-title">ASJ Tecnologia — Catálogo 2025</span>
   <span>Exibindo <span id="stat-count">0</span> produtos</span>
 </div>
+<div id="mobile-cats"></div>
 
 <div id="layout">
   <nav id="sidebar">
@@ -3340,8 +3377,49 @@ document.addEventListener('keydown', e => {
   }
 });
 
+// ─── CHIPS MOBILE DE CATEGORIA ───────────────────────────────────────────────
+function buildMobileCats() {
+  const wrap = document.getElementById('mobile-cats');
+  if (!wrap) return;
+
+  function makeChip(label, id, color, dot) {
+    const chip = document.createElement('div');
+    chip.className = 'mob-chip' + (id === 'all' ? ' active' : '');
+    chip.dataset.id = id;
+    if (dot) {
+      const d = document.createElement('span');
+      d.className = 'mob-dot';
+      d.style.background = color;
+      chip.appendChild(d);
+    }
+    chip.appendChild(document.createTextNode(label));
+    if (id === 'all') chip.style.background = 'var(--blue)';
+    if (id === 'all') chip.style.borderColor = 'var(--blue)';
+    chip.addEventListener('click', () => {
+      wrap.querySelectorAll('.mob-chip').forEach(c => {
+        c.classList.remove('active');
+        c.style.background = '';
+        c.style.borderColor = c.dataset.color || 'var(--border)';
+        c.style.color = '';
+      });
+      chip.classList.add('active');
+      chip.style.background = color || 'var(--blue)';
+      chip.style.borderColor = 'transparent';
+      chip.style.color = '#fff';
+      selectCat(id);
+      wrap.scrollTo({ left: chip.offsetLeft - 12, behavior: 'smooth' });
+    });
+    chip.dataset.color = color || 'var(--border)';
+    return chip;
+  }
+
+  wrap.appendChild(makeChip('Todos', 'all', 'var(--blue)', false));
+  CATS.forEach(c => wrap.appendChild(makeChip(c.short, c.id, c.color, true)));
+}
+
 // ─── INIT ─────────────────────────────────────────────────────────────────────
 buildSidebar();
+buildMobileCats();
 applyFilters();
 
 // ═══════════════════════════════════════════════════════════════════════════════
