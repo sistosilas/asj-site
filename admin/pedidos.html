@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pedidos — Admin ASJ</title>
+  <link rel="stylesheet" href="../assets/portal/portal.css">
+  <meta name="robots" content="noindex, nofollow">
+</head>
+<body>
+
+<button class="sidebar-toggle" id="sidebarToggle">☰</button>
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<div class="portal-layout">
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <img src="../assets/logo-asj.png" alt="ASJ Tecnologia Agrícola">
+      <span class="portal-badge admin-badge">⚙ Área Admin</span>
+    </div>
+    <nav class="sidebar-nav">
+      <span class="nav-section-label">Gerenciamento</span>
+      <a href="index.html"    class="nav-link"><span class="nav-icon">📊</span> Dashboard</a>
+      <a href="clientes.html" class="nav-link"><span class="nav-icon">👥</span> Clientes</a>
+      <a href="pedidos.html"  class="nav-link active"><span class="nav-icon">📋</span> Pedidos</a>
+      <a href="catalogo.html" class="nav-link"><span class="nav-icon">📦</span> Catálogo Portal</a>
+      <span class="nav-section-label">Sistema</span>
+      <a href="../portal-login.html" class="nav-link"><span class="nav-icon">🌐</span> Portal Cliente</a>
+      <button class="nav-link" id="btnLogout"><span class="nav-icon">🚪</span> Sair</button>
+    </nav>
+    <div class="sidebar-user">
+      <div class="avatar" id="userAvatar" style="background:#e8a900;color:#1a1000;">A</div>
+      <div class="user-info">
+        <div class="user-name"  id="userName">Admin ASJ</div>
+        <div class="user-role">Administrador</div>
+      </div>
+    </div>
+  </aside>
+
+  <div class="main-content">
+    <header class="topbar">
+      <div class="topbar-info">
+        <div class="topbar-title">Pedidos</div>
+        <div class="topbar-subtitle">Gerencie e acompanhe todas as solicitações</div>
+      </div>
+    </header>
+
+    <main class="page-body">
+
+      <div style="display:flex;gap:12px;margin-bottom:18px;flex-wrap:wrap;">
+        <div class="search-field" style="flex:1;min-width:200px;">
+          <span class="search-icon">🔍</span>
+          <input type="text" class="form-control" id="searchPedido"
+            placeholder="Buscar por cliente ou empresa...">
+        </div>
+        <select class="filter-select" id="filterStatus">
+          <option value="">Todos os status</option>
+          <option value="pendente">Pendente</option>
+          <option value="confirmado">Confirmado</option>
+          <option value="cancelado">Cancelado</option>
+        </select>
+      </div>
+
+      <div id="alertGeral" class="alert" style="display:none;margin-bottom:14px;"></div>
+
+      <div class="panel">
+        <div class="panel-header">
+          <span class="panel-title">Lista de Pedidos</span>
+          <span style="font-size:13px;color:var(--texto-sec);" id="contagem">Carregando...</span>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Pedido</th>
+                <th>Cliente</th>
+                <th>Empresa</th>
+                <th>Data</th>
+                <th>Itens</th>
+                <th>Status</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody id="tBody">
+              <tr><td colspan="7" style="text-align:center;padding:32px;color:#aaa;">
+                Carregando...
+              </td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<!-- Modal detalhes -->
+<div class="modal-overlay" id="modalPedido">
+  <div class="modal" style="max-width:640px;">
+    <div class="modal-header">
+      <h2 class="modal-title">Detalhes do Pedido</h2>
+      <button class="modal-close" id="modalClose">✕</button>
+    </div>
+    <div class="modal-body">
+      <div style="display:flex;gap:20px;flex-wrap:wrap;font-size:14px;margin-bottom:8px;">
+        <div><strong>Cliente:</strong> <span id="dCliente">–</span></div>
+        <div><strong>Empresa:</strong> <span id="dEmpresa">–</span></div>
+        <div><strong>Data:</strong>    <span id="dData">–</span></div>
+      </div>
+      <div id="dObs" style="display:none;background:var(--bg);border-radius:8px;
+        padding:10px 14px;font-size:13px;color:var(--texto-sec);margin-bottom:8px;"></div>
+
+      <table>
+        <thead>
+          <tr><th>Produto</th><th>Código</th><th style="text-align:center;">Qtd</th></tr>
+        </thead>
+        <tbody id="dItens"></tbody>
+      </table>
+
+      <div style="margin-top:18px;">
+        <label class="form-label">Alterar status</label>
+        <div style="display:flex;gap:10px;margin-top:6px;">
+          <select class="form-control" id="novoStatus" style="max-width:220px;">
+            <option value="pendente">Pendente</option>
+            <option value="confirmado">Confirmado</option>
+            <option value="cancelado">Cancelado</option>
+          </select>
+          <button class="btn btn-primary" id="btnStatus">Atualizar</button>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" id="modalFechar">Fechar</button>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+  import { requireAdmin, logout } from '../assets/portal/auth.js';
+  import { listarTodosPedidos, atualizarStatusPedido } from '../assets/portal/db.js';
+
+  const { profile } = await requireAdmin('../portal-login.html');
+  document.getElementById('userAvatar').textContent = profile.nome?.charAt(0).toUpperCase() || 'A';
+  document.getElementById('userName').textContent   = profile.nome || 'Administrador';
+
+  let todosPedidos  = [];
+  let pedidoAberto  = null;
+
+  async function carregar() {
+    todosPedidos = await listarTodosPedidos().catch(() => []);
+    renderTabela();
+  }
+
+  function renderTabela() {
+    const q  = document.getElementById('searchPedido').value.trim().toLowerCase();
+    const fs = document.getElementById('filterStatus').value;
+
+    const lista = todosPedidos.filter(p => {
+      const matchQ  = !q  ||
+        (p.clienteNome    || '').toLowerCase().includes(q) ||
+        (p.clienteEmpresa || '').toLowerCase().includes(q);
+      const matchS = !fs || p.status === fs;
+      return matchQ && matchS;
+    });
+
+    document.getElementById('contagem').textContent =
+      `${lista.length} pedido${lista.length !== 1 ? 's' : ''}`;
+
+    const tbody = document.getElementById('tBody');
+    if (!lista.length) {
+      tbody.innerHTML = `<tr><td colspan="7" style="text-align:center;padding:32px;color:#aaa;">
+        Nenhum pedido encontrado.
+      </td></tr>`;
+      return;
+    }
+
+    tbody.innerHTML = lista.map(p => {
+      const data = p.criadoEm?.toDate?.()?.toLocaleDateString('pt-BR') ?? '–';
+      const qtd  = p.itens?.reduce((s, i) => s + (i.quantidade || 1), 0) || 0;
+      return `
+        <tr>
+          <td><code style="font-size:11px;color:#888;">${p.id.slice(0,10)}…</code></td>
+          <td style="font-size:13px;font-weight:700;">${p.clienteNome || '–'}</td>
+          <td style="font-size:13px;color:var(--texto-sec);">${p.clienteEmpresa || '–'}</td>
+          <td style="white-space:nowrap;font-size:13px;">${data}</td>
+          <td>${qtd}</td>
+          <td><span class="badge badge-${p.status}">${bl(p.status)}</span></td>
+          <td>
+            <button class="btn btn-ghost btn-sm btn-ver" data-id="${p.id}">Ver</button>
+          </td>
+        </tr>`;
+    }).join('');
+
+    tbody.querySelectorAll('.btn-ver').forEach(b => {
+      b.addEventListener('click', () => abrirDetalhes(b.dataset.id));
+    });
+  }
+
+  function bl(s) {
+    return { pendente:'Pendente', confirmado:'Confirmado', cancelado:'Cancelado' }[s] || s;
+  }
+
+  // ── Modal ─────────────────────────────────────────────────
+  function abrirDetalhes(id) {
+    pedidoAberto = todosPedidos.find(p => p.id === id);
+    if (!pedidoAberto) return;
+
+    document.getElementById('dCliente').textContent = pedidoAberto.clienteNome    || '–';
+    document.getElementById('dEmpresa').textContent = pedidoAberto.clienteEmpresa || '–';
+    document.getElementById('dData').textContent    =
+      pedidoAberto.criadoEm?.toDate?.()?.toLocaleDateString('pt-BR') ?? '–';
+
+    const obsEl = document.getElementById('dObs');
+    if (pedidoAberto.observacao) {
+      obsEl.textContent = `📝 ${pedidoAberto.observacao}`;
+      obsEl.style.display = '';
+    } else {
+      obsEl.style.display = 'none';
+    }
+
+    document.getElementById('dItens').innerHTML = (pedidoAberto.itens || []).map(i => `
+      <tr>
+        <td>${i.nome || '–'}</td>
+        <td style="color:var(--texto-sec);font-size:12px;">${i.codigo || '–'}</td>
+        <td style="text-align:center;font-weight:700;">${i.quantidade || 1}</td>
+      </tr>
+    `).join('');
+
+    document.getElementById('novoStatus').value = pedidoAberto.status;
+
+    document.getElementById('modalPedido').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function fecharModal() {
+    document.getElementById('modalPedido').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  ['modalClose','modalFechar'].forEach(id => {
+    document.getElementById(id).addEventListener('click', fecharModal);
+  });
+  document.getElementById('modalPedido').addEventListener('click', e => {
+    if (e.target === document.getElementById('modalPedido')) fecharModal();
+  });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') fecharModal(); });
+
+  // ── Atualizar status ──────────────────────────────────────
+  document.getElementById('btnStatus').addEventListener('click', async () => {
+    if (!pedidoAberto) return;
+    const novoStatus = document.getElementById('novoStatus').value;
+    const btn = document.getElementById('btnStatus');
+    btn.disabled = true; btn.textContent = 'Salvando...';
+
+    try {
+      await atualizarStatusPedido(pedidoAberto.id, novoStatus);
+      pedidoAberto.status = novoStatus;
+      fecharModal();
+      await carregar();
+      const el = document.getElementById('alertGeral');
+      el.className = 'alert alert-success';
+      el.textContent = '✅ Status do pedido atualizado!';
+      el.style.display = 'flex';
+      setTimeout(() => el.style.display = 'none', 4000);
+    } catch (e) {
+      alert('Erro ao atualizar status.');
+    } finally {
+      btn.disabled = false; btn.textContent = 'Atualizar';
+    }
+  });
+
+  // ── Filtros ───────────────────────────────────────────────
+  document.getElementById('searchPedido').addEventListener('input', renderTabela);
+  document.getElementById('filterStatus').addEventListener('change', renderTabela);
+
+  // ── Logout ────────────────────────────────────────────────
+  document.getElementById('btnLogout').addEventListener('click', async () => {
+    await logout();
+    window.location.href = '../portal-login.html';
+  });
+
+  // ── Mobile sidebar ────────────────────────────────────────
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('sidebarOverlay');
+  document.getElementById('sidebarToggle').addEventListener('click', () => {
+    sidebar.classList.toggle('open'); overlay.classList.toggle('open');
+  });
+  overlay.addEventListener('click', () => {
+    sidebar.classList.remove('open'); overlay.classList.remove('open');
+  });
+
+  await carregar();
+</script>
+</body>
+</html>

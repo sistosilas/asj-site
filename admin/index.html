@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin — ASJ Portal</title>
+  <link rel="stylesheet" href="../assets/portal/portal.css">
+  <meta name="robots" content="noindex, nofollow">
+</head>
+<body>
+
+<button class="sidebar-toggle" id="sidebarToggle">☰</button>
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<div class="portal-layout">
+
+  <!-- ── Sidebar Admin ── -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <img src="../assets/logo-asj.png" alt="ASJ Tecnologia Agrícola">
+      <span class="portal-badge admin-badge">⚙ Área Admin</span>
+    </div>
+    <nav class="sidebar-nav">
+      <span class="nav-section-label">Gerenciamento</span>
+      <a href="index.html"    class="nav-link active"><span class="nav-icon">📊</span> Dashboard</a>
+      <a href="clientes.html" class="nav-link"><span class="nav-icon">👥</span> Clientes</a>
+      <a href="pedidos.html"  class="nav-link"><span class="nav-icon">📋</span> Pedidos</a>
+      <a href="catalogo.html" class="nav-link"><span class="nav-icon">📦</span> Catálogo Portal</a>
+
+      <span class="nav-section-label">Sistema</span>
+      <a href="../portal-login.html" class="nav-link"><span class="nav-icon">🌐</span> Portal Cliente</a>
+      <a href="../index.html" class="nav-link" target="_blank"><span class="nav-icon">🔗</span> Site Público</a>
+      <button class="nav-link" id="btnLogout"><span class="nav-icon">🚪</span> Sair</button>
+    </nav>
+    <div class="sidebar-user">
+      <div class="avatar" id="userAvatar" style="background:#e8a900;color:#1a1000;">A</div>
+      <div class="user-info">
+        <div class="user-name"  id="userName">Admin ASJ</div>
+        <div class="user-role">Administrador</div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ── Main ── -->
+  <div class="main-content">
+    <header class="topbar">
+      <div class="topbar-info">
+        <div class="topbar-title">Dashboard Administrativo</div>
+        <div class="topbar-subtitle">Visão geral do portal</div>
+      </div>
+    </header>
+
+    <main class="page-body">
+
+      <!-- Stat cards -->
+      <div class="cards-row">
+        <div class="stat-card">
+          <div class="stat-icon">👥</div>
+          <div>
+            <div class="stat-val" id="statClientes">–</div>
+            <div class="stat-label">Clientes cadastrados</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon green">✅</div>
+          <div>
+            <div class="stat-val" id="statAtivos">–</div>
+            <div class="stat-label">Clientes ativos</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon gold">📋</div>
+          <div>
+            <div class="stat-val" id="statPedidos">–</div>
+            <div class="stat-label">Total de pedidos</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon red">⏳</div>
+          <div>
+            <div class="stat-val" id="statPendentes">–</div>
+            <div class="stat-label">Pedidos pendentes</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:22px;">
+
+        <!-- Últimos clientes -->
+        <div class="panel">
+          <div class="panel-header">
+            <span class="panel-title">Últimos Clientes</span>
+            <a href="clientes.html" class="btn btn-ghost btn-sm">Ver todos</a>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr><th>Nome</th><th>Empresa</th><th>Status</th></tr>
+              </thead>
+              <tbody id="tClientes">
+                <tr><td colspan="3" style="text-align:center;padding:20px;color:#aaa;">
+                  Carregando...
+                </td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Últimos pedidos -->
+        <div class="panel">
+          <div class="panel-header">
+            <span class="panel-title">Últimos Pedidos</span>
+            <a href="pedidos.html" class="btn btn-ghost btn-sm">Ver todos</a>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr><th>Cliente</th><th>Data</th><th>Status</th></tr>
+              </thead>
+              <tbody id="tPedidos">
+                <tr><td colspan="3" style="text-align:center;padding:20px;color:#aaa;">
+                  Carregando...
+                </td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Ações rápidas -->
+      <div class="panel" style="margin-top:22px;">
+        <div class="panel-header">
+          <span class="panel-title">Ações Rápidas</span>
+        </div>
+        <div class="panel-body">
+          <div style="display:flex;gap:12px;flex-wrap:wrap;">
+            <a href="clientes.html?acao=novo" class="btn btn-primary">👤 Cadastrar Cliente</a>
+            <a href="catalogo.html"           class="btn btn-ghost">📦 Gerenciar Catálogo</a>
+            <a href="pedidos.html"            class="btn btn-ghost">📋 Ver Pedidos</a>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<script type="module">
+  import { requireAdmin, logout } from '../assets/portal/auth.js';
+  import { listarClientes, listarTodosPedidos } from '../assets/portal/db.js';
+
+  // ── Auth guard ────────────────────────────────────────────
+  const { profile } = await requireAdmin('../portal-login.html');
+
+  document.getElementById('userAvatar').textContent = profile.nome?.charAt(0).toUpperCase() || 'A';
+  document.getElementById('userName').textContent   = profile.nome || 'Administrador';
+
+  // ── Carregar dados ────────────────────────────────────────
+  try {
+    const [clientes, pedidos] = await Promise.all([
+      listarClientes(),
+      listarTodosPedidos()
+    ]);
+
+    // Stats
+    const ativos    = clientes.filter(c => c.ativo).length;
+    const pendentes = pedidos.filter(p => p.status === 'pendente').length;
+
+    document.getElementById('statClientes').textContent  = clientes.length;
+    document.getElementById('statAtivos').textContent    = ativos;
+    document.getElementById('statPedidos').textContent   = pedidos.length;
+    document.getElementById('statPendentes').textContent = pendentes;
+
+    // Tabela clientes
+    document.getElementById('tClientes').innerHTML = clientes.slice(0, 5).map(c => `
+      <tr>
+        <td class="td-nome">
+          <strong>${c.nome}</strong>
+        </td>
+        <td style="font-size:13px;color:var(--texto-sec);">${c.empresa || '–'}</td>
+        <td><span class="badge badge-${c.ativo ? 'ativo' : 'inativo'}">${c.ativo ? 'Ativo' : 'Inativo'}</span></td>
+      </tr>
+    `).join('') || `<tr><td colspan="3" style="text-align:center;color:#aaa;padding:16px;">Nenhum cliente.</td></tr>`;
+
+    // Tabela pedidos
+    document.getElementById('tPedidos').innerHTML = pedidos.slice(0, 5).map(p => {
+      const data = p.criadoEm?.toDate?.()?.toLocaleDateString('pt-BR') ?? '–';
+      return `
+        <tr>
+          <td style="font-size:13px;">${p.clienteNome || '–'}</td>
+          <td style="white-space:nowrap;font-size:13px;">${data}</td>
+          <td><span class="badge badge-${p.status}">${bl(p.status)}</span></td>
+        </tr>`;
+    }).join('') || `<tr><td colspan="3" style="text-align:center;color:#aaa;padding:16px;">Nenhum pedido.</td></tr>`;
+
+  } catch (e) {
+    console.error(e);
+  }
+
+  function bl(s) {
+    return { pendente:'Pendente', confirmado:'Confirmado', cancelado:'Cancelado' }[s] || s;
+  }
+
+  // ── Logout ────────────────────────────────────────────────
+  document.getElementById('btnLogout').addEventListener('click', async () => {
+    await logout();
+    window.location.href = '../portal-login.html';
+  });
+
+  // ── Mobile sidebar ────────────────────────────────────────
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('sidebarOverlay');
+  document.getElementById('sidebarToggle').addEventListener('click', () => {
+    sidebar.classList.toggle('open'); overlay.classList.toggle('open');
+  });
+  overlay.addEventListener('click', () => {
+    sidebar.classList.remove('open'); overlay.classList.remove('open');
+  });
+</script>
+</body>
+</html>

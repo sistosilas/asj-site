@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Catálogo Exclusivo — Portal ASJ</title>
+  <link rel="stylesheet" href="../assets/portal/portal.css">
+  <meta name="robots" content="noindex, nofollow">
+</head>
+<body>
+
+<button class="sidebar-toggle" id="sidebarToggle">☰</button>
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<div class="portal-layout">
+
+  <!-- ── Sidebar ── -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <img src="../assets/logo-asj.png" alt="ASJ Tecnologia Agrícola">
+      <span class="portal-badge">Portal do Cliente</span>
+    </div>
+    <nav class="sidebar-nav">
+      <span class="nav-section-label">Menu</span>
+      <a href="dashboard.html" class="nav-link"><span class="nav-icon">🏠</span> Dashboard</a>
+      <a href="catalogo.html"  class="nav-link active"><span class="nav-icon">📦</span> Catálogo Exclusivo</a>
+      <a href="carrinho.html"  class="nav-link">
+        <span class="nav-icon">🛒</span> Meu Pedido
+        <span class="nav-badge" id="cartNavBadge" style="display:none;"></span>
+      </a>
+      <a href="pedidos.html"   class="nav-link"><span class="nav-icon">📋</span> Histórico de Pedidos</a>
+      <span class="nav-section-label">Conta</span>
+      <button class="nav-link" id="btnLogout"><span class="nav-icon">🚪</span> Sair</button>
+    </nav>
+    <div class="sidebar-user">
+      <div class="avatar" id="userAvatar">?</div>
+      <div class="user-info">
+        <div class="user-name"    id="userName">Carregando...</div>
+        <div class="user-role"    id="userEmpresa">–</div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ── Main ── -->
+  <div class="main-content">
+    <header class="topbar">
+      <div class="topbar-info">
+        <div class="topbar-title">Catálogo Exclusivo</div>
+        <div class="topbar-subtitle">Produtos disponíveis para sua empresa</div>
+      </div>
+      <div class="topbar-actions">
+        <a href="carrinho.html">
+          <button class="cart-btn" title="Meu Pedido">
+            🛒 <span class="cart-count" id="cartCount"></span>
+          </button>
+        </a>
+      </div>
+    </header>
+
+    <main class="page-body">
+
+      <!-- Toolbar de busca e filtro -->
+      <div class="catalog-toolbar">
+        <div class="search-field">
+          <span class="search-icon">🔍</span>
+          <input type="text" class="form-control" id="searchInput"
+            placeholder="Buscar por nome ou código...">
+        </div>
+        <select class="filter-select" id="filterCat">
+          <option value="">Todas as categorias</option>
+        </select>
+        <select class="filter-select" id="sortSelect">
+          <option value="az">Nome (A–Z)</option>
+          <option value="za">Nome (Z–A)</option>
+          <option value="recentes">Mais recentes</option>
+        </select>
+      </div>
+
+      <!-- Contagem -->
+      <div style="margin-bottom:16px;font-size:13px;color:var(--texto-sec);">
+        <span id="countLabel">Carregando...</span>
+      </div>
+
+      <!-- Grid de produtos -->
+      <div class="catalog-grid" id="catalogGrid">
+        <div class="empty-state">
+          <div class="empty-icon">⏳</div>
+          <p>Carregando catálogo...</p>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<!-- ── Modal Produto ── -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal" style="max-width:680px;">
+    <div class="modal-header">
+      <h2 class="modal-title" id="modalTitle">Produto</h2>
+      <button class="modal-close" id="modalClose">✕</button>
+    </div>
+    <div style="display:grid;grid-template-columns:220px 1fr;">
+      <div id="modalImgWrap"
+        style="background:var(--azul-claro);display:flex;align-items:center;justify-content:center;min-height:200px;font-size:52px;">
+        📦
+      </div>
+      <div class="modal-body" style="border-radius:0 0 var(--radius-lg) 0;">
+        <span style="font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--azul);font-weight:700;" id="modalCat"></span>
+        <p id="modalDesc" style="font-size:14px;color:var(--texto-sec);line-height:1.6;"></p>
+        <ul id="modalSpecs" style="font-size:13px;color:#444;padding-left:18px;line-height:2;"></ul>
+        <div class="modal-footer" style="border-top:none;padding:0;margin-top:4px;">
+          <div style="display:flex;align-items:center;gap:8px;">
+            <label style="font-size:13px;font-weight:700;">Qtd:</label>
+            <div class="qty-control">
+              <button class="qty-btn" id="modalQtyMinus">−</button>
+              <span class="qty-val" id="modalQtyVal">1</span>
+              <button class="qty-btn" id="modalQtyPlus">+</button>
+            </div>
+          </div>
+          <button class="btn btn-primary" id="btnAddCart">🛒 Adicionar ao Pedido</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Toast feedback -->
+<div id="toast"
+  style="display:none;position:fixed;bottom:24px;right:24px;background:var(--azul-escuro);color:#fff;
+  padding:12px 20px;border-radius:10px;font-size:14px;font-weight:700;z-index:9999;
+  box-shadow:0 8px 28px rgba(0,0,0,.28);animation:fadeIn .2s;">
+</div>
+
+<style>
+  @keyframes fadeIn { from { opacity:0; transform:translateY(8px); } }
+  @media(max-width:640px) {
+    .modal { max-width:100% !important; }
+    .modal > div { grid-template-columns:1fr !important; }
+    #modalImgWrap { min-height:140px !important; border-radius: var(--radius-lg) var(--radius-lg) 0 0; }
+  }
+</style>
+
+<script type="module">
+  import { requireAuth, logout } from '../assets/portal/auth.js';
+  import {
+    listarProdutosPortal, listarCategoriasPortal,
+    adicionarAoCarrinho, getCarrinho
+  } from '../assets/portal/db.js';
+
+  // ── Auth guard ────────────────────────────────────────────
+  const { profile } = await requireAuth('../portal-login.html');
+
+  document.getElementById('userAvatar').textContent  = profile.nome?.charAt(0).toUpperCase() || 'C';
+  document.getElementById('userName').textContent    = profile.nome   || 'Cliente';
+  document.getElementById('userEmpresa').textContent = profile.empresa || '–';
+
+  // ── Carrinho ──────────────────────────────────────────────
+  function atualizarBadgeCarrinho() {
+    const n = getCarrinho().reduce((s, i) => s + i.quantidade, 0);
+    const cc = document.getElementById('cartCount');
+    const nb = document.getElementById('cartNavBadge');
+    if (n > 0) {
+      cc.textContent = n; cc.classList.add('visible');
+      nb.textContent = n; nb.style.display = '';
+    } else {
+      cc.classList.remove('visible');
+      nb.style.display = 'none';
+    }
+  }
+  atualizarBadgeCarrinho();
+
+  // ── Carregar produtos ─────────────────────────────────────
+  let todosOsProdutos = [];
+  let produtoAtivo   = null;
+  let qtdModal = 1;
+
+  async function carregarCatalogo() {
+    try {
+      todosOsProdutos = await listarProdutosPortal();
+      const cats = await listarCategoriasPortal();
+      const sel  = document.getElementById('filterCat');
+      cats.forEach(c => {
+        const o = document.createElement('option');
+        o.value = c; o.textContent = c;
+        sel.appendChild(o);
+      });
+    } catch (e) {
+      todosOsProdutos = [];
+    }
+    renderCatalogo();
+  }
+
+  // ── Render ────────────────────────────────────────────────
+  function renderCatalogo() {
+    const q    = document.getElementById('searchInput').value.trim().toLowerCase();
+    const cat  = document.getElementById('filterCat').value;
+    const sort = document.getElementById('sortSelect').value;
+
+    let lista = todosOsProdutos.filter(p => {
+      const matchQ   = !q || (p.nome||'').toLowerCase().includes(q) || (p.codigo||'').toLowerCase().includes(q);
+      const matchCat = !cat || p.categoria === cat;
+      return matchQ && matchCat;
+    });
+
+    if (sort === 'az') lista.sort((a,b) => (a.nome||'').localeCompare(b.nome||''));
+    if (sort === 'za') lista.sort((a,b) => (b.nome||'').localeCompare(a.nome||''));
+
+    document.getElementById('countLabel').textContent =
+      `${lista.length} produto${lista.length !== 1 ? 's' : ''} encontrado${lista.length !== 1 ? 's' : ''}`;
+
+    const grid = document.getElementById('catalogGrid');
+
+    if (!lista.length) {
+      grid.innerHTML = `
+        <div class="empty-state">
+          <div class="empty-icon">📭</div>
+          <p>${todosOsProdutos.length === 0
+            ? 'O catálogo ainda não possui produtos.<br>Em breve novidades!'
+            : 'Nenhum produto encontrado com esses filtros.'
+          }</p>
+        </div>`;
+      return;
+    }
+
+    grid.innerHTML = lista.map(p => `
+      <div class="prod-card" data-id="${p.id}">
+        <div class="prod-img">
+          ${p.imagem
+            ? `<img src="${p.imagem}" alt="${p.nome}" onerror="this.parentElement.innerHTML='<span class=\\'prod-img-ph\\'>📦</span>'">`
+            : `<span class="prod-img-ph">📦</span>`
+          }
+        </div>
+        <div class="prod-info">
+          ${p.categoria ? `<div class="prod-cat">${p.categoria}</div>` : ''}
+          <div class="prod-name">${p.nome}</div>
+          ${p.codigo ? `<div class="prod-code">Cód: ${p.codigo}</div>` : ''}
+          ${p.descricao ? `<div class="prod-desc">${p.descricao.slice(0,90)}${p.descricao.length>90?'…':''}</div>` : ''}
+        </div>
+        <div class="prod-footer">
+          <button class="btn btn-ghost btn-sm btn-ver" data-id="${p.id}">Ver detalhes</button>
+          <button class="btn btn-primary btn-sm btn-add" data-id="${p.id}">+ Pedido</button>
+        </div>
+      </div>
+    `).join('');
+
+    // Eventos nos cards
+    grid.querySelectorAll('.btn-ver').forEach(btn => {
+      btn.addEventListener('click', () => abrirModal(btn.dataset.id));
+    });
+    grid.querySelectorAll('.btn-add').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const p = todosOsProdutos.find(x => x.id === btn.dataset.id);
+        if (p) adicionarENotificar(p, 1);
+      });
+    });
+  }
+
+  // ── Modal ─────────────────────────────────────────────────
+  function abrirModal(id) {
+    produtoAtivo = todosOsProdutos.find(p => p.id === id);
+    if (!produtoAtivo) return;
+    qtdModal = 1;
+
+    document.getElementById('modalTitle').textContent = produtoAtivo.nome;
+    document.getElementById('modalCat').textContent   = produtoAtivo.categoria || '';
+    document.getElementById('modalDesc').textContent  = produtoAtivo.descricao  || '';
+    document.getElementById('modalQtyVal').textContent = '1';
+
+    const specs = produtoAtivo.specs || [];
+    document.getElementById('modalSpecs').innerHTML =
+      specs.map(s => `<li>${s}</li>`).join('') || '';
+
+    const imgWrap = document.getElementById('modalImgWrap');
+    imgWrap.innerHTML = produtoAtivo.imagem
+      ? `<img src="${produtoAtivo.imagem}" alt="${produtoAtivo.nome}"
+          style="width:100%;height:100%;object-fit:cover;"
+          onerror="this.parentElement.innerHTML='<span style=font-size:52px>📦</span>'">`
+      : '📦';
+
+    document.getElementById('modalOverlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function fecharModal() {
+    document.getElementById('modalOverlay').classList.remove('open');
+    document.body.style.overflow = '';
+    produtoAtivo = null;
+  }
+
+  document.getElementById('modalClose').addEventListener('click', fecharModal);
+  document.getElementById('modalOverlay').addEventListener('click', e => {
+    if (e.target === document.getElementById('modalOverlay')) fecharModal();
+  });
+
+  document.getElementById('modalQtyMinus').addEventListener('click', () => {
+    if (qtdModal > 1) { qtdModal--; document.getElementById('modalQtyVal').textContent = qtdModal; }
+  });
+  document.getElementById('modalQtyPlus').addEventListener('click', () => {
+    qtdModal++;
+    document.getElementById('modalQtyVal').textContent = qtdModal;
+  });
+
+  document.getElementById('btnAddCart').addEventListener('click', () => {
+    if (produtoAtivo) {
+      adicionarENotificar(produtoAtivo, qtdModal);
+      fecharModal();
+    }
+  });
+
+  // ── Adicionar ao carrinho + toast ─────────────────────────
+  function adicionarENotificar(produto, quantidade) {
+    adicionarAoCarrinho(produto, quantidade);
+    atualizarBadgeCarrinho();
+    mostrarToast(`✅ ${produto.nome} adicionado ao pedido!`);
+  }
+
+  let toastTimer;
+  function mostrarToast(msg) {
+    const el = document.getElementById('toast');
+    el.textContent = msg;
+    el.style.display = 'block';
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => { el.style.display = 'none'; }, 3000);
+  }
+
+  // ── Filtros ───────────────────────────────────────────────
+  document.getElementById('searchInput').addEventListener('input', renderCatalogo);
+  document.getElementById('filterCat').addEventListener('change', renderCatalogo);
+  document.getElementById('sortSelect').addEventListener('change', renderCatalogo);
+
+  // ── Logout ────────────────────────────────────────────────
+  document.getElementById('btnLogout').addEventListener('click', async () => {
+    await logout();
+    window.location.href = '../portal-login.html';
+  });
+
+  // ── Mobile sidebar ────────────────────────────────────────
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('sidebarOverlay');
+  document.getElementById('sidebarToggle').addEventListener('click', () => {
+    sidebar.classList.toggle('open');
+    overlay.classList.toggle('open');
+  });
+  overlay.addEventListener('click', () => {
+    sidebar.classList.remove('open');
+    overlay.classList.remove('open');
+  });
+
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') fecharModal(); });
+
+  // ── Init ──────────────────────────────────────────────────
+  carregarCatalogo();
+</script>
+</body>
+</html>

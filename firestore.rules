@@ -1,0 +1,55 @@
+// ============================================================
+//  ASJ PORTAL — Regras de Segurança do Firestore
+//  Cole estas regras em: Firebase Console → Firestore → Regras
+// ============================================================
+
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ── Helper: verifica se o usuário é admin ────────────────
+    function isAdmin() {
+      return request.auth != null
+        && get(/databases/$(database)/documents/usuarios/$(request.auth.uid)).data.role == 'admin';
+    }
+
+    // ── Helper: verifica se está autenticado e ativo ─────────
+    function isActiveClient() {
+      return request.auth != null
+        && get(/databases/$(database)/documents/usuarios/$(request.auth.uid)).data.ativo == true;
+    }
+
+    // ── Usuários ─────────────────────────────────────────────
+    match /usuarios/{userId} {
+      // Usuário lê apenas seu próprio perfil; admin lê todos
+      allow read: if request.auth.uid == userId || isAdmin();
+
+      // Apenas admin cria/edita usuários
+      allow create: if isAdmin();
+      allow update: if isAdmin();
+      allow delete: if isAdmin();
+    }
+
+    // ── Catálogo exclusivo do portal ─────────────────────────
+    // Visível apenas para usuários autenticados e ativos
+    match /produtos_portal/{prodId} {
+      allow read:   if isActiveClient();
+      allow write:  if isAdmin();
+    }
+
+    // ── Pedidos ──────────────────────────────────────────────
+    match /pedidos/{pedidoId} {
+      // Cliente lê apenas seus próprios pedidos
+      allow read: if request.auth.uid == resource.data.clienteId || isAdmin();
+
+      // Cliente autenticado cria pedidos apenas em seu nome
+      allow create: if isActiveClient()
+        && request.resource.data.clienteId == request.auth.uid;
+
+      // Apenas admin atualiza (muda status, etc.)
+      allow update: if isAdmin();
+      allow delete: if isAdmin();
+    }
+
+  }
+}

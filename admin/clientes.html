@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Clientes — Admin ASJ</title>
+  <link rel="stylesheet" href="../assets/portal/portal.css">
+  <meta name="robots" content="noindex, nofollow">
+</head>
+<body>
+
+<button class="sidebar-toggle" id="sidebarToggle">☰</button>
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<div class="portal-layout">
+
+  <!-- Sidebar Admin -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <img src="../assets/logo-asj.png" alt="ASJ Tecnologia Agrícola">
+      <span class="portal-badge admin-badge">⚙ Área Admin</span>
+    </div>
+    <nav class="sidebar-nav">
+      <span class="nav-section-label">Gerenciamento</span>
+      <a href="index.html"    class="nav-link"><span class="nav-icon">📊</span> Dashboard</a>
+      <a href="clientes.html" class="nav-link active"><span class="nav-icon">👥</span> Clientes</a>
+      <a href="pedidos.html"  class="nav-link"><span class="nav-icon">📋</span> Pedidos</a>
+      <a href="catalogo.html" class="nav-link"><span class="nav-icon">📦</span> Catálogo Portal</a>
+      <span class="nav-section-label">Sistema</span>
+      <a href="../portal-login.html" class="nav-link"><span class="nav-icon">🌐</span> Portal Cliente</a>
+      <a href="../index.html" class="nav-link" target="_blank"><span class="nav-icon">🔗</span> Site Público</a>
+      <button class="nav-link" id="btnLogout"><span class="nav-icon">🚪</span> Sair</button>
+    </nav>
+    <div class="sidebar-user">
+      <div class="avatar" id="userAvatar" style="background:#e8a900;color:#1a1000;">A</div>
+      <div class="user-info">
+        <div class="user-name"  id="userName">Admin ASJ</div>
+        <div class="user-role">Administrador</div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <div class="main-content">
+    <header class="topbar">
+      <div class="topbar-info">
+        <div class="topbar-title">Gerenciar Clientes</div>
+        <div class="topbar-subtitle">Cadastre, edite e controle o acesso dos clientes ao portal</div>
+      </div>
+      <div class="topbar-actions">
+        <button class="btn btn-primary" id="btnNovoCliente">+ Novo Cliente</button>
+      </div>
+    </header>
+
+    <main class="page-body">
+
+      <!-- Busca rápida -->
+      <div style="display:flex;gap:12px;margin-bottom:18px;flex-wrap:wrap;">
+        <div class="search-field" style="flex:1;min-width:220px;">
+          <span class="search-icon">🔍</span>
+          <input type="text" class="form-control" id="searchCliente"
+            placeholder="Buscar por nome, empresa ou e-mail...">
+        </div>
+        <select class="filter-select" id="filterAtivo">
+          <option value="">Todos os status</option>
+          <option value="ativo">Apenas ativos</option>
+          <option value="inativo">Apenas inativos</option>
+        </select>
+      </div>
+
+      <div id="alertGeral" class="alert" style="display:none;margin-bottom:14px;"></div>
+
+      <div class="panel">
+        <div class="panel-header">
+          <span class="panel-title">Lista de Clientes</span>
+          <span style="font-size:13px;color:var(--texto-sec);" id="contagem">Carregando...</span>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Nome / Empresa</th>
+                <th>E-mail</th>
+                <th>Telefone</th>
+                <th>CNPJ</th>
+                <th>Acesso</th>
+                <th>Cadastrado em</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody id="tBody">
+              <tr><td colspan="7" style="text-align:center;padding:32px;color:#aaa;">
+                Carregando...
+              </td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<!-- ══ Modal: Novo / Editar Cliente ══ -->
+<div class="modal-overlay" id="modalCliente">
+  <div class="modal">
+    <div class="modal-header">
+      <h2 class="modal-title" id="modalTitulo">Novo Cliente</h2>
+      <button class="modal-close" id="modalClose">✕</button>
+    </div>
+    <div class="modal-body">
+      <div id="modalAlert" class="alert" style="display:none;"></div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Nome completo *</label>
+          <input type="text" class="form-control" id="fNome" placeholder="João Silva">
+        </div>
+        <div class="form-group">
+          <label class="form-label">E-mail *</label>
+          <input type="email" class="form-control" id="fEmail" placeholder="joao@empresa.com">
+        </div>
+      </div>
+
+      <div id="senhaGroup">
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Senha provisória *</label>
+            <input type="password" class="form-control" id="fSenha"
+              placeholder="Mínimo 6 caracteres" autocomplete="new-password">
+          </div>
+          <div class="form-group">
+            <label class="form-label">&nbsp;</label>
+            <button type="button" class="btn btn-ghost" id="btnGerarSenha">
+              🔑 Gerar senha
+            </button>
+          </div>
+        </div>
+        <p class="form-hint">⚠️ Compartilhe esta senha com o cliente. Ele poderá alterá-la depois.</p>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Empresa</label>
+          <input type="text" class="form-control" id="fEmpresa" placeholder="Nome da empresa">
+        </div>
+        <div class="form-group">
+          <label class="form-label">CNPJ</label>
+          <input type="text" class="form-control" id="fCnpj" placeholder="00.000.000/0000-00">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Telefone / WhatsApp</label>
+        <input type="tel" class="form-control" id="fTelefone" placeholder="(16) 99999-9999">
+      </div>
+
+      <div id="statusGroup" style="display:none;" class="form-group">
+        <label class="form-label">Acesso ao portal</label>
+        <select class="form-control" id="fAtivo">
+          <option value="true">Ativo — pode acessar o portal</option>
+          <option value="false">Inativo — acesso bloqueado</option>
+        </select>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" id="btnCancelarModal">Cancelar</button>
+      <button class="btn btn-primary" id="btnSalvarCliente">Salvar Cliente</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Confirmar reset de senha -->
+<div class="modal-overlay" id="modalReset">
+  <div class="modal" style="max-width:420px;">
+    <div class="modal-header">
+      <h2 class="modal-title">Resetar Senha</h2>
+      <button class="modal-close" id="resetClose">✕</button>
+    </div>
+    <div class="modal-body">
+      <p>Será enviado um e-mail de redefinição de senha para:<br>
+        <strong id="resetEmail">–</strong>
+      </p>
+      <div id="resetAlert" class="alert" style="display:none;"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" id="resetCancelar">Cancelar</button>
+      <button class="btn btn-primary" id="resetConfirmar">Enviar E-mail</button>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+  import { requireAdmin, logout } from '../assets/portal/auth.js';
+  import {
+    listarClientes, criarCliente, atualizarCliente,
+    toggleAtivoCliente, resetarSenhaCliente
+  } from '../assets/portal/db.js';
+
+  // ── Auth guard ────────────────────────────────────────────
+  const { profile } = await requireAdmin('../portal-login.html');
+  document.getElementById('userAvatar').textContent = profile.nome?.charAt(0).toUpperCase() || 'A';
+  document.getElementById('userName').textContent   = profile.nome || 'Administrador';
+
+  let todosClientes = [];
+  let editandoId    = null;
+
+  // ── Carregar clientes ─────────────────────────────────────
+  async function carregarClientes() {
+    try {
+      todosClientes = await listarClientes();
+    } catch (e) {
+      todosClientes = [];
+    }
+    renderTabela();
+  }
+
+  // ── Render tabela ─────────────────────────────────────────
+  function renderTabela() {
+    const q     = document.getElementById('searchCliente').value.trim().toLowerCase();
+    const fAtivo = document.getElementById('filterAtivo').value;
+
+    const lista = todosClientes.filter(c => {
+      const matchQ = !q ||
+        (c.nome     || '').toLowerCase().includes(q) ||
+        (c.empresa  || '').toLowerCase().includes(q) ||
+        (c.email    || '').toLowerCase().includes(q);
+      const matchAtivo = !fAtivo ||
+        (fAtivo === 'ativo'   &&  c.ativo) ||
+        (fAtivo === 'inativo' && !c.ativo);
+      return matchQ && matchAtivo;
+    });
+
+    document.getElementById('contagem').textContent =
+      `${lista.length} cliente${lista.length !== 1 ? 's' : ''}`;
+
+    const tbody = document.getElementById('tBody');
+    if (!lista.length) {
+      tbody.innerHTML = `<tr><td colspan="7" style="text-align:center;padding:32px;color:#aaa;">
+        ${todosClientes.length === 0 ? 'Nenhum cliente cadastrado.' : 'Nenhum resultado para esse filtro.'}
+      </td></tr>`;
+      return;
+    }
+
+    tbody.innerHTML = lista.map(c => {
+      const data = c.criadoEm?.toDate?.()?.toLocaleDateString('pt-BR') ?? '–';
+      return `
+        <tr>
+          <td class="td-nome">
+            <strong>${c.nome}</strong>
+            <span>${c.empresa || '–'}</span>
+          </td>
+          <td style="font-size:13px;">${c.email}</td>
+          <td style="font-size:13px;">${c.telefone || '–'}</td>
+          <td style="font-size:12px;color:var(--texto-sec);">${c.cnpj || '–'}</td>
+          <td>
+            <span class="badge badge-${c.ativo ? 'ativo' : 'inativo'}">
+              ${c.ativo ? 'Ativo' : 'Inativo'}
+            </span>
+          </td>
+          <td style="font-size:13px;white-space:nowrap;">${data}</td>
+          <td>
+            <div style="display:flex;gap:6px;flex-wrap:wrap;">
+              <button class="btn btn-ghost btn-sm btn-editar" data-id="${c.id}" title="Editar">✏️</button>
+              <button class="btn btn-ghost btn-sm btn-toggle" data-id="${c.id}"
+                data-ativo="${c.ativo}" title="${c.ativo ? 'Desativar' : 'Ativar'}">
+                ${c.ativo ? '🚫' : '✅'}
+              </button>
+              <button class="btn btn-ghost btn-sm btn-reset" data-id="${c.id}"
+                data-email="${c.email}" title="Resetar senha">🔑</button>
+            </div>
+          </td>
+        </tr>`;
+    }).join('');
+
+    tbody.querySelectorAll('.btn-editar').forEach(b => {
+      b.addEventListener('click', () => abrirEdicao(b.dataset.id));
+    });
+    tbody.querySelectorAll('.btn-toggle').forEach(b => {
+      b.addEventListener('click', () => toggleAtivo(b.dataset.id, b.dataset.ativo === 'true'));
+    });
+    tbody.querySelectorAll('.btn-reset').forEach(b => {
+      b.addEventListener('click', () => abrirReset(b.dataset.email));
+    });
+  }
+
+  // ── Filtros ───────────────────────────────────────────────
+  document.getElementById('searchCliente').addEventListener('input', renderTabela);
+  document.getElementById('filterAtivo').addEventListener('change', renderTabela);
+
+  // ── Modal: Novo / Editar ──────────────────────────────────
+  function abrirModalNovo() {
+    editandoId = null;
+    document.getElementById('modalTitulo').textContent = 'Novo Cliente';
+    document.getElementById('senhaGroup').style.display = '';
+    document.getElementById('statusGroup').style.display = 'none';
+    ['fNome','fEmail','fSenha','fEmpresa','fCnpj','fTelefone'].forEach(id =>
+      document.getElementById(id).value = ''
+    );
+    document.getElementById('fAtivo').value = 'true';
+    document.getElementById('fEmail').disabled = false;
+    hideModalAlert();
+    abrirModal('modalCliente');
+  }
+
+  function abrirEdicao(id) {
+    const c = todosClientes.find(x => x.id === id);
+    if (!c) return;
+    editandoId = id;
+
+    document.getElementById('modalTitulo').textContent = 'Editar Cliente';
+    document.getElementById('senhaGroup').style.display = 'none';
+    document.getElementById('statusGroup').style.display = '';
+    document.getElementById('fNome').value     = c.nome    || '';
+    document.getElementById('fEmail').value    = c.email   || '';
+    document.getElementById('fEmail').disabled = true;
+    document.getElementById('fEmpresa').value  = c.empresa || '';
+    document.getElementById('fCnpj').value     = c.cnpj    || '';
+    document.getElementById('fTelefone').value = c.telefone|| '';
+    document.getElementById('fAtivo').value    = c.ativo ? 'true' : 'false';
+
+    hideModalAlert();
+    abrirModal('modalCliente');
+  }
+
+  document.getElementById('btnNovoCliente').addEventListener('click', abrirModalNovo);
+
+  // ── Gerar senha ───────────────────────────────────────────
+  document.getElementById('btnGerarSenha').addEventListener('click', () => {
+    const chars = 'abcdefghjkmnpqrstuvwxyz23456789ABCDEFGHJKLMNPQRSTUVWXYZ';
+    const senha = Array.from({length: 10}, () => chars[Math.floor(Math.random() * chars.length)]).join('');
+    const el = document.getElementById('fSenha');
+    el.type = 'text';
+    el.value = senha;
+    setTimeout(() => el.type = 'password', 3000);
+  });
+
+  // ── Salvar cliente ────────────────────────────────────────
+  document.getElementById('btnSalvarCliente').addEventListener('click', async () => {
+    const nome    = document.getElementById('fNome').value.trim();
+    const email   = document.getElementById('fEmail').value.trim();
+    const senha   = document.getElementById('fSenha').value;
+    const empresa = document.getElementById('fEmpresa').value.trim();
+    const cnpj    = document.getElementById('fCnpj').value.trim();
+    const tel     = document.getElementById('fTelefone').value.trim();
+    const ativo   = document.getElementById('fAtivo').value === 'true';
+
+    if (!nome)  { showModalAlert('error', 'Informe o nome do cliente.'); return; }
+    if (!email) { showModalAlert('error', 'Informe o e-mail do cliente.'); return; }
+
+    const btn = document.getElementById('btnSalvarCliente');
+    btn.disabled = true;
+    btn.textContent = 'Salvando...';
+
+    try {
+      if (editandoId) {
+        await atualizarCliente(editandoId, { nome, empresa, cnpj, telefone: tel, ativo });
+      } else {
+        if (!senha || senha.length < 6) {
+          showModalAlert('error', 'A senha deve ter no mínimo 6 caracteres.');
+          return;
+        }
+        await criarCliente({ nome, email, senha, empresa, telefone: tel, cnpj });
+      }
+
+      fecharModal('modalCliente');
+      await carregarClientes();
+      showGlobalAlert('success', editandoId
+        ? `✅ Cliente "${nome}" atualizado com sucesso!`
+        : `✅ Cliente "${nome}" cadastrado! Login: ${email}`
+      );
+    } catch (e) {
+      const msg = e.code === 'auth/email-already-in-use'
+        ? 'Este e-mail já está cadastrado.'
+        : e.code === 'auth/weak-password'
+        ? 'Senha muito fraca. Use ao menos 6 caracteres.'
+        : e.message || 'Erro ao salvar. Tente novamente.';
+      showModalAlert('error', msg);
+    } finally {
+      btn.disabled = false;
+      btn.textContent = 'Salvar Cliente';
+    }
+  });
+
+  // ── Toggle ativo ──────────────────────────────────────────
+  async function toggleAtivo(id, isAtivo) {
+    const c = todosClientes.find(x => x.id === id);
+    const acao = isAtivo ? 'desativar' : 'ativar';
+    if (!confirm(`Deseja ${acao} o acesso de "${c?.nome}"?`)) return;
+
+    try {
+      await toggleAtivoCliente(id, !isAtivo);
+      await carregarClientes();
+      showGlobalAlert('success', `✅ Acesso ${isAtivo ? 'desativado' : 'ativado'} com sucesso.`);
+    } catch (e) {
+      showGlobalAlert('error', 'Erro ao alterar status do cliente.');
+    }
+  }
+
+  // ── Reset de senha ────────────────────────────────────────
+  let resetEmailAtual = '';
+
+  function abrirReset(email) {
+    resetEmailAtual = email;
+    document.getElementById('resetEmail').textContent = email;
+    hideAlert('resetAlert');
+    abrirModal('modalReset');
+  }
+
+  document.getElementById('resetConfirmar').addEventListener('click', async () => {
+    const btn = document.getElementById('resetConfirmar');
+    btn.disabled = true;
+    btn.textContent = 'Enviando...';
+    try {
+      await resetarSenhaCliente(resetEmailAtual);
+      showAlert('resetAlert', 'success', '✅ E-mail de reset enviado!');
+      setTimeout(() => fecharModal('modalReset'), 2000);
+    } catch (e) {
+      showAlert('resetAlert', 'error', 'Erro ao enviar e-mail de reset.');
+    } finally {
+      btn.disabled = false;
+      btn.textContent = 'Enviar E-mail';
+    }
+  });
+
+  document.getElementById('resetClose').addEventListener('click', () => fecharModal('modalReset'));
+  document.getElementById('resetCancelar').addEventListener('click', () => fecharModal('modalReset'));
+
+  // ── Helpers modais ────────────────────────────────────────
+  function abrirModal(id) {
+    document.getElementById(id).classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function fecharModal(id) {
+    document.getElementById(id).classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  ['modalClose','btnCancelarModal'].forEach(id => {
+    document.getElementById(id)?.addEventListener('click', () => fecharModal('modalCliente'));
+  });
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') {
+      fecharModal('modalCliente');
+      fecharModal('modalReset');
+    }
+  });
+
+  function showModalAlert(type, msg) {
+    const el = document.getElementById('modalAlert');
+    el.className = `alert alert-${type}`;
+    el.textContent = msg;
+    el.style.display = 'flex';
+  }
+  function hideModalAlert() {
+    document.getElementById('modalAlert').style.display = 'none';
+  }
+
+  function showAlert(elId, type, msg) {
+    const el = document.getElementById(elId);
+    el.className = `alert alert-${type}`;
+    el.textContent = msg;
+    el.style.display = 'flex';
+  }
+  function hideAlert(elId) {
+    document.getElementById(elId).style.display = 'none';
+  }
+
+  function showGlobalAlert(type, msg) {
+    const el = document.getElementById('alertGeral');
+    el.className = `alert alert-${type}`;
+    el.textContent = msg;
+    el.style.display = 'flex';
+    setTimeout(() => el.style.display = 'none', 5000);
+  }
+
+  // ── Logout ────────────────────────────────────────────────
+  document.getElementById('btnLogout').addEventListener('click', async () => {
+    await logout();
+    window.location.href = '../portal-login.html';
+  });
+
+  // ── Mobile sidebar ────────────────────────────────────────
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('sidebarOverlay');
+  document.getElementById('sidebarToggle').addEventListener('click', () => {
+    sidebar.classList.toggle('open'); overlay.classList.toggle('open');
+  });
+  overlay.addEventListener('click', () => {
+    sidebar.classList.remove('open'); overlay.classList.remove('open');
+  });
+
+  // ── Init ──────────────────────────────────────────────────
+  const params = new URLSearchParams(location.search);
+  await carregarClientes();
+  if (params.get('acao') === 'novo') abrirModalNovo();
+</script>
+</body>
+</html>

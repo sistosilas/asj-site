@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Catálogo Portal — Admin ASJ</title>
+  <link rel="stylesheet" href="../assets/portal/portal.css">
+  <meta name="robots" content="noindex, nofollow">
+</head>
+<body>
+
+<button class="sidebar-toggle" id="sidebarToggle">☰</button>
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<div class="portal-layout">
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <img src="../assets/logo-asj.png" alt="ASJ Tecnologia Agrícola">
+      <span class="portal-badge admin-badge">⚙ Área Admin</span>
+    </div>
+    <nav class="sidebar-nav">
+      <span class="nav-section-label">Gerenciamento</span>
+      <a href="index.html"    class="nav-link"><span class="nav-icon">📊</span> Dashboard</a>
+      <a href="clientes.html" class="nav-link"><span class="nav-icon">👥</span> Clientes</a>
+      <a href="pedidos.html"  class="nav-link"><span class="nav-icon">📋</span> Pedidos</a>
+      <a href="catalogo.html" class="nav-link active"><span class="nav-icon">📦</span> Catálogo Portal</a>
+      <span class="nav-section-label">Sistema</span>
+      <a href="../portal-login.html" class="nav-link"><span class="nav-icon">🌐</span> Portal Cliente</a>
+      <button class="nav-link" id="btnLogout"><span class="nav-icon">🚪</span> Sair</button>
+    </nav>
+    <div class="sidebar-user">
+      <div class="avatar" id="userAvatar" style="background:#e8a900;color:#1a1000;">A</div>
+      <div class="user-info">
+        <div class="user-name"  id="userName">Admin ASJ</div>
+        <div class="user-role">Administrador</div>
+      </div>
+    </div>
+  </aside>
+
+  <div class="main-content">
+    <header class="topbar">
+      <div class="topbar-info">
+        <div class="topbar-title">Catálogo Exclusivo do Portal</div>
+        <div class="topbar-subtitle">Produtos visíveis apenas para clientes autenticados</div>
+      </div>
+      <div class="topbar-actions">
+        <button class="btn btn-primary" id="btnNovoProd">+ Novo Produto</button>
+      </div>
+    </header>
+
+    <main class="page-body">
+
+      <div class="alert alert-info" style="margin-bottom:18px;">
+        📌 <strong>Catálogo Exclusivo:</strong> Estes produtos são diferentes do catálogo público do site.
+        Eles aparecem <em>somente</em> para clientes logados no portal. Em breve você receberá o código completo do catálogo para integração aqui.
+      </div>
+
+      <div style="display:flex;gap:12px;margin-bottom:18px;flex-wrap:wrap;">
+        <div class="search-field" style="flex:1;min-width:200px;">
+          <span class="search-icon">🔍</span>
+          <input type="text" class="form-control" id="searchProd" placeholder="Buscar produto...">
+        </div>
+        <select class="filter-select" id="filterCat">
+          <option value="">Todas as categorias</option>
+        </select>
+      </div>
+
+      <div id="alertGeral" class="alert" style="display:none;margin-bottom:14px;"></div>
+
+      <div class="panel">
+        <div class="panel-header">
+          <span class="panel-title">Produtos do Portal</span>
+          <span id="contagem" style="font-size:13px;color:var(--texto-sec);">–</span>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Imagem</th>
+                <th>Nome</th>
+                <th>Código</th>
+                <th>Categoria</th>
+                <th>Destaque</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody id="tBody">
+              <tr><td colspan="6" style="text-align:center;padding:32px;color:#aaa;">
+                Carregando...
+              </td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<!-- Modal produto -->
+<div class="modal-overlay" id="modalProd">
+  <div class="modal" style="max-width:600px;">
+    <div class="modal-header">
+      <h2 class="modal-title" id="modalTitulo">Novo Produto</h2>
+      <button class="modal-close" id="modalClose">✕</button>
+    </div>
+    <div class="modal-body">
+      <div id="modalAlert" class="alert" style="display:none;"></div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Nome do produto *</label>
+          <input type="text" class="form-control" id="pNome" placeholder="Ex: Chicote Stara 4500">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Código</label>
+          <input type="text" class="form-control" id="pCodigo" placeholder="Ex: ASJ-ST01">
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Categoria *</label>
+          <input type="text" class="form-control" id="pCategoria"
+            placeholder="Ex: Chicotes Elétricos">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Destaque</label>
+          <select class="form-control" id="pDestaque">
+            <option value="false">Não</option>
+            <option value="true">Sim — aparece primeiro</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Caminho da imagem</label>
+        <input type="text" class="form-control" id="pImagem"
+          placeholder="assets/nome-da-imagem.jpg">
+        <p class="form-hint">Salve o arquivo na pasta <code>assets/</code> e informe o caminho.</p>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Descrição</label>
+        <textarea class="form-control" id="pDesc" rows="3"
+          placeholder="Descrição curta do produto..."></textarea>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Especificações (uma por linha)</label>
+        <textarea class="form-control" id="pSpecs" rows="4"
+          placeholder="Comunicação CAN Bus ISO 11783&#10;Tensão: 12V / 24V&#10;..."></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" id="btnCancelar">Cancelar</button>
+      <button class="btn btn-primary" id="btnSalvar">Salvar Produto</button>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+  import { requireAdmin, logout } from '../assets/portal/auth.js';
+  import {
+    listarProdutosPortal, salvarProdutoPortal, excluirProdutoPortal, listarCategoriasPortal
+  } from '../assets/portal/db.js';
+
+  const { profile } = await requireAdmin('../portal-login.html');
+  document.getElementById('userAvatar').textContent = profile.nome?.charAt(0).toUpperCase() || 'A';
+  document.getElementById('userName').textContent   = profile.nome || 'Administrador';
+
+  let produtos    = [];
+  let editandoId  = null;
+
+  async function carregar() {
+    try {
+      produtos = await listarProdutosPortal();
+      const cats = await listarCategoriasPortal();
+      const sel = document.getElementById('filterCat');
+      sel.innerHTML = '<option value="">Todas as categorias</option>';
+      cats.forEach(c => {
+        const o = document.createElement('option');
+        o.value = c; o.textContent = c;
+        sel.appendChild(o);
+      });
+    } catch (e) { produtos = []; }
+    renderTabela();
+  }
+
+  function renderTabela() {
+    const q   = document.getElementById('searchProd').value.trim().toLowerCase();
+    const cat = document.getElementById('filterCat').value;
+
+    const lista = produtos.filter(p => {
+      const matchQ   = !q || (p.nome||'').toLowerCase().includes(q) || (p.codigo||'').toLowerCase().includes(q);
+      const matchCat = !cat || p.categoria === cat;
+      return matchQ && matchCat;
+    });
+
+    document.getElementById('contagem').textContent =
+      `${lista.length} produto${lista.length !== 1 ? 's' : ''}`;
+
+    const tbody = document.getElementById('tBody');
+    if (!lista.length) {
+      tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;padding:32px;color:#aaa;">
+        ${produtos.length === 0 ? 'Nenhum produto no catálogo ainda.' : 'Nenhum resultado.'}
+      </td></tr>`;
+      return;
+    }
+
+    tbody.innerHTML = lista.map(p => `
+      <tr>
+        <td>
+          ${p.imagem
+            ? `<img src="../${p.imagem}" style="width:48px;height:36px;object-fit:cover;border-radius:6px;"
+                onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2248%22 height=%2236%22><rect width=%2248%22 height=%2236%22 fill=%22%23eef3fc%22/><text x=%2224%22 y=%2224%22 text-anchor=%22middle%22 font-size=%2218%22>📦</text></svg>'">`
+            : '<span style="font-size:24px;">📦</span>'
+          }
+        </td>
+        <td><strong style="font-size:14px;">${p.nome}</strong></td>
+        <td style="font-size:12px;color:var(--texto-sec);">${p.codigo || '–'}</td>
+        <td style="font-size:13px;">${p.categoria || '–'}</td>
+        <td>${p.destaque ? '<span class="badge badge-admin">Destaque</span>' : '–'}</td>
+        <td>
+          <div style="display:flex;gap:6px;">
+            <button class="btn btn-ghost btn-sm btn-editar" data-id="${p.id}">✏️ Editar</button>
+            <button class="btn btn-danger btn-sm btn-del" data-id="${p.id}">🗑</button>
+          </div>
+        </td>
+      </tr>
+    `).join('');
+
+    tbody.querySelectorAll('.btn-editar').forEach(b => {
+      b.addEventListener('click', () => abrirEdicao(b.dataset.id));
+    });
+    tbody.querySelectorAll('.btn-del').forEach(b => {
+      b.addEventListener('click', () => excluir(b.dataset.id));
+    });
+  }
+
+  // ── Modal ─────────────────────────────────────────────────
+  function abrirNovo() {
+    editandoId = null;
+    document.getElementById('modalTitulo').textContent = 'Novo Produto';
+    ['pNome','pCodigo','pCategoria','pImagem','pDesc','pSpecs'].forEach(id =>
+      document.getElementById(id).value = ''
+    );
+    document.getElementById('pDestaque').value = 'false';
+    hideModalAlert();
+    abrirModal();
+  }
+
+  function abrirEdicao(id) {
+    const p = produtos.find(x => x.id === id);
+    if (!p) return;
+    editandoId = id;
+    document.getElementById('modalTitulo').textContent = 'Editar Produto';
+    document.getElementById('pNome').value      = p.nome      || '';
+    document.getElementById('pCodigo').value    = p.codigo    || '';
+    document.getElementById('pCategoria').value = p.categoria || '';
+    document.getElementById('pImagem').value    = p.imagem    || '';
+    document.getElementById('pDesc').value      = p.descricao || '';
+    document.getElementById('pSpecs').value     = (p.specs || []).join('\n');
+    document.getElementById('pDestaque').value  = p.destaque ? 'true' : 'false';
+    hideModalAlert();
+    abrirModal();
+  }
+
+  document.getElementById('btnNovoProd').addEventListener('click', abrirNovo);
+
+  document.getElementById('btnSalvar').addEventListener('click', async () => {
+    const nome = document.getElementById('pNome').value.trim();
+    if (!nome) { showModalAlert('error', 'Informe o nome do produto.'); return; }
+
+    const produto = {
+      nome,
+      codigo:    document.getElementById('pCodigo').value.trim(),
+      categoria: document.getElementById('pCategoria').value.trim(),
+      imagem:    document.getElementById('pImagem').value.trim(),
+      descricao: document.getElementById('pDesc').value.trim(),
+      specs:     document.getElementById('pSpecs').value.split('\n').map(s => s.trim()).filter(Boolean),
+      destaque:  document.getElementById('pDestaque').value === 'true'
+    };
+    if (editandoId) produto.id = editandoId;
+
+    const btn = document.getElementById('btnSalvar');
+    btn.disabled = true; btn.textContent = 'Salvando...';
+
+    try {
+      await salvarProdutoPortal(produto);
+      fecharModal();
+      await carregar();
+      showGlobalAlert('success', `✅ Produto "${nome}" ${editandoId ? 'atualizado' : 'adicionado'}!`);
+    } catch (e) {
+      showModalAlert('error', 'Erro ao salvar produto. Tente novamente.');
+    } finally {
+      btn.disabled = false; btn.textContent = 'Salvar Produto';
+    }
+  });
+
+  async function excluir(id) {
+    const p = produtos.find(x => x.id === id);
+    if (!confirm(`Excluir "${p?.nome}"? Esta ação não pode ser desfeita.`)) return;
+    try {
+      await excluirProdutoPortal(id);
+      await carregar();
+      showGlobalAlert('success', `✅ Produto removido do catálogo.`);
+    } catch (e) {
+      showGlobalAlert('error', 'Erro ao excluir produto.');
+    }
+  }
+
+  function abrirModal() {
+    document.getElementById('modalProd').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function fecharModal() {
+    document.getElementById('modalProd').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  ['modalClose','btnCancelar'].forEach(id => {
+    document.getElementById(id).addEventListener('click', fecharModal);
+  });
+  document.getElementById('modalProd').addEventListener('click', e => {
+    if (e.target === document.getElementById('modalProd')) fecharModal();
+  });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') fecharModal(); });
+
+  function showModalAlert(type, msg) {
+    const el = document.getElementById('modalAlert');
+    el.className = `alert alert-${type}`; el.textContent = msg; el.style.display = 'flex';
+  }
+  function hideModalAlert() { document.getElementById('modalAlert').style.display = 'none'; }
+
+  function showGlobalAlert(type, msg) {
+    const el = document.getElementById('alertGeral');
+    el.className = `alert alert-${type}`; el.textContent = msg; el.style.display = 'flex';
+    setTimeout(() => el.style.display = 'none', 5000);
+  }
+
+  // ── Filtros ───────────────────────────────────────────────
+  document.getElementById('searchProd').addEventListener('input', renderTabela);
+  document.getElementById('filterCat').addEventListener('change', renderTabela);
+
+  // ── Logout ────────────────────────────────────────────────
+  document.getElementById('btnLogout').addEventListener('click', async () => {
+    await logout(); window.location.href = '../portal-login.html';
+  });
+
+  // ── Mobile sidebar ────────────────────────────────────────
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('sidebarOverlay');
+  document.getElementById('sidebarToggle').addEventListener('click', () => {
+    sidebar.classList.toggle('open'); overlay.classList.toggle('open');
+  });
+  overlay.addEventListener('click', () => {
+    sidebar.classList.remove('open'); overlay.classList.remove('open');
+  });
+
+  await carregar();
+</script>
+</body>
+</html>

@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Meu Pedido — Portal ASJ</title>
+  <link rel="stylesheet" href="../assets/portal/portal.css">
+  <meta name="robots" content="noindex, nofollow">
+</head>
+<body>
+
+<button class="sidebar-toggle" id="sidebarToggle">☰</button>
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<div class="portal-layout">
+
+  <!-- ── Sidebar ── -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <img src="../assets/logo-asj.png" alt="ASJ Tecnologia Agrícola">
+      <span class="portal-badge">Portal do Cliente</span>
+    </div>
+    <nav class="sidebar-nav">
+      <span class="nav-section-label">Menu</span>
+      <a href="dashboard.html" class="nav-link"><span class="nav-icon">🏠</span> Dashboard</a>
+      <a href="catalogo.html"  class="nav-link"><span class="nav-icon">📦</span> Catálogo Exclusivo</a>
+      <a href="carrinho.html"  class="nav-link active">
+        <span class="nav-icon">🛒</span> Meu Pedido
+        <span class="nav-badge" id="cartNavBadge" style="display:none;"></span>
+      </a>
+      <a href="pedidos.html"   class="nav-link"><span class="nav-icon">📋</span> Histórico de Pedidos</a>
+      <span class="nav-section-label">Conta</span>
+      <button class="nav-link" id="btnLogout"><span class="nav-icon">🚪</span> Sair</button>
+    </nav>
+    <div class="sidebar-user">
+      <div class="avatar" id="userAvatar">?</div>
+      <div class="user-info">
+        <div class="user-name"  id="userName">Carregando...</div>
+        <div class="user-role"  id="userEmpresa">–</div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ── Main ── -->
+  <div class="main-content">
+    <header class="topbar">
+      <div class="topbar-info">
+        <div class="topbar-title">Meu Pedido</div>
+        <div class="topbar-subtitle">Monte e envie sua solicitação de orçamento</div>
+      </div>
+    </header>
+
+    <main class="page-body">
+
+      <!-- Carrinho vazio -->
+      <div id="cartEmpty" style="display:none;" class="panel">
+        <div class="panel-body" style="text-align:center;padding:60px 20px;">
+          <div style="font-size:60px;margin-bottom:16px;">🛒</div>
+          <p style="font-size:16px;color:var(--texto-sec);margin-bottom:20px;">
+            Seu pedido está vazio.
+          </p>
+          <a href="catalogo.html" class="btn btn-primary">📦 Explorar Catálogo</a>
+        </div>
+      </div>
+
+      <!-- Carrinho com itens -->
+      <div id="cartContent" style="display:none;">
+        <div class="cart-layout">
+
+          <!-- Itens -->
+          <div>
+            <div class="panel">
+              <div class="panel-header">
+                <span class="panel-title">Itens do Pedido</span>
+                <button class="btn btn-danger btn-sm" id="btnLimpar">Limpar pedido</button>
+              </div>
+              <div class="panel-body" id="cartItems"></div>
+            </div>
+
+            <!-- Observações -->
+            <div class="panel" style="margin-top:0;">
+              <div class="panel-header">
+                <span class="panel-title">Observações</span>
+              </div>
+              <div class="panel-body">
+                <textarea class="form-control" id="observacao" rows="4"
+                  placeholder="Prazo de entrega necessário, condições especiais, dúvidas técnicas..."></textarea>
+              </div>
+            </div>
+          </div>
+
+          <!-- Resumo + envio -->
+          <div class="cart-summary">
+            <div class="cart-summary-title">Resumo do Pedido</div>
+
+            <div class="summary-row">
+              <span>Total de itens</span>
+              <span id="sumTotal">–</span>
+            </div>
+            <div class="summary-row">
+              <span>Tipos de produto</span>
+              <span id="sumTipos">–</span>
+            </div>
+
+            <div style="margin-top:18px;display:flex;flex-direction:column;gap:10px;">
+              <button class="btn btn-primary btn-full" id="btnEnviarPortal">
+                ✅ Enviar Pedido à ASJ
+              </button>
+              <a id="btnWhats"
+                href="#"
+                target="_blank"
+                class="btn btn-full"
+                style="background:#25d366;color:#fff;justify-content:center;">
+                💬 Enviar via WhatsApp
+              </a>
+            </div>
+
+            <p style="font-size:12px;color:var(--texto-sec);margin-top:14px;line-height:1.5;">
+              Nosso time comercial retornará em até 1 dia útil com disponibilidade e valores.
+            </p>
+
+            <div id="sendAlert" class="alert" style="display:none;margin-top:12px;"></div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<script type="module">
+  import { requireAuth, logout } from '../assets/portal/auth.js';
+  import {
+    getCarrinho, setCarrinho, removerDoCarrinho,
+    atualizarQuantidade, limparCarrinho, criarPedido
+  } from '../assets/portal/db.js';
+
+  // ── Auth guard ────────────────────────────────────────────
+  const { user, profile } = await requireAuth('../portal-login.html');
+
+  document.getElementById('userAvatar').textContent  = profile.nome?.charAt(0).toUpperCase() || 'C';
+  document.getElementById('userName').textContent    = profile.nome   || 'Cliente';
+  document.getElementById('userEmpresa').textContent = profile.empresa || '–';
+
+  // ── Render carrinho ───────────────────────────────────────
+  function renderCarrinho() {
+    const carrinho = getCarrinho();
+    const total = carrinho.reduce((s, i) => s + i.quantidade, 0);
+
+    // Badge nav
+    const nb = document.getElementById('cartNavBadge');
+    if (total > 0) { nb.textContent = total; nb.style.display = ''; }
+    else nb.style.display = 'none';
+
+    // Contadores do resumo
+    document.getElementById('sumTotal').textContent = `${total} un.`;
+    document.getElementById('sumTipos').textContent = `${carrinho.length} tipo${carrinho.length !== 1 ? 's' : ''}`;
+
+    if (!carrinho.length) {
+      document.getElementById('cartEmpty').style.display   = '';
+      document.getElementById('cartContent').style.display = 'none';
+      return;
+    }
+
+    document.getElementById('cartEmpty').style.display   = 'none';
+    document.getElementById('cartContent').style.display = '';
+
+    // WhatsApp link
+    const wa = buildWhatsappMsg(carrinho, profile);
+    document.getElementById('btnWhats').href = wa;
+
+    // Lista de itens
+    const container = document.getElementById('cartItems');
+    container.innerHTML = '';
+
+    carrinho.forEach(item => {
+      const div = document.createElement('div');
+      div.className = 'cart-item';
+      div.innerHTML = `
+        <div class="cart-img">
+          ${item.imagem
+            ? `<img src="${item.imagem}" alt="${item.nome}"
+                onerror="this.parentElement.innerHTML='📦'">`
+            : '📦'
+          }
+        </div>
+        <div class="cart-info">
+          <div class="cart-name">${item.nome}</div>
+          ${item.codigo ? `<div class="cart-code">Cód: ${item.codigo}</div>` : ''}
+        </div>
+        <div class="qty-control">
+          <button class="qty-btn" data-id="${item.id}" data-op="minus">−</button>
+          <span class="qty-val">${item.quantidade}</span>
+          <button class="qty-btn" data-id="${item.id}" data-op="plus">+</button>
+        </div>
+        <button class="btn btn-danger btn-icon btn-del" data-id="${item.id}" title="Remover">🗑</button>
+      `;
+      container.appendChild(div);
+    });
+
+    // Eventos quantidade
+    container.querySelectorAll('.qty-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id  = btn.dataset.id;
+        const op  = btn.dataset.op;
+        const idx = getCarrinho().findIndex(i => i.id === id);
+        if (idx < 0) return;
+        const c = getCarrinho();
+        if (op === 'plus') {
+          atualizarQuantidade(id, c[idx].quantidade + 1);
+        } else if (c[idx].quantidade > 1) {
+          atualizarQuantidade(id, c[idx].quantidade - 1);
+        } else {
+          removerDoCarrinho(id);
+        }
+        renderCarrinho();
+      });
+    });
+
+    container.querySelectorAll('.btn-del').forEach(btn => {
+      btn.addEventListener('click', () => {
+        removerDoCarrinho(btn.dataset.id);
+        renderCarrinho();
+      });
+    });
+  }
+
+  // ── WhatsApp ──────────────────────────────────────────────
+  function buildWhatsappMsg(carrinho, profile) {
+    const linhas = carrinho.map(i =>
+      `• ${i.nome}${i.codigo ? ' ('+i.codigo+')' : ''} — ${i.quantidade} un.`
+    ).join('\n');
+    const obs = document.getElementById('observacao').value.trim();
+    const msg = `Olá! Sou ${profile.nome}${profile.empresa ? ', da '+profile.empresa : ''}.\n\n`
+      + `Gostaria de solicitar orçamento dos seguintes itens:\n\n${linhas}`
+      + (obs ? `\n\nObservações: ${obs}` : '');
+    return `https://wa.me/5516988616927?text=${encodeURIComponent(msg)}`;
+  }
+
+  // ── Enviar pedido (Firestore) ─────────────────────────────
+  document.getElementById('btnEnviarPortal').addEventListener('click', async () => {
+    const carrinho = getCarrinho();
+    if (!carrinho.length) return;
+
+    const btn = document.getElementById('btnEnviarPortal');
+    const alert = document.getElementById('sendAlert');
+    btn.disabled = true;
+    btn.textContent = '⏳ Enviando...';
+    alert.style.display = 'none';
+
+    try {
+      const obs = document.getElementById('observacao').value.trim();
+      await criarPedido({
+        clienteId:      user.uid,
+        clienteNome:    profile.nome    || '',
+        clienteEmpresa: profile.empresa || '',
+        itens:          carrinho,
+        observacao:     obs
+      });
+      limparCarrinho();
+      alert.className = 'alert alert-success';
+      alert.textContent = '✅ Pedido enviado com sucesso! Em breve nossa equipe entrará em contato.';
+      alert.style.display = 'flex';
+      renderCarrinho();
+    } catch (e) {
+      alert.className = 'alert alert-error';
+      alert.textContent = '❌ Erro ao enviar pedido. Tente pelo WhatsApp ou contate a ASJ.';
+      alert.style.display = 'flex';
+    } finally {
+      btn.disabled = false;
+      btn.textContent = '✅ Enviar Pedido à ASJ';
+    }
+  });
+
+  // ── Limpar carrinho ───────────────────────────────────────
+  document.getElementById('btnLimpar').addEventListener('click', () => {
+    if (confirm('Limpar todos os itens do pedido?')) {
+      limparCarrinho();
+      renderCarrinho();
+    }
+  });
+
+  // ── Logout ────────────────────────────────────────────────
+  document.getElementById('btnLogout').addEventListener('click', async () => {
+    await logout();
+    window.location.href = '../portal-login.html';
+  });
+
+  // ── Mobile sidebar ────────────────────────────────────────
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('sidebarOverlay');
+  document.getElementById('sidebarToggle').addEventListener('click', () => {
+    sidebar.classList.toggle('open'); overlay.classList.toggle('open');
+  });
+  overlay.addEventListener('click', () => {
+    sidebar.classList.remove('open'); overlay.classList.remove('open');
+  });
+
+  // ── Init ──────────────────────────────────────────────────
+  renderCarrinho();
+</script>
+</body>
+</html>

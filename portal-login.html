@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portal do Cliente — ASJ Tecnologia Agrícola</title>
+  <link rel="stylesheet" href="assets/portal/portal.css">
+  <!-- Impede indexação da área restrita -->
+  <meta name="robots" content="noindex, nofollow">
+  <style>
+    .view { display: none; }
+    .view.active { display: block; }
+    .spinner {
+      width: 20px; height: 20px;
+      border: 2px solid rgba(255,255,255,.3);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin .7s linear infinite;
+      display: inline-block;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .btn-loading { opacity: .8; pointer-events: none; }
+  </style>
+</head>
+<body>
+
+<div class="login-page">
+  <div class="login-card">
+
+    <div class="login-logo">
+      <img src="assets/logo-asj.png" alt="ASJ Tecnologia Agrícola">
+      <span class="login-badge">Portal do Cliente</span>
+    </div>
+
+    <!-- ── VIEW: Login ── -->
+    <div id="viewLogin" class="view active">
+      <h1 class="login-title">Acesse sua conta</h1>
+      <p class="login-subtitle">Área exclusiva para clientes ASJ</p>
+
+      <div id="loginAlert" style="display:none;" class="alert alert-error" role="alert"></div>
+
+      <form class="login-form" id="loginForm" novalidate>
+        <div class="form-group">
+          <label class="form-label">E-mail</label>
+          <div class="input-icon-wrap">
+            <span class="input-icon">✉️</span>
+            <input type="email" id="loginEmail" class="form-control"
+              placeholder="seu@email.com.br" required autocomplete="email">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Senha</label>
+          <div class="input-icon-wrap">
+            <span class="input-icon">🔒</span>
+            <input type="password" id="loginPass" class="form-control"
+              placeholder="Sua senha" required autocomplete="current-password">
+          </div>
+        </div>
+
+        <button type="button" class="btn-forgot" id="btnForgot">
+          Esqueci minha senha
+        </button>
+
+        <button type="submit" class="btn btn-primary btn-full" id="btnLogin">
+          Entrar no Portal
+        </button>
+      </form>
+
+      <div class="login-footer">
+        Acesso restrito a clientes cadastrados pela ASJ.<br>
+        Dúvidas? <a href="https://wa.me/5516988616927" target="_blank"
+          style="color:var(--azul);font-weight:700;">Fale conosco</a>
+      </div>
+    </div>
+
+    <!-- ── VIEW: Esqueci senha ── -->
+    <div id="viewReset" class="view">
+      <h1 class="login-title">Recuperar acesso</h1>
+      <p class="login-subtitle">Enviaremos um link de redefinição para seu e-mail.</p>
+
+      <div id="resetAlert" style="display:none;" class="alert" role="alert"></div>
+
+      <form class="login-form" id="resetForm" novalidate>
+        <div class="form-group">
+          <label class="form-label">E-mail cadastrado</label>
+          <div class="input-icon-wrap">
+            <span class="input-icon">✉️</span>
+            <input type="email" id="resetEmail" class="form-control"
+              placeholder="seu@email.com.br" required autocomplete="email">
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-full" id="btnReset">
+          Enviar link de recuperação
+        </button>
+
+        <button type="button" class="btn btn-ghost btn-full" id="btnBackToLogin">
+          ← Voltar ao login
+        </button>
+      </form>
+    </div>
+
+  </div>
+</div>
+
+<script type="module">
+  import { login, resetPassword, onAuthStateChanged } from './assets/portal/auth.js';
+  import { auth } from './assets/portal/firebase-config.js';
+  import { getUserProfile } from './assets/portal/auth.js';
+
+  // Redireciona se já autenticado
+  onAuthStateChanged(auth, async (user) => {
+    if (!user) return;
+    const p = await getUserProfile(user.uid).catch(() => null);
+    if (!p || !p.ativo) return;
+    window.location.href = p.role === 'admin' ? 'admin/index.html' : 'portal/dashboard.html';
+  });
+
+  // Mensagem de parâmetro de URL
+  const params = new URLSearchParams(location.search);
+  if (params.get('msg') === 'inativo') {
+    showAlert('loginAlert', 'error', 'Sua conta está desativada. Contate a ASJ.');
+  }
+  if (params.get('msg') === 'acesso_negado') {
+    showAlert('loginAlert', 'error', 'Acesso negado.');
+  }
+
+  // ── Helpers ───────────────────────────────────────────────
+  function showView(id) {
+    document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+  }
+
+  function showAlert(elId, type, msg) {
+    const el = document.getElementById(elId);
+    el.className = `alert alert-${type}`;
+    el.textContent = msg;
+    el.style.display = 'flex';
+  }
+
+  function hideAlert(elId) {
+    document.getElementById(elId).style.display = 'none';
+  }
+
+  function setLoading(btnId, loading, label) {
+    const btn = document.getElementById(btnId);
+    btn.classList.toggle('btn-loading', loading);
+    btn.innerHTML = loading ? `<span class="spinner"></span> Aguarde...` : label;
+  }
+
+  // ── Login ─────────────────────────────────────────────────
+  document.getElementById('loginForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const email = document.getElementById('loginEmail').value.trim();
+    const pass  = document.getElementById('loginPass').value;
+
+    if (!email || !pass) {
+      showAlert('loginAlert', 'error', 'Preencha e-mail e senha.');
+      return;
+    }
+
+    hideAlert('loginAlert');
+    setLoading('btnLogin', true, 'Entrar no Portal');
+
+    try {
+      const { profile } = await login(email, pass);
+      window.location.href = profile.role === 'admin'
+        ? 'admin/index.html'
+        : 'portal/dashboard.html';
+    } catch (err) {
+      const msg = err.message.includes('auth/')
+        ? 'E-mail ou senha incorretos.'
+        : err.message;
+      showAlert('loginAlert', 'error', msg);
+      setLoading('btnLogin', false, 'Entrar no Portal');
+    }
+  });
+
+  // ── Esqueci senha ─────────────────────────────────────────
+  document.getElementById('btnForgot').addEventListener('click', () => {
+    const email = document.getElementById('loginEmail').value.trim();
+    if (email) document.getElementById('resetEmail').value = email;
+    hideAlert('resetAlert');
+    showView('viewReset');
+  });
+
+  document.getElementById('btnBackToLogin').addEventListener('click', () => {
+    showView('viewLogin');
+  });
+
+  document.getElementById('resetForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const email = document.getElementById('resetEmail').value.trim();
+    if (!email) {
+      showAlert('resetAlert', 'error', 'Informe seu e-mail.');
+      return;
+    }
+
+    setLoading('btnReset', true, 'Enviar link de recuperação');
+    try {
+      await resetPassword(email);
+      showAlert('resetAlert', 'success',
+        '✅ Link enviado! Verifique sua caixa de entrada.');
+    } catch (err) {
+      showAlert('resetAlert', 'error',
+        'Não foi possível enviar o e-mail. Verifique o endereço informado.');
+    } finally {
+      setLoading('btnReset', false, 'Enviar link de recuperação');
+    }
+  });
+</script>
+</body>
+</html>

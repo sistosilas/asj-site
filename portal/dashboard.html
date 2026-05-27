@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard — Portal ASJ</title>
+  <link rel="stylesheet" href="../assets/portal/portal.css">
+  <meta name="robots" content="noindex, nofollow">
+</head>
+<body>
+
+<button class="sidebar-toggle" id="sidebarToggle">☰</button>
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<div class="portal-layout">
+
+  <!-- ── Sidebar ── -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <img src="../assets/logo-asj.png" alt="ASJ Tecnologia Agrícola">
+      <span class="portal-badge">Portal do Cliente</span>
+    </div>
+
+    <nav class="sidebar-nav">
+      <span class="nav-section-label">Menu</span>
+      <a href="dashboard.html" class="nav-link active">
+        <span class="nav-icon">🏠</span> Dashboard
+      </a>
+      <a href="catalogo.html" class="nav-link">
+        <span class="nav-icon">📦</span> Catálogo Exclusivo
+      </a>
+      <a href="carrinho.html" class="nav-link">
+        <span class="nav-icon">🛒</span> Meu Pedido
+        <span class="nav-badge" id="cartNavBadge" style="display:none;"></span>
+      </a>
+      <a href="pedidos.html" class="nav-link">
+        <span class="nav-icon">📋</span> Histórico de Pedidos
+      </a>
+
+      <span class="nav-section-label">Conta</span>
+      <button class="nav-link" id="btnLogout">
+        <span class="nav-icon">🚪</span> Sair
+      </button>
+    </nav>
+
+    <div class="sidebar-user">
+      <div class="avatar" id="userAvatar">?</div>
+      <div class="user-info">
+        <div class="user-name" id="userName">Carregando...</div>
+        <div class="user-role" id="userEmpresa">–</div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ── Main ── -->
+  <div class="main-content">
+    <header class="topbar">
+      <div class="topbar-info">
+        <div class="topbar-title">Dashboard</div>
+        <div class="topbar-subtitle">Bem-vindo ao Portal ASJ</div>
+      </div>
+      <div class="topbar-actions">
+        <a href="carrinho.html">
+          <button class="cart-btn" title="Meu Pedido">
+            🛒 <span class="cart-count" id="cartCount"></span>
+          </button>
+        </a>
+      </div>
+    </header>
+
+    <main class="page-body">
+
+      <!-- Banner de boas-vindas -->
+      <div class="welcome-banner">
+        <div>
+          <h2 id="welcomeMsg">Olá, Cliente!</h2>
+          <p>Acesse o catálogo exclusivo e realize seu pedido diretamente pelo portal.</p>
+        </div>
+        <div class="quick-actions">
+          <a href="catalogo.html" class="btn btn-gold">📦 Ver Catálogo</a>
+          <a href="carrinho.html" class="btn btn-ghost"
+            style="background:rgba(255,255,255,.15);color:#fff;border-color:rgba(255,255,255,.3);">
+            🛒 Meu Pedido
+          </a>
+        </div>
+      </div>
+
+      <!-- Stat cards -->
+      <div class="cards-row">
+        <div class="stat-card">
+          <div class="stat-icon">📋</div>
+          <div>
+            <div class="stat-val" id="statPedidos">–</div>
+            <div class="stat-label">Pedidos realizados</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon gold">⏳</div>
+          <div>
+            <div class="stat-val" id="statPendentes">–</div>
+            <div class="stat-label">Pedidos pendentes</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon green">✅</div>
+          <div>
+            <div class="stat-val" id="statConfirmados">–</div>
+            <div class="stat-label">Pedidos confirmados</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon purple">🛒</div>
+          <div>
+            <div class="stat-val" id="statCarrinho">0</div>
+            <div class="stat-label">Itens no pedido atual</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Últimos pedidos -->
+      <div class="panel">
+        <div class="panel-header">
+          <span class="panel-title">Últimos Pedidos</span>
+          <a href="pedidos.html" class="btn btn-ghost btn-sm">Ver todos</a>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Nº do Pedido</th>
+                <th>Data</th>
+                <th>Itens</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="tBodyPedidos">
+              <tr><td colspan="4" style="text-align:center;color:#aaa;padding:28px;">
+                Carregando pedidos...
+              </td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Acesso rápido catálogo -->
+      <div class="panel">
+        <div class="panel-header">
+          <span class="panel-title">Acesso Rápido</span>
+        </div>
+        <div class="panel-body">
+          <div style="display:flex;gap:12px;flex-wrap:wrap;">
+            <a href="catalogo.html" class="btn btn-primary">
+              📦 Catálogo Exclusivo
+            </a>
+            <a href="carrinho.html" class="btn btn-ghost">
+              🛒 Ver Pedido Atual
+            </a>
+            <a href="https://wa.me/5516988616927" target="_blank" class="btn btn-ghost"
+              style="color:#25d366;border-color:#25d366;">
+              💬 Falar com a ASJ
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<script type="module">
+  import { requireAuth, logout } from '../assets/portal/auth.js';
+  import { listarPedidosCliente, getCarrinho } from '../assets/portal/db.js';
+
+  // ── Auth guard ────────────────────────────────────────────
+  const { user, profile } = await requireAuth('../portal-login.html');
+
+  // ── Preenche sidebar / topbar ─────────────────────────────
+  const initials = (profile.nome || 'C').charAt(0).toUpperCase();
+  document.getElementById('userAvatar').textContent  = initials;
+  document.getElementById('userName').textContent    = profile.nome   || 'Cliente';
+  document.getElementById('userEmpresa').textContent = profile.empresa || 'Portal ASJ';
+  document.getElementById('welcomeMsg').textContent  = `Olá, ${profile.nome?.split(' ')[0] || 'Cliente'}!`;
+
+  // ── Carrinho ──────────────────────────────────────────────
+  const carrinho = getCarrinho();
+  const qtdCarrinho = carrinho.reduce((s, i) => s + i.quantidade, 0);
+  document.getElementById('statCarrinho').textContent = qtdCarrinho;
+  if (qtdCarrinho > 0) {
+    const cc = document.getElementById('cartCount');
+    cc.textContent = qtdCarrinho;
+    cc.classList.add('visible');
+    document.getElementById('cartNavBadge').textContent = qtdCarrinho;
+    document.getElementById('cartNavBadge').style.display = '';
+  }
+
+  // ── Pedidos ───────────────────────────────────────────────
+  try {
+    const pedidos = await listarPedidosCliente(user.uid);
+    const pendentes    = pedidos.filter(p => p.status === 'pendente').length;
+    const confirmados  = pedidos.filter(p => p.status === 'confirmado').length;
+
+    document.getElementById('statPedidos').textContent    = pedidos.length;
+    document.getElementById('statPendentes').textContent  = pendentes;
+    document.getElementById('statConfirmados').textContent = confirmados;
+
+    const tbody = document.getElementById('tBodyPedidos');
+    if (!pedidos.length) {
+      tbody.innerHTML = `<tr><td colspan="4" style="text-align:center;color:#aaa;padding:28px;">
+        Nenhum pedido realizado ainda.
+        <br><br><a href="catalogo.html" class="btn btn-primary btn-sm">Explorar catálogo</a>
+      </td></tr>`;
+    } else {
+      tbody.innerHTML = pedidos.slice(0, 5).map(p => {
+        const data = p.criadoEm?.toDate?.()?.toLocaleDateString('pt-BR') || '–';
+        const qtd  = p.itens?.reduce((s, i) => s + (i.quantidade || 1), 0) || 0;
+        return `
+          <tr>
+            <td><code style="font-size:12px;color:#666;">${p.id.slice(0,10)}…</code></td>
+            <td>${data}</td>
+            <td>${qtd} item${qtd !== 1 ? 's' : ''}</td>
+            <td><span class="badge badge-${p.status}">${badgeLabel(p.status)}</span></td>
+          </tr>`;
+      }).join('');
+    }
+  } catch (e) {
+    document.getElementById('statPedidos').textContent    = '–';
+    document.getElementById('statPendentes').textContent  = '–';
+    document.getElementById('statConfirmados').textContent = '–';
+  }
+
+  function badgeLabel(status) {
+    return { pendente: 'Pendente', confirmado: 'Confirmado', cancelado: 'Cancelado' }[status] || status;
+  }
+
+  // ── Logout ────────────────────────────────────────────────
+  document.getElementById('btnLogout').addEventListener('click', async () => {
+    await logout();
+    window.location.href = '../portal-login.html';
+  });
+
+  // ── Mobile sidebar ────────────────────────────────────────
+  const sidebar  = document.getElementById('sidebar');
+  const overlay  = document.getElementById('sidebarOverlay');
+  const toggle   = document.getElementById('sidebarToggle');
+
+  toggle.addEventListener('click',  () => { sidebar.classList.toggle('open'); overlay.classList.toggle('open'); });
+  overlay.addEventListener('click', () => { sidebar.classList.remove('open'); overlay.classList.remove('open'); });
+</script>
+</body>
+</html>

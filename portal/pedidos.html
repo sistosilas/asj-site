@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Histórico de Pedidos — Portal ASJ</title>
+  <link rel="stylesheet" href="../assets/portal/portal.css">
+  <meta name="robots" content="noindex, nofollow">
+</head>
+<body>
+
+<button class="sidebar-toggle" id="sidebarToggle">☰</button>
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<div class="portal-layout">
+
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <img src="../assets/logo-asj.png" alt="ASJ Tecnologia Agrícola">
+      <span class="portal-badge">Portal do Cliente</span>
+    </div>
+    <nav class="sidebar-nav">
+      <span class="nav-section-label">Menu</span>
+      <a href="dashboard.html" class="nav-link"><span class="nav-icon">🏠</span> Dashboard</a>
+      <a href="catalogo.html"  class="nav-link"><span class="nav-icon">📦</span> Catálogo Exclusivo</a>
+      <a href="carrinho.html"  class="nav-link"><span class="nav-icon">🛒</span> Meu Pedido</a>
+      <a href="pedidos.html"   class="nav-link active"><span class="nav-icon">📋</span> Histórico de Pedidos</a>
+      <span class="nav-section-label">Conta</span>
+      <button class="nav-link" id="btnLogout"><span class="nav-icon">🚪</span> Sair</button>
+    </nav>
+    <div class="sidebar-user">
+      <div class="avatar" id="userAvatar">?</div>
+      <div class="user-info">
+        <div class="user-name"  id="userName">Carregando...</div>
+        <div class="user-role"  id="userEmpresa">–</div>
+      </div>
+    </div>
+  </aside>
+
+  <div class="main-content">
+    <header class="topbar">
+      <div class="topbar-info">
+        <div class="topbar-title">Histórico de Pedidos</div>
+        <div class="topbar-subtitle">Acompanhe todos os seus pedidos</div>
+      </div>
+    </header>
+
+    <main class="page-body">
+      <div class="panel">
+        <div class="panel-header">
+          <span class="panel-title">Meus Pedidos</span>
+          <a href="catalogo.html" class="btn btn-primary btn-sm">+ Novo Pedido</a>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Pedido</th>
+                <th>Data</th>
+                <th>Itens</th>
+                <th>Observação</th>
+                <th>Status</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody id="tBody">
+              <tr><td colspan="6" style="text-align:center;padding:32px;color:#aaa;">
+                Carregando...
+              </td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- Modal detalhes pedido -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <div class="modal-header">
+      <h2 class="modal-title">Detalhes do Pedido</h2>
+      <button class="modal-close" id="modalClose">✕</button>
+    </div>
+    <div class="modal-body">
+      <div style="font-size:12px;color:var(--texto-sec);margin-bottom:4px;">
+        ID: <code id="detId" style="font-size:12px;"></code>
+      </div>
+      <div style="display:flex;gap:14px;flex-wrap:wrap;font-size:14px;margin-bottom:4px;">
+        <span>Data: <strong id="detData">–</strong></span>
+        <span>Status: <span id="detStatus">–</span></span>
+      </div>
+      <div id="detObs" style="font-size:13px;color:var(--texto-sec);display:none;
+        background:var(--bg);border-radius:8px;padding:10px 14px;margin-bottom:4px;"></div>
+      <table style="margin-top:4px;">
+        <thead>
+          <tr>
+            <th>Produto</th>
+            <th>Código</th>
+            <th style="text-align:center;">Qtd</th>
+          </tr>
+        </thead>
+        <tbody id="detItens"></tbody>
+      </table>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" id="modalClose2">Fechar</button>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+  import { requireAuth, logout } from '../assets/portal/auth.js';
+  import { listarPedidosCliente } from '../assets/portal/db.js';
+
+  const { user, profile } = await requireAuth('../portal-login.html');
+
+  document.getElementById('userAvatar').textContent  = profile.nome?.charAt(0).toUpperCase() || 'C';
+  document.getElementById('userName').textContent    = profile.nome   || 'Cliente';
+  document.getElementById('userEmpresa').textContent = profile.empresa || '–';
+
+  let pedidos = [];
+
+  // ── Carregar pedidos ──────────────────────────────────────
+  try {
+    pedidos = await listarPedidosCliente(user.uid);
+    const tbody = document.getElementById('tBody');
+
+    if (!pedidos.length) {
+      tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;padding:40px;color:#aaa;">
+        Nenhum pedido realizado ainda.
+        <br><br><a href="catalogo.html" class="btn btn-primary btn-sm">Explorar catálogo</a>
+      </td></tr>`;
+    } else {
+      tbody.innerHTML = pedidos.map(p => {
+        const data = p.criadoEm?.toDate?.()?.toLocaleDateString('pt-BR') ?? '–';
+        const qtd  = p.itens?.reduce((s, i) => s + (i.quantidade || 1), 0) || 0;
+        const obs  = p.observacao ? p.observacao.slice(0, 40) + (p.observacao.length > 40 ? '…' : '') : '–';
+        return `
+          <tr>
+            <td><code style="font-size:11px;color:#888;">${p.id.slice(0,10)}…</code></td>
+            <td style="white-space:nowrap;">${data}</td>
+            <td>${qtd} item${qtd !== 1 ? 's' : ''}</td>
+            <td style="color:var(--texto-sec);font-size:13px;">${obs}</td>
+            <td><span class="badge badge-${p.status}">${badgeLabel(p.status)}</span></td>
+            <td>
+              <button class="btn btn-ghost btn-sm btn-ver" data-id="${p.id}">
+                Ver detalhes
+              </button>
+            </td>
+          </tr>`;
+      }).join('');
+
+      tbody.querySelectorAll('.btn-ver').forEach(btn => {
+        btn.addEventListener('click', () => abrirDetalhes(btn.dataset.id));
+      });
+    }
+  } catch (e) {
+    document.getElementById('tBody').innerHTML =
+      `<tr><td colspan="6" style="text-align:center;color:#c00;padding:24px;">
+        Erro ao carregar pedidos.
+      </td></tr>`;
+  }
+
+  function badgeLabel(s) {
+    return { pendente:'Pendente', confirmado:'Confirmado', cancelado:'Cancelado' }[s] || s;
+  }
+
+  // ── Modal detalhes ────────────────────────────────────────
+  function abrirDetalhes(id) {
+    const p = pedidos.find(x => x.id === id);
+    if (!p) return;
+
+    document.getElementById('detId').textContent   = p.id;
+    document.getElementById('detData').textContent = p.criadoEm?.toDate?.()?.toLocaleDateString('pt-BR') ?? '–';
+    document.getElementById('detStatus').innerHTML = `<span class="badge badge-${p.status}">${badgeLabel(p.status)}</span>`;
+
+    const obsEl = document.getElementById('detObs');
+    if (p.observacao) {
+      obsEl.textContent = `📝 ${p.observacao}`;
+      obsEl.style.display = '';
+    } else {
+      obsEl.style.display = 'none';
+    }
+
+    document.getElementById('detItens').innerHTML = (p.itens || []).map(i => `
+      <tr>
+        <td>${i.nome || '–'}</td>
+        <td style="color:var(--texto-sec);font-size:12px;">${i.codigo || '–'}</td>
+        <td style="text-align:center;font-weight:700;">${i.quantidade || 1}</td>
+      </tr>
+    `).join('');
+
+    document.getElementById('modalOverlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function fecharModal() {
+    document.getElementById('modalOverlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  document.getElementById('modalClose').addEventListener('click', fecharModal);
+  document.getElementById('modalClose2').addEventListener('click', fecharModal);
+  document.getElementById('modalOverlay').addEventListener('click', e => {
+    if (e.target === document.getElementById('modalOverlay')) fecharModal();
+  });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') fecharModal(); });
+
+  // ── Logout ────────────────────────────────────────────────
+  document.getElementById('btnLogout').addEventListener('click', async () => {
+    await logout();
+    window.location.href = '../portal-login.html';
+  });
+
+  // ── Mobile sidebar ────────────────────────────────────────
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('sidebarOverlay');
+  document.getElementById('sidebarToggle').addEventListener('click', () => {
+    sidebar.classList.toggle('open'); overlay.classList.toggle('open');
+  });
+  overlay.addEventListener('click', () => {
+    sidebar.classList.remove('open'); overlay.classList.remove('open');
+  });
+</script>
+</body>
+</html>
