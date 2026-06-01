@@ -132,8 +132,8 @@
 
     .lp-hero-grid {
       display: grid;
-      grid-template-columns: 1.1fr 0.9fr;
-      gap: 60px;
+      grid-template-columns: 1.1fr 0.85fr 0.85fr;
+      gap: 36px;
       align-items: start;
     }
 
@@ -667,9 +667,13 @@
       .lp-painel-grid { grid-template-columns: 1fr; }
     }
 
+    @media (max-width: 1024px) {
+      .lp-hero-grid  { grid-template-columns: 1fr 1fr; }
+    }
+
     @media (max-width: 768px) {
       .lp-hero h1    { font-size: 30px; }
-      .lp-hero-grid  { grid-template-columns: 1fr; gap: 36px; }
+      .lp-hero-grid  { grid-template-columns: 1fr; gap: 28px; }
       .lp-highlights { grid-template-columns: 1fr; }
       .lp-flow       { grid-template-columns: 1fr; }
       .lp-specs-grid { grid-template-columns: 1fr; }
@@ -738,37 +742,24 @@
         </div>
       </div>
 
-      <div class="lp-hero-image-wrap">
-        <div style="
-          border-radius: 18px;
-          overflow: hidden;
-          background: #000;
-          box-shadow: 0 16px 48px rgba(0,0,0,.55);
-          width: 100%;
-          max-width: 360px;
-          margin: 0 auto;
-        ">
-          <video
-            controls
-            playsinline
-            preload="metadata"
-            style="display:block; width:100%; height:auto;"
-          >
-            <source src="assets/kt-c2m-demo.mp4" type="video/mp4">
-          </video>
-        </div>
+      <!-- COLUNA 2: vídeo -->
+      <div style="border-radius:18px;overflow:hidden;background:#000;box-shadow:0 16px 48px rgba(0,0,0,.55);width:100%;">
+        <video controls playsinline preload="metadata" style="display:block;width:100%;height:auto;">
+          <source src="assets/kt-c2m-demo.mp4" type="video/mp4">
+        </video>
+      </div>
 
-        <div class="lp-hero-card" style="max-width:360px; margin: 20px auto 0;">
-          <h3>O que está incluso no kit</h3>
-          <ul>
-            <li>Painel IHM Semeadora — 2 canais independentes</li>
-            <li>2 motores DC 12V — 30 RPM com conector Delphi</li>
-            <li>Sensor indutivo de posição para acionamento automático</li>
-            <li>Chicotes externos, de cabine e de alimentação</li>
-            <li>Suporte RAM Mount articulado para a cabine</li>
-          </ul>
-          <span style="font-size:13px;color:rgba(255,255,255,.6);">Cód. KT-C2M · ASJ Tecnologia</span>
-        </div>
+      <!-- COLUNA 3: o que está incluso -->
+      <div class="lp-hero-card" style="margin:0;">
+        <h3>O que está incluso no kit</h3>
+        <ul>
+          <li>Painel IHM Semeadora — 2 canais independentes</li>
+          <li>2 motores DC 12V — 30 RPM com conector Delphi</li>
+          <li>Sensor indutivo de posição para acionamento automático</li>
+          <li>Chicotes externos, de cabine e de alimentação</li>
+          <li>Suporte RAM Mount articulado para a cabine</li>
+        </ul>
+        <span style="font-size:13px;color:rgba(255,255,255,.6);">Cód. KT-C2M · ASJ Tecnologia</span>
       </div>
     </div>
   </div>
