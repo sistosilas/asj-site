@@ -52,7 +52,7 @@
       {
         "@type": "Product",
         "name": "KT-C2M — Kit Painel para Controle de até 02 Motores DC 12V",
-        "description": "Sistema eletrônico completo para automação e controle de até dois motores DC 12V em semeadoras e adubadoras. Painel IHM com displays individuais por motor, sensor indutivo de rotação e chicotes pré-fabricados com conectores Deutsch.",
+        "description": "Sistema eletrônico completo para automação e controle de até dois motores DC 12V em semeadoras e adubadoras. Painel IHM com displays individuais por motor, sensor indutivo de posição para acionamento automático e chicotes pré-fabricados com conectores Deutsch.",
         "brand": { "@type": "Brand", "name": "ASJ Tecnologia Agrícola" },
         "category": "Tecnologia Agrícola / Semeadoras / Automação",
         "manufacturer": { "@id": "https://asjtecnologia.com.br/#organization" },
@@ -720,7 +720,7 @@
         <p class="lead">
           Sistema eletrônico completo para automação de dosadores em semeadoras e adubadoras.
           Controle individual de dois motores DC 12V diretamente da cabine do trator,
-          com monitoramento em tempo real.
+          com acionamento automático baseado na posição da semeadora.
         </p>
         <div style="display:flex; gap:14px; flex-wrap:wrap;">
           <a class="btn-wpp" href="https://wa.me/5516988616927?text=Olá,%20tenho%20interesse%20no%20Kit%20KT-C2M%20para%20controle%20de%20motores%20em%20semeadoras.%20Pode%20me%20passar%20mais%20informações?" target="_blank">
@@ -731,7 +731,7 @@
         </div>
         <div class="lp-tech-badges">
           <span class="lp-tech-badge">⚡ Até 2 motores DC 12V</span>
-          <span class="lp-tech-badge">📡 Sensor indutivo incluso</span>
+          <span class="lp-tech-badge">📡 Acionamento automático por posição</span>
           <span class="lp-tech-badge">🔌 Conectores Deutsch</span>
           <span class="lp-tech-badge">🖥 Painel IHM digital</span>
           <span class="lp-tech-badge">🔧 Plug &amp; Play</span>
@@ -746,7 +746,7 @@
           <ul>
             <li>Painel IHM Semeadora — 2 canais independentes</li>
             <li>2 motores DC 12V — 30 RPM com conector Delphi</li>
-            <li>Sensor indutivo para monitoramento de rotação</li>
+            <li>Sensor indutivo de posição para acionamento automático dos motores</li>
             <li>Chicotes externos, de cabine e de alimentação</li>
             <li>Suporte RAM Mount articulado para a cabine</li>
           </ul>
@@ -774,8 +774,8 @@
       </div>
       <div class="lp-highlight-card">
         <div class="lp-highlight-icon">📡</div>
-        <h3>Monitoramento em Tempo Real</h3>
-        <p>O sensor indutivo detecta a rotação do dosador continuamente, alertando o operador sobre qualquer parada ou falha.</p>
+        <h3>Acionamento Automático por Posição</h3>
+        <p>O sensor indutivo identifica se a semeadora está abaixada ou levantada. Abaixada: autoriza o acionamento dos motores. Levantada: interrompe automaticamente a dosagem.</p>
       </div>
       <div class="lp-highlight-card">
         <div class="lp-highlight-icon">🔌</div>
@@ -792,7 +792,7 @@
     <div class="lp-title">
       <span class="eyebrow">Funcionamento</span>
       <h2>Do painel da cabine ao dosador no campo</h2>
-      <p>O sistema KT-C2M conecta o operador diretamente aos dosadores da semeadora, com controle eletrônico e monitoramento em loop fechado.</p>
+      <p>O sistema KT-C2M opera em modo manual ou automático. No modo automático, o sensor indutivo de posição comanda o acionamento dos motores conforme a posição da semeadora no campo.</p>
     </div>
 
     <div class="lp-flow">
@@ -823,8 +823,8 @@
       </div>
       <div class="lp-flow-step">
         <div class="lp-flow-num">6</div>
-        <h3>Monitoramento Contínuo</h3>
-        <p>O sensor indutivo (CB-002753) detecta a passagem das referências metálicas do eixo dosador e retorna o sinal de rotação ao painel IHM, confirmando o funcionamento.</p>
+        <h3>Acionamento por Posição</h3>
+        <p>O sensor indutivo (CB-002753) detecta se a semeadora está abaixada ou levantada. Abaixada: capta o pulso de rotação e autoriza o acionamento automático dos motores. Levantada: interrompe os motores imediatamente, sem intervenção do operador.</p>
       </div>
     </div>
   </div>
@@ -885,7 +885,7 @@
           <div class="lp-ann-num">6</div>
           <div class="lp-ann-content">
             <h4>Saídas: ENERGIA · MOTORES · SENSOR</h4>
-            <p>Três conectores Deutsch na base do painel organizam todas as conexões externas: alimentação 12V, chicote dos dois motores e sensor indutivo.</p>
+            <p>Três conectores Deutsch na base do painel: alimentação 12V, chicote dos dois motores e sensor indutivo de posição — responsável pelo acionamento automático.</p>
           </div>
         </div>
       </div>
@@ -926,7 +926,7 @@
         <div class="lp-comp-body">
           <div class="lp-comp-code">CB-002753</div>
           <div class="lp-comp-name">Sensor Indutivo para IHM Semeadora</div>
-          <div class="lp-comp-desc">Sensor cilíndrico M12 metálico com ponta verde. Detecta a rotação do eixo dosador e retorna sinal ao painel. Conector Deutsch 3 vias.</div>
+          <div class="lp-comp-desc">Sensor cilíndrico M12 metálico com ponta verde. Detecta a posição da semeadora (abaixada/levantada) e comanda o acionamento ou parada automática dos motores. Conector Deutsch 3 vias.</div>
         </div>
       </div>
 
@@ -1096,7 +1096,7 @@
             <tr><td>Identificação visual</td><td>Ponta verde</td></tr>
             <tr><td>Proteção do cabo</td><td>Mangueira corrugada</td></tr>
             <tr><td>Conector</td><td>Deutsch 3 vias preto</td></tr>
-            <tr><td>Função</td><td>Monitoramento de rotação do dosador</td></tr>
+            <tr><td>Função</td><td>Detecção de posição da semeadora (abaixada/levantada) para acionamento automático dos motores</td></tr>
           </tbody>
         </table>
       </div>
