@@ -440,6 +440,7 @@
     grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:16px 0 24px;"><p style="color:#c0392b;font-size:14px;">⚠️ ${msg}</p></div>`;
     injetarCardControleISOBUS();
     injetarCardDPM100();
+    injetarCardKTC2M();
     atualizarContadores([]);
     aplicarFiltros();
   }
@@ -493,6 +494,42 @@
     grid.insertBefore(card, grid.firstChild);
   }
 
+  /* == CARD ESTÁTICO KT-C2M == */
+  function injetarCardKTC2M() {
+    const existing = document.getElementById('card-kt-c2m');
+    if (existing) existing.remove();
+    const grid = document.getElementById('productsGrid');
+    if (grid.querySelector('.loading-state')) return;
+    const waLink = `${WA}?text=${encodeURIComponent('Olá, tenho interesse no Kit KT-C2M para controle de motores em semeadoras. Pode me passar mais informações?')}`;
+    const card = document.createElement('div');
+    card.id = 'card-kt-c2m';
+    card.className = 'product-card featured';
+    card.dataset.cat = 'monitores';
+    card.dataset.marca = '';
+    card.dataset.aplicacao = 'implementos';
+    card.dataset.code = 'KT-C2M';
+    card.innerHTML = `
+      <div class="product-img">
+        <img src="assets/kt-c2m-painel.png" alt="KT-C2M — Kit Painel para Controle de Motores" style="width:100%;height:100%;object-fit:contain;padding:12px;" onerror="this.src='assets/kt-c2m-kit.png'">
+      </div>
+      <div class="product-info">
+        <span class="product-category-label">Automação de Semeadoras</span>
+        <p class="product-name">Kit Painel para Controle de até 02 Motores DC 12V</p>
+        <span class="product-code">KT-C2M</span>
+        <p class="product-desc">Controle eletrônico de dosadores de sementes e fertilizantes diretamente da cabine. Painel IHM com 2 canais independentes, sensor indutivo e chicotes Deutsch.</p>
+        <div class="product-tags">
+          <span class="product-tag">2 Motores DC 12V</span>
+          <span class="product-tag">Sensor Indutivo</span>
+          <span class="product-tag">Plug &amp; Play</span>
+        </div>
+      </div>
+      <div class="product-card-footer">
+        <a class="btn-saiba-mais" href="kt-c2m.html">Saiba mais</a>
+        <a class="btn-whats" href="${waLink}" target="_blank">${waSvg()} Consultar</a>
+      </div>`;
+    grid.insertBefore(card, grid.firstChild);
+  }
+
   /* == CARD ESTÁTICO DPM100 == */
   function injetarCardDPM100() {
     const existing = document.getElementById('card-dpm100');
@@ -536,6 +573,7 @@
       grid.innerHTML = '';
       injetarCardControleISOBUS();
       injetarCardDPM100();
+      injetarCardKTC2M();
       atualizarContadores([]);
       aplicarFiltros();
       return;
@@ -543,6 +581,7 @@
     grid.innerHTML = '';
     injetarCardControleISOBUS();
     injetarCardDPM100();
+    injetarCardKTC2M();
     produtos.forEach(p => {
       const tags = (p.specs||[]).slice(0,3).map(s =>
         `<span class="product-tag">${s.length>22?s.substring(0,22)+'…':s}</span>`).join('');
@@ -658,6 +697,7 @@
     produtos.forEach(p=>{c.all++;if(c[p.categoria]!==undefined)c[p.categoria]++;});
     c.all++; c.monitores++; // card estático DPM100
     c.all++; c.isobus++;   // card estático Controle ISOBUS
+    c.all++; c.monitores++; // card estático KT-C2M
     Object.keys(c).forEach(k=>{const el=document.getElementById('count-'+k);if(el)el.textContent=c[k];});
     document.getElementById('toolbarCount').textContent=`Exibindo ${c.all} produto${c.all!==1?'s':''}`;
   }
