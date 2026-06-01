@@ -871,14 +871,14 @@
           <div class="lp-ann-num">4</div>
           <div class="lp-ann-content">
             <h4>Botão M — Modo Manual</h4>
-            <p>Aciona os motores em modo manual, independentemente da posição da semeadora. O operador tem controle direto sobre o acionamento, sem depender do sensor indutivo.</p>
+            <p>Aciona os motores diretamente, sem necessidade do feedback do sensor indutivo. O operador controla o acionamento de forma independente da posição da semeadora.</p>
           </div>
         </div>
         <div class="lp-annotation">
           <div class="lp-ann-num">5</div>
           <div class="lp-ann-content">
             <h4>Botão ON/OFF — Modo Automático</h4>
-            <p>Ativa o modo automático: o sensor indutivo assume o controle do acionamento. Semeadora abaixada — motores ligam. Semeadora levantada — motores param. Sem intervenção do operador.</p>
+            <p>Ativa o modo automático via feedback do sensor indutivo. Semeadora abaixada — o sensor capta o sinal e aciona os motores. Semeadora levantada — o sensor interrompe os motores automaticamente.</p>
           </div>
         </div>
         <div class="lp-annotation">
@@ -1064,9 +1064,9 @@
             <tr><td>Display</td><td>LED vermelho 7 segmentos (2 canais)</td></tr>
             <tr><td>Faixa de ajuste</td><td>0 a 99 por canal</td></tr>
             <tr><td>Controle por canal</td><td>Botões + e − independentes</td></tr>
-            <tr><td>Botão M</td><td>Modo Manual — aciona motores independente do sensor</td></tr>
-            <tr><td>Botão ON/OFF</td><td>Modo Automático — acionamento via sensor indutivo de posição</td></tr>
-            <tr><td>Chave Geral</td><td>Liga e desliga todo o sistema</td></tr>
+            <tr><td>Botão M</td><td>Modo Manual — aciona os motores sem feedback do sensor indutivo</td></tr>
+            <tr><td>Botão ON/OFF</td><td>Modo Automático — acionamento via feedback do sensor indutivo</td></tr>
+            <tr><td>Chave Geral</td><td>Desliga o sistema por completo</td></tr>
             <tr><td>Saídas</td><td>ENERGIA · MOTORES · SENSOR</td></tr>
             <tr><td>Fixação</td><td>Suporte RAM Mount articulado (incluso)</td></tr>
           </tbody>
@@ -1153,6 +1153,42 @@
         <div class="lp-gallery-label">PC-0347 · Detalhe Frontal</div>
       </div>
     </div>
+  </div>
+</section>
+
+<!-- ── VÍDEO ─────────────────────────────────────────────────── -->
+<section class="lp-section dark">
+  <div class="container">
+    <div class="lp-title">
+      <span class="eyebrow">Veja em funcionamento</span>
+      <h2>Sistema KT-C2M na prática</h2>
+      <p>Assista ao funcionamento real do kit em campo — acionamento manual, automático e resposta do sensor indutivo.</p>
+    </div>
+
+    <div style="
+      position: relative;
+      width: 100%;
+      max-width: 480px;
+      margin: 0 auto;
+      border-radius: 20px;
+      overflow: hidden;
+      background: #000;
+      box-shadow: 0 20px 60px rgba(0,0,0,.6);
+    ">
+      <video
+        controls
+        playsinline
+        preload="metadata"
+        style="display:block; width:100%; height:auto; max-height:80vh;"
+      >
+        <source src="assets/kt-c2m-demo.mp4" type="video/mp4">
+        Seu navegador não suporta reprodução de vídeo.
+      </video>
+    </div>
+
+    <p style="text-align:center; margin-top:20px; font-size:13px; color:rgba(255,255,255,.45);">
+      KT-C2M · ASJ Tecnologia — Demonstração em campo
+    </p>
   </div>
 </section>
 
