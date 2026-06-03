@@ -3151,6 +3151,10 @@ let sortMode = 'default';
 const catMap = {};
 CATS.forEach(c => catMap[c.id] = c);
 
+// ─── PRÉ-DECLARAÇÕES PARA MÓDULOS ADMIN ──────────────────────────────────────
+var customCats = [];
+window._deletedProdCodes = new Set();
+
 // ─── SIDEBAR ─────────────────────────────────────────────────────────────────
 function buildSidebar() {
   buildSidebarFull();
@@ -3164,15 +3168,16 @@ function buildSidebarFull() {
   const allItem = document.createElement('div');
   allItem.className = 'cat-item' + (prevActive === 'all' ? ' active' : '');
   allItem.dataset.id = 'all';
-  const visTotal = PRODUCTS.filter(p => !(window._deletedProdCodes && window._deletedProdCodes.has(p[P_CODE]))).length;
+  const _del = window._deletedProdCodes;
+  const visTotal = PRODUCTS.filter(p => !(_del && _del.has(p[P_CODE]))).length;
   allItem.innerHTML = `<span class="cat-dot" style="background:#888"></span>Todos os Produtos<span class="badge">${visTotal}</span>`;
   allItem.onclick = () => selectCat('all');
   list.appendChild(allItem);
 
-  const allCats = getAllCats();
+  const allCats = (typeof getAllCats === 'function') ? getAllCats() : CATS;
   const counts = {};
   PRODUCTS.forEach(p => {
-    if (window._deletedProdCodes && window._deletedProdCodes.has(p[P_CODE])) return;
+    if (_del && _del.has(p[P_CODE])) return;
     counts[p[P_CAT]] = (counts[p[P_CAT]] || 0) + 1;
   });
 
@@ -4132,7 +4137,7 @@ function getImgSrc(p) {
 // MÓDULO: CATEGORIAS CUSTOMIZADAS
 // ════════════════════════════════════════════════════════════════════════════════
 const LS_CATS_KEY = 'asj_custom_cats_v1';
-let customCats = [];
+// customCats já declarado no início do script como var
 
 function loadCustomCats() {
   try { customCats = JSON.parse(localStorage.getItem(LS_CATS_KEY) || '[]'); } catch { customCats = []; }
@@ -4145,7 +4150,7 @@ function saveCustomCats() {
 }
 
 function getAllCats() {
-  return [...CATS, ...customCats];
+  return [...CATS, ...(customCats || [])];
 }
 
 // Abrir modal de gerenciamento
