@@ -251,24 +251,42 @@ body.admin-mode .card:hover::after{content:'✏️ Editar';position:absolute;top
 .card-cart-btn{position:absolute;bottom:9px;right:9px;background:var(--blue);color:#fff;border:none;border-radius:6px;width:28px;height:28px;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .15s;z-index:2}
 .card:hover .card-cart-btn{opacity:1}
 
-/* ══ IMAGE EDITOR ══════════════════════════════════════════════════════════ */
+/* ══ IMAGE EDITOR (PAINT) ═══════════════════════════════════════════════════ */
 #img-editor-modal{display:none;position:fixed;inset:0;z-index:700;background:rgba(4,12,28,.97);flex-direction:column;align-items:center;justify-content:center}
 #img-editor-modal.open{display:flex}
-#img-editor-wrap{background:#1a2035;border-radius:16px;display:flex;flex-direction:column;width:min(960px,98vw);max-height:97vh;overflow:hidden;box-shadow:0 24px 80px rgba(0,0,0,.8)}
-#img-editor-toolbar{background:#081f45;padding:10px 16px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;border-bottom:1px solid rgba(255,255,255,.1)}
-#img-editor-toolbar .ed-title{color:#fff;font-weight:800;font-size:14px;white-space:nowrap}
-#img-editor-toolbar label{color:rgba(255,255,255,.75);font-size:12px;font-weight:600;white-space:nowrap}
-#eraser-size{width:80px;accent-color:#00a3e0;cursor:pointer}
-#eraser-size-val{color:#fff;font-size:12px;min-width:28px;text-align:center;background:rgba(255,255,255,.12);border-radius:5px;padding:2px 7px}
-#img-editor-canvas-wrap{flex:1;overflow:auto;display:flex;align-items:center;justify-content:center;padding:20px;background:#0d1117;min-height:200px}
-#img-editor-canvas{cursor:none;border:2px solid rgba(255,255,255,.2);border-radius:4px;display:block}
-#img-editor-actions{background:#081f45;padding:11px 16px;display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap;border-top:1px solid rgba(255,255,255,.1)}
-.btn-ed{border:none;border-radius:8px;padding:8px 16px;font-size:12.5px;font-weight:700;cursor:pointer;transition:.15s}
+#img-editor-wrap{background:#1a2035;border-radius:14px;display:flex;flex-direction:column;width:min(1100px,99vw);max-height:99vh;overflow:hidden;box-shadow:0 24px 80px rgba(0,0,0,.85)}
+/* Barra de ferramentas */
+#img-editor-toolbar{background:#081f45;padding:8px 14px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;border-bottom:1px solid rgba(255,255,255,.1)}
+#img-editor-toolbar .ed-title{color:#fff;font-weight:800;font-size:13px;white-space:nowrap;margin-right:4px}
+.ed-tool-group{display:flex;gap:4px;align-items:center;flex-wrap:wrap}
+.ed-sep{width:1px;height:28px;background:rgba(255,255,255,.18);flex-shrink:0}
+.btn-tool{background:rgba(255,255,255,.08);border:1.5px solid transparent;border-radius:7px;padding:5px 9px;font-size:12px;cursor:pointer;color:rgba(255,255,255,.8);transition:.15s;white-space:nowrap;display:flex;align-items:center;gap:4px}
+.btn-tool:hover{background:rgba(255,255,255,.18)}
+.btn-tool.active{background:var(--accent);border-color:var(--accent);color:#fff;box-shadow:0 0 8px rgba(0,163,224,.5)}
+#tool-size{width:72px;accent-color:var(--accent);cursor:pointer}
+#tool-size-val{color:#fff;font-size:11.5px;min-width:24px;text-align:center;background:rgba(255,255,255,.12);border-radius:5px;padding:2px 6px}
+#tool-color{width:32px;height:28px;padding:2px;border:2px solid rgba(255,255,255,.3);border-radius:6px;cursor:pointer;background:none}
+.ed-color-lbl{color:rgba(255,255,255,.7);font-size:11px;font-weight:600}
+/* Área do canvas */
+#img-editor-canvas-wrap{flex:1;overflow:auto;display:flex;align-items:center;justify-content:center;padding:16px;background:#0d1117;min-height:200px;position:relative}
+#img-editor-canvas{border:2px solid rgba(255,255,255,.2);border-radius:4px;display:block}
+/* Overlay de texto */
+#ed-text-input{position:absolute;display:none;border:2px dashed var(--accent);background:rgba(0,0,0,.5);color:#fff;padding:4px 8px;font-size:16px;outline:none;min-width:120px;border-radius:4px;font-family:inherit;z-index:10}
+/* Barra de ações */
+#img-editor-actions{background:#081f45;padding:10px 14px;display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap;border-top:1px solid rgba(255,255,255,.1)}
+.btn-ed{border:none;border-radius:8px;padding:8px 14px;font-size:12.5px;font-weight:700;cursor:pointer;transition:.15s;display:flex;align-items:center;gap:5px}
 .btn-ed-ghost{background:rgba(255,255,255,.08);color:rgba(255,255,255,.8)}.btn-ed-ghost:hover{background:rgba(255,255,255,.18)}
 .btn-ed-undo{background:#37474f;color:#fff}.btn-ed-undo:hover{background:#546e7a}
+.btn-ed-redo{background:#455a64;color:#fff}.btn-ed-redo:hover{background:#546e7a}
 .btn-ed-clear{background:#c62828;color:#fff}.btn-ed-clear:hover{background:#b71c1c}
-.btn-ed-save{background:#2e7d32;color:#fff}.btn-ed-save:hover{background:#1b5e20}
-#eraser-cursor{position:fixed;border-radius:50%;border:2px solid rgba(255,60,60,.9);pointer-events:none;z-index:9999;transform:translate(-50%,-50%);display:none;box-shadow:0 0 0 1px rgba(0,0,0,.5)}
+.btn-ed-dl{background:#1565c0;color:#fff}.btn-ed-dl:hover{background:#0d47a1}
+.btn-ed-catalog{background:#2e7d32;color:#fff;font-size:13px;padding:9px 18px}.btn-ed-catalog:hover{background:#1b5e20}
+/* Cursor dinâmico */
+#eraser-cursor{position:fixed;border-radius:50%;border:2px solid rgba(255,60,60,.85);pointer-events:none;z-index:9999;transform:translate(-50%,-50%);display:none;box-shadow:0 0 0 1px rgba(0,0,0,.4)}
+/* Crop overlay */
+#ed-crop-overlay{position:absolute;border:2px dashed #fff;box-shadow:0 0 0 9999px rgba(0,0,0,.5);pointer-events:none;display:none;z-index:5}
+#btn-apply-crop{display:none;position:absolute;bottom:24px;right:24px;background:var(--accent);color:#fff;border:none;border-radius:8px;padding:9px 18px;font-size:13px;font-weight:700;cursor:pointer;z-index:20}
+#btn-apply-crop:hover{filter:brightness(1.1)}
 
 /* ══ ADD PRODUCT MODAL ══════════════════════════════════════════════════════ */
 #add-prod-modal{display:none;position:fixed;inset:0;z-index:700;background:rgba(8,31,69,.88);backdrop-filter:blur(4px);align-items:center;justify-content:center}
@@ -518,24 +536,50 @@ body.admin-mode #admin-modal-extra{display:flex}
 <!-- CURSOR DA BORRACHA -->
 <div id="eraser-cursor"></div>
 
-<!-- ═══ MODAL EDITOR DE IMAGEM ══════════════════════════════════════════════ -->
+<!-- ═══ MODAL EDITOR DE IMAGEM (PAINT) ══════════════════════════════════════ -->
 <div id="img-editor-modal">
   <div id="img-editor-wrap">
+    <!-- TOOLBAR -->
     <div id="img-editor-toolbar">
-      <span class="ed-title">🖊 Borracha de Imagem</span>
-      <label>Tamanho:</label>
-      <input type="range" id="eraser-size" min="5" max="100" value="22">
-      <span id="eraser-size-val">22</span>
-      <span style="flex:1"></span>
-      <button class="btn-ed btn-ed-undo" id="btn-eraser-undo">↩ Desfazer</button>
+      <span class="ed-title">🎨 Editor</span>
+      <div class="ed-sep"></div>
+      <div class="ed-tool-group">
+        <button class="btn-tool active" data-tool="eraser"  title="Borracha (apaga com branco)">⬜ Borracha</button>
+        <button class="btn-tool"        data-tool="pencil"  title="Lápis livre">✏️ Lápis</button>
+        <button class="btn-tool"        data-tool="line"    title="Linha reta">╱ Linha</button>
+        <button class="btn-tool"        data-tool="rect"    title="Retângulo">▭ Ret.</button>
+        <button class="btn-tool"        data-tool="ellipse" title="Elipse / Círculo">◯ Elipse</button>
+        <button class="btn-tool"        data-tool="text"    title="Inserir texto">𝐓 Texto</button>
+        <button class="btn-tool"        data-tool="crop"    title="Recortar área">✂️ Recorte</button>
+      </div>
+      <div class="ed-sep"></div>
+      <div class="ed-tool-group">
+        <label style="color:rgba(255,255,255,.7);font-size:11px">Tam:</label>
+        <input type="range" id="tool-size" min="1" max="80" value="6">
+        <span id="tool-size-val">6</span>
+      </div>
+      <div class="ed-tool-group">
+        <span class="ed-color-lbl">Cor:</span>
+        <input type="color" id="tool-color" value="#ffffff" title="Cor do desenho">
+      </div>
+      <div class="ed-sep"></div>
+      <button class="btn-ed btn-ed-undo" id="btn-eraser-undo" title="Desfazer (Ctrl+Z)">↩</button>
+      <button class="btn-ed btn-ed-redo" id="btn-eraser-redo" title="Refazer (Ctrl+Y)">↪</button>
     </div>
+    <!-- CANVAS -->
     <div id="img-editor-canvas-wrap">
       <canvas id="img-editor-canvas"></canvas>
+      <textarea id="ed-text-input" rows="1" placeholder="Digite e pressione Enter"></textarea>
+      <div id="ed-crop-overlay"></div>
+      <button id="btn-apply-crop">✂️ Aplicar Recorte</button>
     </div>
+    <!-- AÇÕES -->
     <div id="img-editor-actions">
-      <button class="btn-ed btn-ed-clear" id="btn-eraser-clear">🗑 Limpar edições</button>
+      <button class="btn-ed btn-ed-clear" id="btn-eraser-clear">🗑 Restaurar original</button>
+      <span style="flex:1"></span>
       <button class="btn-ed btn-ed-ghost" id="btn-eraser-cancel">Fechar</button>
-      <button class="btn-ed btn-ed-save" id="btn-eraser-save">⬇ Baixar imagem</button>
+      <button class="btn-ed btn-ed-dl"      id="btn-eraser-save">⬇ Baixar PNG</button>
+      <button class="btn-ed btn-ed-catalog" id="btn-eraser-catalog">💾 Salvar no Catálogo</button>
     </div>
   </div>
 </div>
@@ -3154,6 +3198,7 @@ CATS.forEach(c => catMap[c.id] = c);
 // ─── PRÉ-DECLARAÇÕES PARA MÓDULOS ADMIN ──────────────────────────────────────
 var customCats = [];
 window._deletedProdCodes = new Set();
+var LS_EDITED_IMGS = 'asj_edited_imgs_v1';
 
 // ─── SIDEBAR ─────────────────────────────────────────────────────────────────
 function buildSidebar() {
@@ -4127,8 +4172,14 @@ loadCart();
 // MÓDULO: IMAGEM — helper getImgSrc
 // ════════════════════════════════════════════════════════════════════════════════
 function getImgSrc(p) {
-  if (!p || !p[P_PATH]) return '';
+  if (!p) return '';
+  // Verificar se há imagem editada salva no catálogo
+  try {
+    const edited = JSON.parse(localStorage.getItem(LS_EDITED_IMGS) || '{}');
+    if (edited[p[P_CODE]]) return edited[p[P_CODE]];
+  } catch {}
   const path = p[P_PATH];
+  if (!path) return '';
   if (path.startsWith('data:') || path.startsWith('blob:') || path.startsWith('http')) return path;
   return encodeURI(IMG_BASE + path);
 }
@@ -4368,19 +4419,54 @@ document.getElementById('btn-delete-prod').onclick = () => {
 };
 
 // ════════════════════════════════════════════════════════════════════════════════
-// MÓDULO: EDITOR DE IMAGEM — BORRACHA
+// MÓDULO: EDITOR DE IMAGEM — PAINT COMPLETO
 // ════════════════════════════════════════════════════════════════════════════════
-let _editorHistory = [];   // pilha de ImageData para undo
+// LS_EDITED_IMGS já declarado no início do script
+
+// ── Estado do editor ──────────────────────────────────────────────────────────
+let _editorHistory  = [];   // pilha undo (ImageData[])
+let _editorRedo     = [];   // pilha redo
 let _editorPainting = false;
-let _editorImg = null;     // img element de referência
+let _editorImg      = null; // imagem original
+let _edTool         = 'eraser';
+let _edStartX       = 0, _edStartY = 0;
+let _edSnapshotData = null; // snapshot antes de shape preview
+let _edCropRect     = null; // {x,y,w,h} durante recorte
 
-const _edCanvas   = document.getElementById('img-editor-canvas');
-const _edCtx      = _edCanvas.getContext('2d');
-const _eraserCursor = document.getElementById('eraser-cursor');
-const _eraserSzEl   = document.getElementById('eraser-size');
-const _eraserSzVal  = document.getElementById('eraser-size-val');
+const _edCanvas      = document.getElementById('img-editor-canvas');
+const _edCtx         = _edCanvas.getContext('2d');
+const _eraserCursor  = document.getElementById('eraser-cursor');
+const _toolSzEl      = document.getElementById('tool-size');
+const _toolSzVal     = document.getElementById('tool-size-val');
+const _toolColorEl   = document.getElementById('tool-color');
+const _cropOverlay   = document.getElementById('ed-crop-overlay');
+const _btnApplyCrop  = document.getElementById('btn-apply-crop');
+const _textInput     = document.getElementById('ed-text-input');
 
-_eraserSzEl.oninput = () => { _eraserSzVal.textContent = _eraserSzEl.value; };
+_toolSzEl.oninput = () => { _toolSzVal.textContent = _toolSzEl.value; };
+
+// Selecionar ferramenta
+document.querySelectorAll('.btn-tool').forEach(btn => {
+  btn.onclick = () => {
+    _edTool = btn.dataset.tool;
+    document.querySelectorAll('.btn-tool').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    _cropOverlay.style.display = 'none';
+    _btnApplyCrop.style.display = 'none';
+    _textInput.style.display = 'none';
+    _edCropRect = null;
+    // Cursor do canvas
+    if (_edTool === 'eraser' || _edTool === 'pencil') {
+      _edCanvas.style.cursor = 'none';
+    } else if (_edTool === 'crop') {
+      _edCanvas.style.cursor = 'crosshair';
+    } else if (_edTool === 'text') {
+      _edCanvas.style.cursor = 'text';
+    } else {
+      _edCanvas.style.cursor = 'crosshair';
+    }
+  };
+});
 
 // Abrir editor
 document.getElementById('btn-edit-img-admin').onclick = openImgEditor;
@@ -4390,40 +4476,35 @@ function openImgEditor() {
   const src = getImgSrc(currentProd);
   if (!src) { alert('Este produto não possui imagem.'); return; }
 
-  const img = new Image();
-  img.crossOrigin = 'anonymous';
-  img.onload = () => {
+  function initCanvas(img) {
     _editorImg = img;
-    // Dimensionar canvas
-    const maxW = Math.min(img.naturalWidth, 900);
+    const maxW = Math.min(img.naturalWidth, 1024);
     const scale = maxW / img.naturalWidth;
     _edCanvas.width  = Math.round(img.naturalWidth  * scale);
     _edCanvas.height = Math.round(img.naturalHeight * scale);
     _edCtx.drawImage(img, 0, 0, _edCanvas.width, _edCanvas.height);
-    _editorHistory = [];
+    _editorHistory = []; _editorRedo = [];
+    _cropOverlay.style.display = 'none';
+    _btnApplyCrop.style.display = 'none';
+    _textInput.style.display = 'none';
     document.getElementById('img-editor-modal').classList.add('open');
-  };
+  }
+
+  const img = new Image();
+  img.crossOrigin = 'anonymous';
+  img.onload = () => initCanvas(img);
   img.onerror = () => {
-    // Tentar sem crossOrigin
     const img2 = new Image();
-    img2.onload = () => {
-      _editorImg = img2;
-      const maxW = Math.min(img2.naturalWidth, 900);
-      const scale = maxW / img2.naturalWidth;
-      _edCanvas.width  = Math.round(img2.naturalWidth  * scale);
-      _edCanvas.height = Math.round(img2.naturalHeight * scale);
-      _edCtx.drawImage(img2, 0, 0, _edCanvas.width, _edCanvas.height);
-      _editorHistory = [];
-      document.getElementById('img-editor-modal').classList.add('open');
-    };
-    img2.onerror = () => alert('Não foi possível carregar a imagem para edição.');
+    img2.onload = () => initCanvas(img2);
+    img2.onerror = () => alert('Não foi possível carregar a imagem para edição.\nSe a imagem for de um servidor externo, baixe-a primeiro.');
     img2.src = src;
   };
   img.src = src;
 }
 
-// Desenho no canvas
-function getEraserSize() { return parseInt(_eraserSzEl.value, 10); }
+// ── Helpers ───────────────────────────────────────────────────────────────────
+function getToolSize() { return parseInt(_toolSzEl.value, 10); }
+function getToolColor() { return _toolColorEl.value; }
 
 function canvasPos(e) {
   const rect = _edCanvas.getBoundingClientRect();
@@ -4431,69 +4512,259 @@ function canvasPos(e) {
   const scaleY = _edCanvas.height / rect.height;
   const clientX = e.touches ? e.touches[0].clientX : e.clientX;
   const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-  return {
-    x: (clientX - rect.left) * scaleX,
-    y: (clientY - rect.top)  * scaleY
-  };
+  return { x: (clientX - rect.left) * scaleX, y: (clientY - rect.top) * scaleY };
 }
 
-function eraseAt(x, y) {
-  const r = getEraserSize();
-  _edCtx.globalCompositeOperation = 'source-over';
-  _edCtx.fillStyle = '#ffffff';
-  _edCtx.beginPath();
-  _edCtx.arc(x, y, r, 0, Math.PI * 2);
-  _edCtx.fill();
-}
-
-_edCanvas.addEventListener('mousedown', e => {
+function pushHistory() {
   _editorHistory.push(_edCtx.getImageData(0, 0, _edCanvas.width, _edCanvas.height));
-  _editorPainting = true;
-  const {x,y} = canvasPos(e);
-  eraseAt(x, y);
-});
-_edCanvas.addEventListener('mousemove', e => {
-  // Atualizar cursor visual
+  _editorRedo = [];
+  if (_editorHistory.length > 40) _editorHistory.shift();
+}
+
+function updateCursorRing(e) {
+  if (_edTool !== 'eraser' && _edTool !== 'pencil') { _eraserCursor.style.display = 'none'; return; }
+  _eraserCursor.style.display = 'block';
   _eraserCursor.style.left = e.clientX + 'px';
   _eraserCursor.style.top  = e.clientY + 'px';
-  const r = getEraserSize() * (_edCanvas.getBoundingClientRect().width / _edCanvas.width);
+  const r = getToolSize() * (_edCanvas.getBoundingClientRect().width / _edCanvas.width);
   _eraserCursor.style.width  = (r*2) + 'px';
   _eraserCursor.style.height = (r*2) + 'px';
-  if (_editorPainting) { const {x,y} = canvasPos(e); eraseAt(x, y); }
-});
-_edCanvas.addEventListener('mouseup',    () => { _editorPainting = false; });
-_edCanvas.addEventListener('mouseleave', () => { _editorPainting = false; });
+}
 
-// Touch support
-_edCanvas.addEventListener('touchstart', e => {
-  e.preventDefault();
-  _editorHistory.push(_edCtx.getImageData(0, 0, _edCanvas.width, _edCanvas.height));
-  _editorPainting = true;
-  const {x,y} = canvasPos(e); eraseAt(x,y);
-}, {passive:false});
-_edCanvas.addEventListener('touchmove', e => {
-  e.preventDefault();
-  if (_editorPainting) { const {x,y} = canvasPos(e); eraseAt(x,y); }
-}, {passive:false});
-_edCanvas.addEventListener('touchend', () => { _editorPainting = false; });
+// ── Aplicar ferramenta em ponto (borracha/lápis) ─────────────────────────────
+function paintAt(x, y, fromX, fromY) {
+  const sz = getToolSize();
+  _edCtx.globalCompositeOperation = 'source-over';
+  _edCtx.lineCap = 'round';
+  _edCtx.lineJoin = 'round';
 
-// Mostrar/ocultar cursor quando entra/sai do canvas
-_edCanvas.addEventListener('mouseenter', () => { _eraserCursor.style.display = 'block'; });
-_edCanvas.addEventListener('mouseleave', () => { _eraserCursor.style.display = 'none'; });
+  if (_edTool === 'eraser') {
+    _edCtx.fillStyle = '#ffffff';
+    _edCtx.beginPath();
+    _edCtx.arc(x, y, sz, 0, Math.PI*2);
+    _edCtx.fill();
+    if (fromX !== undefined) {
+      _edCtx.strokeStyle = '#ffffff';
+      _edCtx.lineWidth = sz * 2;
+      _edCtx.beginPath();
+      _edCtx.moveTo(fromX, fromY);
+      _edCtx.lineTo(x, y);
+      _edCtx.stroke();
+    }
+  } else if (_edTool === 'pencil') {
+    _edCtx.strokeStyle = getToolColor();
+    _edCtx.lineWidth = sz;
+    _edCtx.beginPath();
+    if (fromX !== undefined) { _edCtx.moveTo(fromX, fromY); _edCtx.lineTo(x, y); }
+    else { _edCtx.arc(x, y, sz/2, 0, Math.PI*2); _edCtx.fillStyle = getToolColor(); _edCtx.fill(); return; }
+    _edCtx.stroke();
+  }
+}
 
-// Undo
-document.getElementById('btn-eraser-undo').onclick = () => {
-  if (_editorHistory.length === 0) return;
-  _edCtx.putImageData(_editorHistory.pop(), 0, 0);
+// ── Desenhar shape (linha, rect, elipse) com preview ─────────────────────────
+function drawShape(x2, y2) {
+  if (!_edSnapshotData) return;
+  _edCtx.putImageData(_edSnapshotData, 0, 0);
+  const sz = getToolSize();
+  _edCtx.strokeStyle = getToolColor();
+  _edCtx.fillStyle   = getToolColor();
+  _edCtx.lineWidth   = sz;
+  _edCtx.lineCap     = 'round';
+  _edCtx.globalCompositeOperation = 'source-over';
+
+  if (_edTool === 'line') {
+    _edCtx.beginPath();
+    _edCtx.moveTo(_edStartX, _edStartY);
+    _edCtx.lineTo(x2, y2);
+    _edCtx.stroke();
+  } else if (_edTool === 'rect') {
+    _edCtx.beginPath();
+    _edCtx.strokeRect(_edStartX, _edStartY, x2 - _edStartX, y2 - _edStartY);
+  } else if (_edTool === 'ellipse') {
+    const rx = Math.abs(x2 - _edStartX) / 2;
+    const ry = Math.abs(y2 - _edStartY) / 2;
+    const cx = _edStartX + (x2 - _edStartX) / 2;
+    const cy = _edStartY + (y2 - _edStartY) / 2;
+    _edCtx.beginPath();
+    _edCtx.ellipse(cx, cy, rx || 1, ry || 1, 0, 0, Math.PI*2);
+    _edCtx.stroke();
+  }
+}
+
+// ── Recorte preview ───────────────────────────────────────────────────────────
+function updateCropOverlay(x2, y2) {
+  const wrap = document.getElementById('img-editor-canvas-wrap');
+  const wRect = wrap.getBoundingClientRect();
+  const cRect = _edCanvas.getBoundingClientRect();
+  const scaleX = cRect.width  / _edCanvas.width;
+  const scaleY = cRect.height / _edCanvas.height;
+
+  const sx = Math.min(_edStartX, x2) * scaleX;
+  const sy = Math.min(_edStartY, y2) * scaleY;
+  const sw = Math.abs(x2 - _edStartX) * scaleX;
+  const sh = Math.abs(y2 - _edStartY) * scaleY;
+
+  const offX = cRect.left - wRect.left + wrap.scrollLeft;
+  const offY = cRect.top  - wRect.top  + wrap.scrollTop;
+
+  _cropOverlay.style.display = 'block';
+  _cropOverlay.style.left   = (offX + sx) + 'px';
+  _cropOverlay.style.top    = (offY + sy) + 'px';
+  _cropOverlay.style.width  = sw + 'px';
+  _cropOverlay.style.height = sh + 'px';
+
+  _edCropRect = { x: Math.min(_edStartX, x2), y: Math.min(_edStartY, y2),
+                  w: Math.abs(x2 - _edStartX), h: Math.abs(y2 - _edStartY) };
+}
+
+_btnApplyCrop.onclick = () => {
+  if (!_edCropRect || _edCropRect.w < 4 || _edCropRect.h < 4) return;
+  pushHistory();
+  const imgData = _edCtx.getImageData(_edCropRect.x, _edCropRect.y, _edCropRect.w, _edCropRect.h);
+  _edCanvas.width  = _edCropRect.w;
+  _edCanvas.height = _edCropRect.h;
+  _edCtx.putImageData(imgData, 0, 0);
+  _cropOverlay.style.display = 'none';
+  _btnApplyCrop.style.display = 'none';
+  _edCropRect = null;
 };
 
-// Limpar tudo (restaurar imagem original)
+// ── Texto ─────────────────────────────────────────────────────────────────────
+function startTextAt(x, y) {
+  const wrap = document.getElementById('img-editor-canvas-wrap');
+  const wRect = wrap.getBoundingClientRect();
+  const cRect = _edCanvas.getBoundingClientRect();
+  const scaleX = cRect.width  / _edCanvas.width;
+  const scaleY = cRect.height / _edCanvas.height;
+  const offX = cRect.left - wRect.left + wrap.scrollLeft;
+  const offY = cRect.top  - wRect.top  + wrap.scrollTop;
+
+  _textInput.style.left = (offX + x * scaleX) + 'px';
+  _textInput.style.top  = (offY + y * scaleY) + 'px';
+  _textInput.style.fontSize = (getToolSize() * 2 * scaleX) + 'px';
+  _textInput.style.color = getToolColor();
+  _textInput.style.display = 'block';
+  _textInput.value = '';
+  _textInput.focus();
+  _edStartX = x; _edStartY = y;
+}
+
+_textInput.addEventListener('keydown', e => {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    commitText();
+  }
+  if (e.key === 'Escape') { _textInput.style.display = 'none'; }
+});
+_textInput.addEventListener('blur', () => { if (_textInput.value.trim()) commitText(); else _textInput.style.display = 'none'; });
+
+function commitText() {
+  const txt = _textInput.value.trim();
+  if (!txt) { _textInput.style.display = 'none'; return; }
+  pushHistory();
+  _edCtx.font = `bold ${getToolSize()*2}px sans-serif`;
+  _edCtx.fillStyle = getToolColor();
+  _edCtx.globalCompositeOperation = 'source-over';
+  _edCtx.fillText(txt, _edStartX, _edStartY + getToolSize()*2);
+  _textInput.style.display = 'none';
+}
+
+// ── Eventos do canvas ─────────────────────────────────────────────────────────
+let _edLastX, _edLastY;
+
+_edCanvas.addEventListener('mouseenter', e => { updateCursorRing(e); });
+_edCanvas.addEventListener('mouseleave', () => { _eraserCursor.style.display = 'none'; _editorPainting = false; });
+
+_edCanvas.addEventListener('mousedown', e => {
+  e.preventDefault();
+  const {x, y} = canvasPos(e);
+  if (_edTool === 'text') { startTextAt(x, y); return; }
+  if (_edTool === 'crop') {
+    _edStartX = x; _edStartY = y;
+    _editorPainting = true;
+    _btnApplyCrop.style.display = 'none';
+    return;
+  }
+  pushHistory();
+  _editorPainting = true;
+  _edStartX = x; _edStartY = y;
+  _edLastX = x; _edLastY = y;
+  if (_edTool === 'eraser' || _edTool === 'pencil') {
+    paintAt(x, y);
+  } else {
+    _edSnapshotData = _edCtx.getImageData(0, 0, _edCanvas.width, _edCanvas.height);
+  }
+});
+
+_edCanvas.addEventListener('mousemove', e => {
+  updateCursorRing(e);
+  if (!_editorPainting) return;
+  const {x, y} = canvasPos(e);
+  if (_edTool === 'eraser' || _edTool === 'pencil') {
+    paintAt(x, y, _edLastX, _edLastY);
+    _edLastX = x; _edLastY = y;
+  } else if (_edTool === 'crop') {
+    updateCropOverlay(x, y);
+  } else {
+    drawShape(x, y);
+  }
+});
+
+_edCanvas.addEventListener('mouseup', e => {
+  if (!_editorPainting) return;
+  const {x, y} = canvasPos(e);
+  if (_edTool === 'crop') {
+    updateCropOverlay(x, y);
+    if (_edCropRect && _edCropRect.w > 4 && _edCropRect.h > 4)
+      _btnApplyCrop.style.display = 'block';
+  } else if (_edTool !== 'eraser' && _edTool !== 'pencil') {
+    drawShape(x, y);
+    _edSnapshotData = null;
+  }
+  _editorPainting = false;
+});
+
+// Touch
+_edCanvas.addEventListener('touchstart', e => { e.preventDefault(); _edCanvas.dispatchEvent(new MouseEvent('mousedown', {clientX: e.touches[0].clientX, clientY: e.touches[0].clientY})); }, {passive:false});
+_edCanvas.addEventListener('touchmove',  e => { e.preventDefault(); _edCanvas.dispatchEvent(new MouseEvent('mousemove', {clientX: e.touches[0].clientX, clientY: e.touches[0].clientY})); }, {passive:false});
+_edCanvas.addEventListener('touchend',   e => { e.preventDefault(); _edCanvas.dispatchEvent(new MouseEvent('mouseup',   {clientX: (e.changedTouches[0]||{}).clientX||0, clientY: (e.changedTouches[0]||{}).clientY||0})); }, {passive:false});
+
+// Atalhos teclado
+document.addEventListener('keydown', e => {
+  if (!document.getElementById('img-editor-modal').classList.contains('open')) return;
+  if (e.target === _textInput) return;
+  if ((e.ctrlKey||e.metaKey) && e.key === 'z') { e.preventDefault(); doUndo(); }
+  if ((e.ctrlKey||e.metaKey) && (e.key === 'y' || e.key === 'Z')) { e.preventDefault(); doRedo(); }
+});
+
+// Undo / Redo
+function doUndo() {
+  if (_editorHistory.length === 0) return;
+  _editorRedo.push(_edCtx.getImageData(0, 0, _edCanvas.width, _edCanvas.height));
+  const prev = _editorHistory.pop();
+  _edCanvas.width = prev.width; _edCanvas.height = prev.height;
+  _edCtx.putImageData(prev, 0, 0);
+}
+function doRedo() {
+  if (_editorRedo.length === 0) return;
+  _editorHistory.push(_edCtx.getImageData(0, 0, _edCanvas.width, _edCanvas.height));
+  const next = _editorRedo.pop();
+  _edCanvas.width = next.width; _edCanvas.height = next.height;
+  _edCtx.putImageData(next, 0, 0);
+}
+document.getElementById('btn-eraser-undo').onclick = doUndo;
+document.getElementById('btn-eraser-redo').onclick = doRedo;
+
+// Restaurar original
 document.getElementById('btn-eraser-clear').onclick = () => {
   if (!_editorImg) return;
-  if (!confirm('Desfazer todas as edições e restaurar a imagem original?')) return;
-  _editorHistory = [];
-  _edCtx.clearRect(0, 0, _edCanvas.width, _edCanvas.height);
+  if (!confirm('Restaurar a imagem original descartando todas as edições?')) return;
+  _editorHistory = []; _editorRedo = [];
+  _edCanvas.width  = _editorImg.naturalWidth  > 1024 ? 1024 : _editorImg.naturalWidth;
+  _edCanvas.height = Math.round(_editorImg.naturalHeight * (_edCanvas.width / _editorImg.naturalWidth));
   _edCtx.drawImage(_editorImg, 0, 0, _edCanvas.width, _edCanvas.height);
+  _cropOverlay.style.display = 'none';
+  _btnApplyCrop.style.display = 'none';
 };
 
 // Fechar
@@ -4502,17 +4773,42 @@ document.getElementById('btn-eraser-cancel').onclick = () => {
   _eraserCursor.style.display = 'none';
 };
 
-// Baixar imagem editada
+// Baixar PNG
 document.getElementById('btn-eraser-save').onclick = () => {
   const code = currentProd ? currentProd[P_CODE] : 'imagem';
   _edCanvas.toBlob(blob => {
     const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = code + '_editado.png';
-    a.click();
+    const a = document.createElement('a'); a.href = url;
+    a.download = code + '_editado.png'; a.click();
     setTimeout(() => URL.revokeObjectURL(url), 2000);
   }, 'image/png');
+};
+
+// Salvar no Catálogo
+document.getElementById('btn-eraser-catalog').onclick = () => {
+  if (!currentProd) return;
+  const dataUrl = _edCanvas.toDataURL('image/png');
+  // Guardar em localStorage
+  let edited = {};
+  try { edited = JSON.parse(localStorage.getItem(LS_EDITED_IMGS) || '{}'); } catch {}
+  edited[currentProd[P_CODE]] = dataUrl;
+  try {
+    localStorage.setItem(LS_EDITED_IMGS, JSON.stringify(edited));
+  } catch(e) {
+    // localStorage cheio — limpar imagens antigas e tentar de novo
+    localStorage.removeItem(LS_EDITED_IMGS);
+    try { localStorage.setItem(LS_EDITED_IMGS, JSON.stringify({[currentProd[P_CODE]]: dataUrl})); } catch {}
+  }
+  // Atualizar o produto na memória
+  currentProd[P_PATH] = dataUrl;
+  // Atualizar imagem no modal (se ainda aberto)
+  const modalImg = document.getElementById('modal-img');
+  if (modalImg) modalImg.src = dataUrl;
+  // Fechar editor e recarregar grid
+  document.getElementById('img-editor-modal').classList.remove('open');
+  _eraserCursor.style.display = 'none';
+  applyFilters();
+  alert(`✅ Imagem do produto "${currentProd[P_CODE]}" salva no catálogo!`);
 };
 
 // ── INIT ──────────────────────────────────────────────────────────────────────
