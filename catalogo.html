@@ -250,6 +250,90 @@ body.admin-mode .card:hover::after{content:'✏️ Editar';position:absolute;top
 .btn-add-cart:hover{background:var(--blue-mid)}
 .card-cart-btn{position:absolute;bottom:9px;right:9px;background:var(--blue);color:#fff;border:none;border-radius:6px;width:28px;height:28px;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .15s;z-index:2}
 .card:hover .card-cart-btn{opacity:1}
+
+/* ══ IMAGE EDITOR ══════════════════════════════════════════════════════════ */
+#img-editor-modal{display:none;position:fixed;inset:0;z-index:700;background:rgba(4,12,28,.97);flex-direction:column;align-items:center;justify-content:center}
+#img-editor-modal.open{display:flex}
+#img-editor-wrap{background:#1a2035;border-radius:16px;display:flex;flex-direction:column;width:min(960px,98vw);max-height:97vh;overflow:hidden;box-shadow:0 24px 80px rgba(0,0,0,.8)}
+#img-editor-toolbar{background:#081f45;padding:10px 16px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;border-bottom:1px solid rgba(255,255,255,.1)}
+#img-editor-toolbar .ed-title{color:#fff;font-weight:800;font-size:14px;white-space:nowrap}
+#img-editor-toolbar label{color:rgba(255,255,255,.75);font-size:12px;font-weight:600;white-space:nowrap}
+#eraser-size{width:80px;accent-color:#00a3e0;cursor:pointer}
+#eraser-size-val{color:#fff;font-size:12px;min-width:28px;text-align:center;background:rgba(255,255,255,.12);border-radius:5px;padding:2px 7px}
+#img-editor-canvas-wrap{flex:1;overflow:auto;display:flex;align-items:center;justify-content:center;padding:20px;background:#0d1117;min-height:200px}
+#img-editor-canvas{cursor:none;border:2px solid rgba(255,255,255,.2);border-radius:4px;display:block}
+#img-editor-actions{background:#081f45;padding:11px 16px;display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap;border-top:1px solid rgba(255,255,255,.1)}
+.btn-ed{border:none;border-radius:8px;padding:8px 16px;font-size:12.5px;font-weight:700;cursor:pointer;transition:.15s}
+.btn-ed-ghost{background:rgba(255,255,255,.08);color:rgba(255,255,255,.8)}.btn-ed-ghost:hover{background:rgba(255,255,255,.18)}
+.btn-ed-undo{background:#37474f;color:#fff}.btn-ed-undo:hover{background:#546e7a}
+.btn-ed-clear{background:#c62828;color:#fff}.btn-ed-clear:hover{background:#b71c1c}
+.btn-ed-save{background:#2e7d32;color:#fff}.btn-ed-save:hover{background:#1b5e20}
+#eraser-cursor{position:fixed;border-radius:50%;border:2px solid rgba(255,60,60,.9);pointer-events:none;z-index:9999;transform:translate(-50%,-50%);display:none;box-shadow:0 0 0 1px rgba(0,0,0,.5)}
+
+/* ══ ADD PRODUCT MODAL ══════════════════════════════════════════════════════ */
+#add-prod-modal{display:none;position:fixed;inset:0;z-index:700;background:rgba(8,31,69,.88);backdrop-filter:blur(4px);align-items:center;justify-content:center}
+#add-prod-modal.open{display:flex}
+#add-prod-box{background:#fff;border-radius:16px;width:min(480px,96vw);max-height:92vh;overflow-y:auto;box-shadow:0 24px 80px rgba(0,0,0,.45);display:flex;flex-direction:column}
+#add-prod-hdr{background:var(--blue-dark);padding:16px 20px;display:flex;align-items:center;justify-content:space-between;border-radius:16px 16px 0 0;flex-shrink:0}
+#add-prod-hdr h3{color:#fff;font-size:15px;font-weight:700}
+#btn-close-add-prod{background:none;border:none;color:rgba(255,255,255,.7);font-size:22px;cursor:pointer;line-height:1}
+#add-prod-form{padding:20px;display:flex;flex-direction:column;gap:13px}
+.apf-row{display:flex;flex-direction:column;gap:4px}
+.apf-lbl{font-size:10.5px;text-transform:uppercase;letter-spacing:.6px;color:var(--gray);font-weight:700}
+.apf-inp{border:1.5px solid var(--border);border-radius:8px;padding:9px 12px;font-size:13.5px;outline:none;transition:.15s;font-family:inherit;width:100%}
+.apf-inp:focus{border-color:var(--blue)}
+.apf-sel{border:1.5px solid var(--border);border-radius:8px;padding:9px 12px;font-size:13px;outline:none;background:#fff;cursor:pointer;font-family:inherit;width:100%}
+.apf-sel:focus{border-color:var(--blue)}
+#apf-img-prev{max-height:110px;max-width:100%;border-radius:8px;border:1px solid var(--border);display:none;margin-top:6px}
+#add-prod-ftr{padding:14px 20px;border-top:1px solid var(--border);display:flex;gap:8px;justify-content:flex-end;flex-shrink:0}
+
+/* ══ CATEGORY MANAGEMENT MODAL ══════════════════════════════════════════════ */
+#cat-mgmt-modal{display:none;position:fixed;inset:0;z-index:700;background:rgba(8,31,69,.88);backdrop-filter:blur(4px);align-items:center;justify-content:center}
+#cat-mgmt-modal.open{display:flex}
+#cat-mgmt-box{background:#fff;border-radius:16px;width:min(540px,96vw);max-height:90vh;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 24px 80px rgba(0,0,0,.45)}
+#cat-mgmt-hdr{background:var(--blue-dark);padding:16px 20px;display:flex;align-items:center;justify-content:space-between;border-radius:16px 16px 0 0;flex-shrink:0}
+#cat-mgmt-hdr h3{color:#fff;font-size:15px;font-weight:700}
+#btn-close-cat-mgmt{background:none;border:none;color:rgba(255,255,255,.7);font-size:22px;cursor:pointer;line-height:1}
+#cat-mgmt-body{flex:1;overflow-y:auto;padding:18px;display:flex;flex-direction:column;gap:14px}
+.catm-block{background:var(--bg);border-radius:10px;padding:14px}
+.catm-block h4{font-size:10.5px;text-transform:uppercase;letter-spacing:.6px;color:var(--gray);font-weight:700;margin-bottom:10px}
+#catm-list{display:flex;flex-direction:column;gap:5px}
+.catm-row{display:flex;align-items:center;gap:7px;padding:7px 10px;background:#fff;border:1px solid var(--border);border-radius:8px}
+.catm-dot{width:11px;height:11px;border-radius:50%;flex-shrink:0}
+.catm-name-text{flex:1;font-size:13px;font-weight:600;outline:none}
+.catm-name-input{flex:1;border:1.5px solid var(--blue);border-radius:6px;padding:4px 8px;font-size:13px;font-weight:600;font-family:inherit;outline:none}
+.catm-parent-badge{font-size:10px;color:var(--gray);background:var(--bg);border-radius:5px;padding:2px 6px;white-space:nowrap}
+.catm-custom-badge{font-size:10px;background:#e8f5e9;color:#2e7d32;border-radius:5px;padding:2px 6px}
+.btn-catm{border:none;border-radius:6px;padding:3px 9px;font-size:11.5px;cursor:pointer;font-weight:600;white-space:nowrap}
+.btn-catm-edit{background:var(--light);color:var(--blue)}.btn-catm-edit:hover{background:var(--blue);color:#fff}
+.btn-catm-save{background:#2e7d32;color:#fff}.btn-catm-save:hover{background:#1b5e20}
+.btn-catm-del{background:#ffebee;color:#d32f2f}.btn-catm-del:hover{background:#d32f2f;color:#fff}
+#catm-add-form{display:flex;flex-direction:column;gap:10px}
+.catm-inp-row{display:flex;gap:8px;align-items:center}
+.catm-inp{flex:1;border:1.5px solid var(--border);border-radius:8px;padding:8px 11px;font-size:13px;outline:none;font-family:inherit;transition:.15s}
+.catm-inp:focus{border-color:var(--blue)}
+.catm-color{width:44px;height:36px;padding:2px 3px;border:1.5px solid var(--border);border-radius:8px;cursor:pointer;background:#fff}
+#btn-catm-add{background:var(--blue);color:#fff;border:none;border-radius:8px;padding:9px 16px;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap}
+#btn-catm-add:hover{background:var(--blue-mid)}
+.catm-parent-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.catm-parent-sel{flex:1;min-width:180px;border:1.5px solid var(--border);border-radius:8px;padding:8px 11px;font-size:12.5px;outline:none;background:#fff;cursor:pointer;font-family:inherit}
+.catm-parent-sel:focus{border-color:var(--blue)}
+
+/* ══ ADMIN SIDEBAR CONTROLS ══════════════════════════════════════════════════ */
+.admin-sb-ctrl{display:none;padding:2px 12px 10px;gap:6px;flex-wrap:wrap}
+body.admin-mode .admin-sb-ctrl{display:flex}
+.btn-sb-admin{background:var(--light);color:var(--blue);border:1px solid rgba(12,76,174,.3);border-radius:7px;padding:5px 10px;font-size:11px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:3px;white-space:nowrap;transition:.15s}
+.btn-sb-admin:hover{background:var(--blue);color:#fff}
+.cat-item-sub{padding-left:28px!important;font-size:12.5px}
+.cat-item-sub .cat-dot{width:8px;height:8px}
+
+/* ══ ADMIN MODAL EXTRA ════════════════════════════════════════════════════════ */
+#admin-modal-extra{display:none;border-top:1px solid var(--border);padding:10px 22px;background:#fff8f8;gap:8px;flex-wrap:wrap;align-items:center}
+body.admin-mode #admin-modal-extra{display:flex}
+#btn-edit-img-admin{background:#6a1b9a;color:#fff;border:none;border-radius:8px;padding:8px 15px;font-size:12.5px;font-weight:700;cursor:pointer;transition:.15s}
+#btn-edit-img-admin:hover{background:#4a148c}
+#btn-delete-prod{background:#d32f2f;color:#fff;border:none;border-radius:8px;padding:8px 15px;font-size:12.5px;font-weight:700;cursor:pointer;transition:.15s;margin-left:auto}
+#btn-delete-prod:hover{background:#b71c1c}
 </style>
 </head>
 <body>
@@ -291,6 +375,10 @@ body.admin-mode .card:hover::after{content:'✏️ Editar';position:absolute;top
   <nav id="sidebar">
     <h3>Categorias</h3>
     <div id="cat-list"></div>
+    <div class="admin-sb-ctrl" id="admin-sb-ctrl">
+      <button class="btn-sb-admin" id="btn-open-cat-mgmt">🗂 Categorias</button>
+      <button class="btn-sb-admin" id="btn-open-add-prod">➕ Produto</button>
+    </div>
   </nav>
   <main id="main">
     <div id="results-header">
@@ -362,6 +450,11 @@ body.admin-mode .card:hover::after{content:'✏️ Editar';position:absolute;top
       <button class="btn-copy" id="btn-copy-desc">📋 Copiar Descrição</button>
       <button class="btn-add-cart" id="btn-modal-add-cart">🛒 Adicionar ao Carrinho</button>
     </div>
+    <!-- ADMIN: borracha + excluir -->
+    <div id="admin-modal-extra">
+      <button id="btn-edit-img-admin">🖊 Borracha na Imagem</button>
+      <button id="btn-delete-prod">🗑 Excluir Produto</button>
+    </div>
     <!-- ADMIN: troca de categoria -->
     <div id="cat-change-section">
       <label>✏️ Alterar Categoria (Modo Admin)</label>
@@ -419,6 +512,101 @@ body.admin-mode .card:hover::after{content:'✏️ Editar';position:absolute;top
     <div id="cart-total-info">0 produtos — 0 unidades</div>
     <button class="btn-gen-order" id="btn-gen-order">📄 Gerar Pedido de Compra</button>
     <button class="btn-clear-cart" id="btn-clear-cart">🗑️ Limpar Carrinho</button>
+  </div>
+</div>
+
+<!-- CURSOR DA BORRACHA -->
+<div id="eraser-cursor"></div>
+
+<!-- ═══ MODAL EDITOR DE IMAGEM ══════════════════════════════════════════════ -->
+<div id="img-editor-modal">
+  <div id="img-editor-wrap">
+    <div id="img-editor-toolbar">
+      <span class="ed-title">🖊 Borracha de Imagem</span>
+      <label>Tamanho:</label>
+      <input type="range" id="eraser-size" min="5" max="100" value="22">
+      <span id="eraser-size-val">22</span>
+      <span style="flex:1"></span>
+      <button class="btn-ed btn-ed-undo" id="btn-eraser-undo">↩ Desfazer</button>
+    </div>
+    <div id="img-editor-canvas-wrap">
+      <canvas id="img-editor-canvas"></canvas>
+    </div>
+    <div id="img-editor-actions">
+      <button class="btn-ed btn-ed-clear" id="btn-eraser-clear">🗑 Limpar edições</button>
+      <button class="btn-ed btn-ed-ghost" id="btn-eraser-cancel">Fechar</button>
+      <button class="btn-ed btn-ed-save" id="btn-eraser-save">⬇ Baixar imagem</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ MODAL ADICIONAR PRODUTO ══════════════════════════════════════════════ -->
+<div id="add-prod-modal">
+  <div id="add-prod-box">
+    <div id="add-prod-hdr">
+      <h3>➕ Novo Produto</h3>
+      <button id="btn-close-add-prod">×</button>
+    </div>
+    <div id="add-prod-form">
+      <div class="apf-row">
+        <label class="apf-lbl">Código *</label>
+        <input class="apf-inp" id="apf-code" placeholder="Ex: 87155800-WA" autocomplete="off">
+      </div>
+      <div class="apf-row">
+        <label class="apf-lbl">Descrição *</label>
+        <input class="apf-inp" id="apf-desc" placeholder="Descrição do produto" autocomplete="off">
+      </div>
+      <div class="apf-row">
+        <label class="apf-lbl">Categoria *</label>
+        <select class="apf-sel" id="apf-cat"></select>
+      </div>
+      <div class="apf-row">
+        <label class="apf-lbl">Imagem (opcional)</label>
+        <input type="file" class="apf-inp" id="apf-img" accept="image/*" style="padding:6px 10px;cursor:pointer">
+        <img id="apf-img-prev" alt="preview">
+      </div>
+    </div>
+    <div id="add-prod-ftr">
+      <button class="btn btn-ghost" id="btn-cancel-add-prod">Cancelar</button>
+      <button class="btn btn-primary" id="btn-confirm-add-prod">✅ Salvar Produto</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ MODAL GERENCIAR CATEGORIAS ══════════════════════════════════════════ -->
+<div id="cat-mgmt-modal">
+  <div id="cat-mgmt-box">
+    <div id="cat-mgmt-hdr">
+      <h3>🗂 Gerenciar Categorias</h3>
+      <button id="btn-close-cat-mgmt">×</button>
+    </div>
+    <div id="cat-mgmt-body">
+      <div class="catm-block">
+        <h4>Categorias existentes</h4>
+        <div id="catm-list"></div>
+      </div>
+      <div class="catm-block">
+        <h4>Adicionar nova categoria</h4>
+        <div id="catm-add-form">
+          <div class="catm-inp-row">
+            <input class="catm-inp" id="catm-new-name" placeholder="Nome completo da categoria" autocomplete="off">
+            <input type="color" class="catm-color" id="catm-new-color" value="#0c4cae" title="Cor">
+          </div>
+          <div class="catm-inp-row">
+            <input class="catm-inp" id="catm-new-short" placeholder="Nome curto (sidebar)" autocomplete="off">
+          </div>
+          <div class="catm-parent-row">
+            <label style="font-size:12px;color:var(--gray);white-space:nowrap;font-weight:600">Subcategoria de:</label>
+            <select class="catm-parent-sel" id="catm-new-parent">
+              <option value="">— Nenhuma (categoria raiz) —</option>
+            </select>
+          </div>
+          <div style="display:flex;justify-content:flex-end">
+            <button id="btn-catm-add">+ Adicionar Categoria</button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -2965,23 +3153,49 @@ CATS.forEach(c => catMap[c.id] = c);
 
 // ─── SIDEBAR ─────────────────────────────────────────────────────────────────
 function buildSidebar() {
+  buildSidebarFull();
+}
+
+function buildSidebarFull() {
   const list = document.getElementById('cat-list');
+  const prevActive = activeCat;
+  list.innerHTML = '';
+
   const allItem = document.createElement('div');
-  allItem.className = 'cat-item active';
+  allItem.className = 'cat-item' + (prevActive === 'all' ? ' active' : '');
   allItem.dataset.id = 'all';
-  const total = PRODUCTS.length;
-  allItem.innerHTML = `<span class="cat-dot" style="background:#888"></span>Todos os Produtos<span class="badge">${total}</span>`;
+  const visTotal = PRODUCTS.filter(p => !(window._deletedProdCodes && window._deletedProdCodes.has(p[P_CODE]))).length;
+  allItem.innerHTML = `<span class="cat-dot" style="background:#888"></span>Todos os Produtos<span class="badge">${visTotal}</span>`;
   allItem.onclick = () => selectCat('all');
   list.appendChild(allItem);
 
-  CATS.forEach(c => {
-    const item = document.createElement('div');
-    item.className = 'cat-item';
-    item.dataset.id = c.id;
-    item.innerHTML = `<span class="cat-dot" style="background:${c.color}"></span>${c.short}<span class="badge">${c.count}</span>`;
-    item.onclick = () => selectCat(c.id);
-    list.appendChild(item);
+  const allCats = getAllCats();
+  const counts = {};
+  PRODUCTS.forEach(p => {
+    if (window._deletedProdCodes && window._deletedProdCodes.has(p[P_CODE])) return;
+    counts[p[P_CAT]] = (counts[p[P_CAT]] || 0) + 1;
   });
+
+  // Root categories first, then sub
+  const roots = allCats.filter(c => !c.parent);
+  const subs  = allCats.filter(c => !!c.parent);
+
+  roots.forEach(c => {
+    addCatItem(list, c, counts, prevActive, false);
+    subs.filter(s => s.parent === c.id).forEach(s => addCatItem(list, s, counts, prevActive, true));
+  });
+  // Subs whose parent doesn't exist
+  subs.filter(s => !roots.find(r => r.id === s.parent)).forEach(s => addCatItem(list, s, counts, prevActive, true));
+}
+
+function addCatItem(list, c, counts, prevActive, isSub) {
+  const item = document.createElement('div');
+  item.className = 'cat-item' + (isSub ? ' cat-item-sub' : '') + (prevActive === c.id ? ' active' : '');
+  item.dataset.id = c.id;
+  const cnt = counts[c.id] || 0;
+  item.innerHTML = `<span class="cat-dot" style="background:${c.color||'#888'}"></span>${c.short||c.name}<span class="badge">${cnt}</span>`;
+  item.onclick = () => selectCat(c.id);
+  list.appendChild(item);
 }
 
 function selectCat(id) {
@@ -2998,6 +3212,7 @@ function applyFilters() {
   const tokens = q.split(/\s+/).filter(Boolean);
 
   filtered = PRODUCTS.map((p, i) => ({ p, i })).filter(({ p }) => {
+    if (window._deletedProdCodes && window._deletedProdCodes.has(p[P_CODE])) return false;
     if (activeCat !== 'all' && p[P_CAT] !== activeCat) return false;
     if (tokens.length === 0) return true;
     const hay = (p[P_CODE] + ' ' + p[P_DESC] + ' ' + (p[P_AIDESC]||'') + ' ' + (catMap[p[P_CAT]]?.name || '') + ' ' +
@@ -3044,7 +3259,7 @@ function renderPage() {
     card.innerHTML = `
       <div class="card-top" style="background:${cat.color||'#888'}"></div>
       <div class="card-img-wrap">
-        <img src="${encodeURI(IMG_BASE + p[P_PATH])}" alt="${p[P_CODE]}" loading="lazy" onerror="this.style.opacity='.2'">
+        <img src="${getImgSrc(p)}" alt="${p[P_CODE]}" loading="lazy" onerror="this.style.opacity='.2'">
       </div>
       <div class="card-body">
         <div class="card-code">${highlight(p[P_CODE], q)}</div>
@@ -3080,7 +3295,7 @@ function openModal(p) {
   const cat = catMap[p[P_CAT]] || {};
   document.getElementById('modal-code').textContent = p[P_CODE];
   document.getElementById('modal-cat').textContent = cat.name || '';
-  document.getElementById('modal-img').src = encodeURI(IMG_BASE + p[P_PATH]);
+  document.getElementById('modal-img').src = getImgSrc(p);
   document.getElementById('mi-code').textContent = p[P_CODE];
   document.getElementById('mi-desc').textContent = p[P_DESC];
   document.getElementById('mi-cat').textContent = cat.name || '';
@@ -3902,6 +4117,402 @@ openModal = p => {
 // ─── CARREGAR OVERRIDES SALVOS ────────────────────────────────────────────────
 loadOverrides();
 loadCart();
+
+// ════════════════════════════════════════════════════════════════════════════════
+// MÓDULO: IMAGEM — helper getImgSrc
+// ════════════════════════════════════════════════════════════════════════════════
+function getImgSrc(p) {
+  if (!p || !p[P_PATH]) return '';
+  const path = p[P_PATH];
+  if (path.startsWith('data:') || path.startsWith('blob:') || path.startsWith('http')) return path;
+  return encodeURI(IMG_BASE + path);
+}
+
+// ════════════════════════════════════════════════════════════════════════════════
+// MÓDULO: CATEGORIAS CUSTOMIZADAS
+// ════════════════════════════════════════════════════════════════════════════════
+const LS_CATS_KEY = 'asj_custom_cats_v1';
+let customCats = [];
+
+function loadCustomCats() {
+  try { customCats = JSON.parse(localStorage.getItem(LS_CATS_KEY) || '[]'); } catch { customCats = []; }
+  customCats.forEach(c => { catMap[c.id] = c; });
+  buildSidebarFull();
+}
+
+function saveCustomCats() {
+  localStorage.setItem(LS_CATS_KEY, JSON.stringify(customCats));
+}
+
+function getAllCats() {
+  return [...CATS, ...customCats];
+}
+
+// Abrir modal de gerenciamento
+document.getElementById('btn-open-cat-mgmt').onclick = openCatMgmt;
+document.getElementById('btn-close-cat-mgmt').onclick = () => document.getElementById('cat-mgmt-modal').classList.remove('open');
+document.getElementById('cat-mgmt-modal').onclick = e => { if (e.target === document.getElementById('cat-mgmt-modal')) document.getElementById('cat-mgmt-modal').classList.remove('open'); };
+
+function openCatMgmt() {
+  renderCatMgmtList();
+  populateCatMgmtParentSel();
+  document.getElementById('cat-mgmt-modal').classList.add('open');
+}
+
+function renderCatMgmtList() {
+  const list = document.getElementById('catm-list');
+  list.innerHTML = '';
+  const allCats = getAllCats();
+  allCats.forEach(c => {
+    const isCustom = !!customCats.find(x => x.id === c.id);
+    const row = document.createElement('div');
+    row.className = 'catm-row';
+    const parentCat = c.parent ? (catMap[c.parent] || {}) : null;
+    row.innerHTML = `
+      <span class="catm-dot" style="background:${c.color||'#888'}"></span>
+      <span class="catm-name-text" data-id="${c.id}">${c.name}</span>
+      ${parentCat ? `<span class="catm-parent-badge">↳ ${parentCat.short||parentCat.name||c.parent}</span>` : ''}
+      ${isCustom ? '<span class="catm-custom-badge">personalizada</span>' : ''}
+      <button class="btn-catm btn-catm-edit" data-id="${c.id}">✏️ Renomear</button>
+      ${isCustom ? `<button class="btn-catm btn-catm-del" data-id="${c.id}">✕</button>` : ''}
+    `;
+    // Renomear
+    row.querySelector('.btn-catm-edit').onclick = () => startRenamecat(row, c);
+    // Excluir (apenas customizadas)
+    const delBtn = row.querySelector('.btn-catm-del');
+    if (delBtn) delBtn.onclick = () => deleteCustomCat(c.id);
+    list.appendChild(row);
+  });
+}
+
+function startRenamecat(row, c) {
+  const nameEl = row.querySelector('.catm-name-text');
+  const editBtn = row.querySelector('.btn-catm-edit');
+  const input = document.createElement('input');
+  input.className = 'catm-name-input';
+  input.value = c.name;
+  nameEl.replaceWith(input);
+  editBtn.textContent = '💾 Salvar';
+  editBtn.className = 'btn-catm btn-catm-save';
+  input.focus();
+  editBtn.onclick = () => saveCatRename(c, input.value, row);
+  input.addEventListener('keydown', e => { if (e.key === 'Enter') saveCatRename(c, input.value, row); });
+}
+
+function saveCatRename(c, newName, row) {
+  newName = newName.trim();
+  if (!newName) return;
+  // Update base CATS or customCats
+  const baseIdx = CATS.findIndex(x => x.id === c.id);
+  if (baseIdx >= 0) {
+    CATS[baseIdx].name = newName;
+    catMap[c.id].name = newName;
+  } else {
+    const ci = customCats.findIndex(x => x.id === c.id);
+    if (ci >= 0) { customCats[ci].name = newName; catMap[c.id].name = newName; }
+    saveCustomCats();
+  }
+  buildSidebarFull();
+  renderCatMgmtList();
+}
+
+function deleteCustomCat(id) {
+  if (!confirm('Excluir esta categoria? Produtos nela não serão apagados.')) return;
+  customCats = customCats.filter(c => c.id !== id);
+  delete catMap[id];
+  saveCustomCats();
+  buildSidebarFull();
+  renderCatMgmtList();
+  populateCatMgmtParentSel();
+}
+
+function populateCatMgmtParentSel() {
+  const sel = document.getElementById('catm-new-parent');
+  sel.innerHTML = '<option value="">— Nenhuma (categoria raiz) —</option>';
+  getAllCats().filter(c => !c.parent).forEach(c => {
+    const opt = document.createElement('option');
+    opt.value = c.id;
+    opt.textContent = c.name;
+    sel.appendChild(opt);
+  });
+}
+
+document.getElementById('btn-catm-add').onclick = () => {
+  const name  = document.getElementById('catm-new-name').value.trim();
+  const short = document.getElementById('catm-new-short').value.trim();
+  const color = document.getElementById('catm-new-color').value;
+  const parent = document.getElementById('catm-new-parent').value;
+  if (!name) { alert('Informe o nome da categoria.'); return; }
+
+  const id = 'custom_' + Date.now();
+  const nc = {
+    id, name,
+    short: short || name.substring(0,12),
+    color,
+    badge: color + '22',
+    text: color,
+    count: 0,
+    parent: parent || undefined,
+    custom: true
+  };
+  customCats.push(nc);
+  catMap[id] = nc;
+  saveCustomCats();
+  buildSidebarFull();
+  renderCatMgmtList();
+  populateCatMgmtParentSel();
+  // Limpar form
+  document.getElementById('catm-new-name').value = '';
+  document.getElementById('catm-new-short').value = '';
+  document.getElementById('catm-new-parent').value = '';
+};
+
+// ════════════════════════════════════════════════════════════════════════════════
+// MÓDULO: ADD / DELETE PRODUTO
+// ════════════════════════════════════════════════════════════════════════════════
+const LS_CPRODS_KEY = 'asj_custom_prods_v1';
+const LS_DPRODS_KEY = 'asj_deleted_prods_v1';
+window._deletedProdCodes = new Set();
+let _customProdsData = [];
+
+function loadCustomProdsData() {
+  try {
+    _customProdsData = JSON.parse(localStorage.getItem(LS_CPRODS_KEY) || '[]');
+    window._deletedProdCodes = new Set(JSON.parse(localStorage.getItem(LS_DPRODS_KEY) || '[]'));
+  } catch { _customProdsData = []; window._deletedProdCodes = new Set(); }
+  // Inject into PRODUCTS
+  _customProdsData.forEach(p => {
+    if (!PRODUCTS.find(x => x[P_CODE] === p[P_CODE])) PRODUCTS.push(p);
+  });
+}
+
+function saveCustomProdsData() {
+  localStorage.setItem(LS_CPRODS_KEY, JSON.stringify(_customProdsData));
+  localStorage.setItem(LS_DPRODS_KEY, JSON.stringify([...window._deletedProdCodes]));
+}
+
+// ── Abrir modal Adicionar Produto ─────────────────────────────────────────────
+document.getElementById('btn-open-add-prod').onclick = openAddProd;
+document.getElementById('btn-close-add-prod').onclick  = () => document.getElementById('add-prod-modal').classList.remove('open');
+document.getElementById('btn-cancel-add-prod').onclick = () => document.getElementById('add-prod-modal').classList.remove('open');
+document.getElementById('add-prod-modal').onclick = e => { if (e.target === document.getElementById('add-prod-modal')) document.getElementById('add-prod-modal').classList.remove('open'); };
+
+function openAddProd() {
+  // Preencher select de categorias
+  const sel = document.getElementById('apf-cat');
+  sel.innerHTML = '';
+  getAllCats().forEach(c => {
+    const opt = document.createElement('option');
+    opt.value = c.id;
+    opt.textContent = c.name;
+    sel.appendChild(opt);
+  });
+  // Limpar form
+  document.getElementById('apf-code').value = '';
+  document.getElementById('apf-desc').value = '';
+  document.getElementById('apf-img').value = '';
+  document.getElementById('apf-img-prev').style.display = 'none';
+  document.getElementById('add-prod-modal').classList.add('open');
+  setTimeout(() => document.getElementById('apf-code').focus(), 80);
+}
+
+// Preview da imagem
+document.getElementById('apf-img').onchange = function() {
+  const file = this.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    const prev = document.getElementById('apf-img-prev');
+    prev.src = e.target.result;
+    prev.style.display = 'block';
+  };
+  reader.readAsDataURL(file);
+};
+
+document.getElementById('btn-confirm-add-prod').onclick = () => {
+  const code = document.getElementById('apf-code').value.trim().toUpperCase();
+  const desc = document.getElementById('apf-desc').value.trim();
+  const cat  = document.getElementById('apf-cat').value;
+  if (!code || !desc || !cat) { alert('Preencha Código, Descrição e Categoria.'); return; }
+  if (PRODUCTS.find(p => p[P_CODE] === code)) { alert('Já existe um produto com este código.'); return; }
+
+  const imgPrev = document.getElementById('apf-img-prev');
+  const imgData = (imgPrev.style.display !== 'none' && imgPrev.src) ? imgPrev.src : '';
+
+  // Formato compatível: [CODE, DESC, CAT, PATH, phash, hist, aidesc]
+  const np = [code, desc, cat, imgData || '', '', [], ''];
+  PRODUCTS.push(np);
+  _customProdsData.push(np);
+  saveCustomProdsData();
+  buildSidebarFull();
+  applyFilters();
+  document.getElementById('add-prod-modal').classList.remove('open');
+  alert(`Produto "${code}" adicionado com sucesso!`);
+};
+
+// ── Excluir Produto ───────────────────────────────────────────────────────────
+document.getElementById('btn-delete-prod').onclick = () => {
+  if (!currentProd) return;
+  const code = currentProd[P_CODE];
+  if (!confirm(`Excluir o produto "${code}"? Esta ação pode ser desfeita limpando o armazenamento.`)) return;
+  window._deletedProdCodes.add(code);
+  saveCustomProdsData();
+  document.getElementById('modal').classList.remove('open');
+  buildSidebarFull();
+  applyFilters();
+};
+
+// ════════════════════════════════════════════════════════════════════════════════
+// MÓDULO: EDITOR DE IMAGEM — BORRACHA
+// ════════════════════════════════════════════════════════════════════════════════
+let _editorHistory = [];   // pilha de ImageData para undo
+let _editorPainting = false;
+let _editorImg = null;     // img element de referência
+
+const _edCanvas   = document.getElementById('img-editor-canvas');
+const _edCtx      = _edCanvas.getContext('2d');
+const _eraserCursor = document.getElementById('eraser-cursor');
+const _eraserSzEl   = document.getElementById('eraser-size');
+const _eraserSzVal  = document.getElementById('eraser-size-val');
+
+_eraserSzEl.oninput = () => { _eraserSzVal.textContent = _eraserSzEl.value; };
+
+// Abrir editor
+document.getElementById('btn-edit-img-admin').onclick = openImgEditor;
+
+function openImgEditor() {
+  if (!currentProd) return;
+  const src = getImgSrc(currentProd);
+  if (!src) { alert('Este produto não possui imagem.'); return; }
+
+  const img = new Image();
+  img.crossOrigin = 'anonymous';
+  img.onload = () => {
+    _editorImg = img;
+    // Dimensionar canvas
+    const maxW = Math.min(img.naturalWidth, 900);
+    const scale = maxW / img.naturalWidth;
+    _edCanvas.width  = Math.round(img.naturalWidth  * scale);
+    _edCanvas.height = Math.round(img.naturalHeight * scale);
+    _edCtx.drawImage(img, 0, 0, _edCanvas.width, _edCanvas.height);
+    _editorHistory = [];
+    document.getElementById('img-editor-modal').classList.add('open');
+  };
+  img.onerror = () => {
+    // Tentar sem crossOrigin
+    const img2 = new Image();
+    img2.onload = () => {
+      _editorImg = img2;
+      const maxW = Math.min(img2.naturalWidth, 900);
+      const scale = maxW / img2.naturalWidth;
+      _edCanvas.width  = Math.round(img2.naturalWidth  * scale);
+      _edCanvas.height = Math.round(img2.naturalHeight * scale);
+      _edCtx.drawImage(img2, 0, 0, _edCanvas.width, _edCanvas.height);
+      _editorHistory = [];
+      document.getElementById('img-editor-modal').classList.add('open');
+    };
+    img2.onerror = () => alert('Não foi possível carregar a imagem para edição.');
+    img2.src = src;
+  };
+  img.src = src;
+}
+
+// Desenho no canvas
+function getEraserSize() { return parseInt(_eraserSzEl.value, 10); }
+
+function canvasPos(e) {
+  const rect = _edCanvas.getBoundingClientRect();
+  const scaleX = _edCanvas.width  / rect.width;
+  const scaleY = _edCanvas.height / rect.height;
+  const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+  const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+  return {
+    x: (clientX - rect.left) * scaleX,
+    y: (clientY - rect.top)  * scaleY
+  };
+}
+
+function eraseAt(x, y) {
+  const r = getEraserSize();
+  _edCtx.globalCompositeOperation = 'source-over';
+  _edCtx.fillStyle = '#ffffff';
+  _edCtx.beginPath();
+  _edCtx.arc(x, y, r, 0, Math.PI * 2);
+  _edCtx.fill();
+}
+
+_edCanvas.addEventListener('mousedown', e => {
+  _editorHistory.push(_edCtx.getImageData(0, 0, _edCanvas.width, _edCanvas.height));
+  _editorPainting = true;
+  const {x,y} = canvasPos(e);
+  eraseAt(x, y);
+});
+_edCanvas.addEventListener('mousemove', e => {
+  // Atualizar cursor visual
+  _eraserCursor.style.left = e.clientX + 'px';
+  _eraserCursor.style.top  = e.clientY + 'px';
+  const r = getEraserSize() * (_edCanvas.getBoundingClientRect().width / _edCanvas.width);
+  _eraserCursor.style.width  = (r*2) + 'px';
+  _eraserCursor.style.height = (r*2) + 'px';
+  if (_editorPainting) { const {x,y} = canvasPos(e); eraseAt(x, y); }
+});
+_edCanvas.addEventListener('mouseup',    () => { _editorPainting = false; });
+_edCanvas.addEventListener('mouseleave', () => { _editorPainting = false; });
+
+// Touch support
+_edCanvas.addEventListener('touchstart', e => {
+  e.preventDefault();
+  _editorHistory.push(_edCtx.getImageData(0, 0, _edCanvas.width, _edCanvas.height));
+  _editorPainting = true;
+  const {x,y} = canvasPos(e); eraseAt(x,y);
+}, {passive:false});
+_edCanvas.addEventListener('touchmove', e => {
+  e.preventDefault();
+  if (_editorPainting) { const {x,y} = canvasPos(e); eraseAt(x,y); }
+}, {passive:false});
+_edCanvas.addEventListener('touchend', () => { _editorPainting = false; });
+
+// Mostrar/ocultar cursor quando entra/sai do canvas
+_edCanvas.addEventListener('mouseenter', () => { _eraserCursor.style.display = 'block'; });
+_edCanvas.addEventListener('mouseleave', () => { _eraserCursor.style.display = 'none'; });
+
+// Undo
+document.getElementById('btn-eraser-undo').onclick = () => {
+  if (_editorHistory.length === 0) return;
+  _edCtx.putImageData(_editorHistory.pop(), 0, 0);
+};
+
+// Limpar tudo (restaurar imagem original)
+document.getElementById('btn-eraser-clear').onclick = () => {
+  if (!_editorImg) return;
+  if (!confirm('Desfazer todas as edições e restaurar a imagem original?')) return;
+  _editorHistory = [];
+  _edCtx.clearRect(0, 0, _edCanvas.width, _edCanvas.height);
+  _edCtx.drawImage(_editorImg, 0, 0, _edCanvas.width, _edCanvas.height);
+};
+
+// Fechar
+document.getElementById('btn-eraser-cancel').onclick = () => {
+  document.getElementById('img-editor-modal').classList.remove('open');
+  _eraserCursor.style.display = 'none';
+};
+
+// Baixar imagem editada
+document.getElementById('btn-eraser-save').onclick = () => {
+  const code = currentProd ? currentProd[P_CODE] : 'imagem';
+  _edCanvas.toBlob(blob => {
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = code + '_editado.png';
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(url), 2000);
+  }, 'image/png');
+};
+
+// ── INIT ──────────────────────────────────────────────────────────────────────
+loadCustomCats();
+loadCustomProdsData();
 </script>
 </body>
 </html>
