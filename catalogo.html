@@ -4918,15 +4918,29 @@ async function doSaveCatalog() {
   const dataUrl = _edCanvas.toDataURL('image/png');
   const base64  = dataUrl.split(',')[1];
 
+  // Salvar localmente para efeito imediato neste navegador
   try {
-    setProgress(5, 'Iniciando…');
+    const edited = JSON.parse(localStorage.getItem(LS_EDITED_IMGS) || '{}');
+    edited[currentProd[P_CODE]] = dataUrl;
+    localStorage.setItem(LS_EDITED_IMGS, JSON.stringify(edited));
+  } catch {}
+
+  // Atualizar imagem imediatamente no modal e no grid
+  const modalImg = document.getElementById('modal-img');
+  if (modalImg) modalImg.src = dataUrl;
+  currentProd[P_PATH] = dataUrl;
+  applyFilters();
+  document.getElementById('img-editor-modal').classList.remove('open');
+  _eraserCursor.style.display = 'none';
+
+  try {
+    setProgress(5, 'Enviando ao servidor…');
     await saveImageToGitHub(currentProd[P_CODE], repoPath, base64);
     setProgress(100, 'Salvo! ✅');
 
-    // Atualizar produto em memória com o caminho correto
-    currentProd[P_PATH] = repoPath;
-
-    // Limpar cache local desta imagem (se havia override local)
+    // Após upload, trocar para URL do GitHub e limpar cache local
+    const newSrc = `https://raw.githubusercontent.com/${GH_REPO}/${GH_BRANCH}/${repoPath}?t=${Date.now()}`;
+    currentProd[P_PATH] = newSrc;
     try {
       const edited = JSON.parse(localStorage.getItem(LS_EDITED_IMGS) || '{}');
       delete edited[currentProd[P_CODE]];
@@ -4935,13 +4949,7 @@ async function doSaveCatalog() {
 
     setTimeout(() => {
       setProgress(false);
-      document.getElementById('img-editor-modal').classList.remove('open');
-      _eraserCursor.style.display = 'none';
-      // Forçar reload da imagem no modal e no grid
-      const newSrc = `https://raw.githubusercontent.com/${GH_REPO}/${GH_BRANCH}/${repoPath}?t=${Date.now()}`;
-      currentProd[P_PATH] = repoPath;
-      const modalImg = document.getElementById('modal-img');
-      if (modalImg) modalImg.src = newSrc + '&r=1';
+      if (modalImg) modalImg.src = newSrc;
       applyFilters();
       alert(`✅ Imagem de "${currentProd[P_CODE]}" salva no repositório!\n\nEla estará visível a todos em até 1 minuto (GitHub Pages pode demorar para atualizar o cache).`);
     }, 800);
