@@ -162,6 +162,7 @@ body.admin-mode .card:hover::after{content:'✏️ Editar';position:absolute;top
 #admin-no-changes{text-align:center;padding:30px 16px;color:var(--gray);font-size:13px}
 #admin-panel-footer{padding:14px 18px;border-top:1px solid var(--border);display:flex;flex-direction:column;gap:8px}
 .btn-admin-action{border:none;border-radius:8px;padding:10px;font-size:13px;font-weight:600;cursor:pointer;text-align:center}
+.btn-publish{background:#2e7d32;color:#fff}.btn-publish:hover{background:#1b5e20}
 .btn-export{background:var(--blue);color:#fff}.btn-export:hover{background:var(--blue-mid)}
 .btn-reset-all{background:#fff;color:#d32f2f;border:1px solid #d32f2f}.btn-reset-all:hover{background:#ffebee}
 #admin-stats{font-size:12px;color:var(--gray);text-align:center;padding:8px 0 0}
@@ -536,6 +537,7 @@ body.admin-mode #admin-modal-extra{display:flex}
       <button id="btn-gh-token-cfg">Configurar</button>
     </div>
     <div id="admin-stats"></div>
+    <button class="btn-admin-action btn-publish" id="btn-publish-catalog">☁️ Publicar Catálogo</button>
     <button class="btn-admin-action btn-export" id="btn-export-changes">⬇️ Exportar Alterações (JSON)</button>
     <button class="btn-admin-action btn-reset-all" id="btn-reset-all-changes">🗑️ Desfazer Todas as Alterações</button>
     <button class="btn btn-ghost" id="btn-exit-admin" style="font-size:12.5px">Sair do Modo Admin</button>
@@ -5004,6 +5006,7 @@ document.getElementById('btn-gh-token-save').onclick = async () => {
     updateGHTokenStatus();
     // Executar save pendente
     if (window._pendingSaveCatalog) doSaveCatalog();
+    if (window._pendingPublishCatalog) { window._pendingPublishCatalog = false; publishCatalogToGitHub(); }
   } catch {
     document.getElementById('gh-token-err').style.display = 'block';
     document.getElementById('gh-token-err').textContent = 'Token inválido ou sem acesso ao repositório.';
@@ -5015,10 +5018,116 @@ document.getElementById('gh-token-modal').onclick = e => {
   if (e.target === document.getElementById('gh-token-modal')) document.getElementById('gh-token-modal').classList.remove('open');
 };
 
+// ── PUBLICAR / CARREGAR CATÁLOGO NO GITHUB ────────────────────────────────────
+const GH_CATALOG_PATH = 'catalog-data.json';
+
+async function publishCatalogToGitHub() {
+  const token = getGHToken();
+  if (!token) {
+    document.getElementById('gh-token-modal').classList.add('open');
+    window._pendingPublishCatalog = true;
+    return;
+  }
+
+  const btn = document.getElementById('btn-publish-catalog');
+  btn.textContent = '⏳ Publicando…';
+  btn.disabled = true;
+
+  try {
+    const payload = {
+      overrides,
+      customCats,
+      customProds: _customProdsData,
+      deletedProds: [...window._deletedProdCodes],
+    };
+    const content = btoa(unescape(encodeURIComponent(JSON.stringify(payload, null, 2))));
+
+    const apiBase = `https://api.github.com/repos/${GH_REPO}/contents/`;
+    const headers = {
+      'Authorization': `token ${token}`,
+      'Accept': 'application/vnd.github.v3+json',
+      'Content-Type': 'application/json'
+    };
+
+    let sha = null;
+    try {
+      const res = await fetch(apiBase + GH_CATALOG_PATH, { headers });
+      if (res.ok) { const d = await res.json(); sha = d.sha; }
+    } catch {}
+
+    const body = { message: 'Admin: publica dados do catálogo', content, branch: GH_BRANCH };
+    if (sha) body.sha = sha;
+
+    const putRes = await fetch(apiBase + GH_CATALOG_PATH, {
+      method: 'PUT', headers, body: JSON.stringify(body)
+    });
+
+    if (!putRes.ok) {
+      const err = await putRes.json().catch(() => ({}));
+      throw new Error(err.message || `HTTP ${putRes.status}`);
+    }
+
+    alert('✅ Catálogo publicado!\n\nAs alterações estarão visíveis a todos em até 1 minuto.');
+  } catch (e) {
+    alert('❌ Erro ao publicar: ' + e.message);
+  }
+
+  btn.textContent = '☁️ Publicar Catálogo';
+  btn.disabled = false;
+}
+
+async function loadCatalogFromGitHub() {
+  try {
+    const url = `https://raw.githubusercontent.com/${GH_REPO}/${GH_BRANCH}/${GH_CATALOG_PATH}?t=${Date.now()}`;
+    const res = await fetch(url);
+    if (!res.ok) return false;
+    const data = await res.json();
+
+    // Aplicar dados vindos do GitHub (sobrescreve localStorage)
+    if (data.overrides) {
+      overrides = data.overrides;
+      localStorage.setItem(LS_KEY, JSON.stringify(overrides));
+    }
+    if (data.customCats) {
+      customCats = data.customCats;
+      localStorage.setItem(LS_CATS_KEY, JSON.stringify(customCats));
+    }
+    if (data.customProds) {
+      _customProdsData = data.customProds;
+      localStorage.setItem(LS_CPRODS_KEY, JSON.stringify(_customProdsData));
+    }
+    if (data.deletedProds) {
+      window._deletedProdCodes = new Set(data.deletedProds);
+      localStorage.setItem(LS_DPRODS_KEY, JSON.stringify(data.deletedProds));
+    }
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+document.getElementById('btn-publish-catalog').onclick = publishCatalogToGitHub;
+
 // ── INIT ──────────────────────────────────────────────────────────────────────
 loadCustomCats();
 loadCustomProdsData();
 updateGHTokenStatus();
+
+// Carregar catálogo do GitHub (sobrescreve localStorage com dados mais recentes)
+loadCatalogFromGitHub().then(ok => {
+  if (ok) {
+    // Re-aplicar dados carregados
+    _customProdsData.forEach(p => {
+      if (!PRODUCTS.find(x => x[P_CODE] === p[P_CODE])) PRODUCTS.push(p);
+    });
+    window._deletedProdCodes.forEach(code => {
+      const idx = PRODUCTS.findIndex(x => x[P_CODE] === code);
+      if (idx !== -1) PRODUCTS.splice(idx, 1);
+    });
+    applyOverridesToData();
+    applyFilters();
+  }
+});
 </script>
 </body>
 </html>
